@@ -10,7 +10,7 @@ using Grpc.Net.Client;
 using Infrastructure.Common.Funciones;
 using Microsoft.Extensions.Options;
 using Infrastructure.Services;
-using static AccesoDatosPostgresql.Neg.DAL;
+using static AccesoDatosPostgresql.Neg.DALPostgreSql;
 using static iText.StyledXmlParser.Jsoup.Select.Evaluator;
 using Application.Common.ISO20022.Models;
 
@@ -21,7 +21,7 @@ public class TransaccionesDat : ITransaccionesDat
 {
 
     private readonly ILogs _logService;
-    private readonly DALClient _objClienteDal;
+    private readonly DALPostgreSqlClient _objClienteDal;
     private readonly string str_clase;
     private readonly ApiSettings _settings;
 
@@ -40,7 +40,7 @@ public class TransaccionesDat : ITransaccionesDat
         };
         var canal = GrpcChannel.ForAddress( _settings.client_grpc_sybase!,
             new GrpcChannelOptions { HttpHandler = handler } );
-        _objClienteDal = new DALClient( canal );
+        _objClienteDal = new DALPostgreSqlClient( canal );
 
     }
 

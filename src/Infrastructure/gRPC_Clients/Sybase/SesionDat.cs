@@ -4,7 +4,7 @@ using Application.Common.Models;
 using Infrastructure.Common.Funciones;
 using Microsoft.Extensions.Options;
 using System.Reflection;
-using static AccesoDatosPostgresql.Neg.DAL;
+using static AccesoDatosPostgresql.Neg.DALPostgreSql;
 
 namespace Infrastructure.gRPC_Clients.Sybase;
 
@@ -16,11 +16,11 @@ public interface ISesionDat
 public class SesionDat : ISesionDat
 {
     private readonly ApiSettings _settings;
-    private readonly DALClient _objClienteDal;
+    private readonly DALPostgreSqlClient _objClienteDal;
     private readonly ILogs _logsService;
     private readonly string _strClase;
 
-    public SesionDat(IOptionsMonitor<ApiSettings> options, ILogs logsService, DALClient objClienteDal)
+    public SesionDat(IOptionsMonitor<ApiSettings> options, ILogs logsService, DALPostgreSqlClient objClienteDal)
     {
         _settings = options.CurrentValue;
         _logsService = logsService;

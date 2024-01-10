@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static AccesoDatosPostgresql.Neg.DAL;
+using static AccesoDatosPostgresql.Neg.DALPostgreSql;
 using AccesoDatosPostgresql.Neg;
 using Application.TarjetasCredito.AgregarSolicitudTc;
 using Google.Protobuf.WellKnownTypes;
@@ -21,11 +21,11 @@ namespace Infrastructure.gRPC_Clients.Postgres.TarjetasCredito;
 public class TarjetasCreditoDat : ITarjetasCreditoDat
 {
     private readonly ILogs _logService;
-    private readonly DALClient _objClienteDal;
+    private readonly DALPostgreSqlClient _objClienteDal;
     private readonly string str_clase;
     private readonly ApiSettings _settings;
 
-    public TarjetasCreditoDat(IOptionsMonitor<ApiSettings> options, ILogs logService, DALClient objClienteDal)
+    public TarjetasCreditoDat(IOptionsMonitor<ApiSettings> options, ILogs logService, DALPostgreSqlClient objClienteDal)
     {
         _logService = logService;
         _settings = options.CurrentValue;
@@ -40,7 +40,7 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
         };
         var canal = GrpcChannel.ForAddress( _settings.client_grpc_postgres!,
             new GrpcChannelOptions { HttpHandler = handler } );
-        _objClienteDal = new DALClient( canal );
+        _objClienteDal = new DALPostgreSqlClient( canal );
 
 
         //_logService = logService;
@@ -54,7 +54,8 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
     {
         var respuesta = new RespuestaTransaccion();
 
-        try {
+        try
+        {
 
             var ds = new DatosSolicitud();
             Funciones.llenar_datos_auditoria_salida( ds, request );
@@ -83,17 +84,36 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_codigo_producto", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_codigo_producto } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_codigo_sucursal", TipoDato = TipoDato.Integer, ObjValue = request.int_codigo_sucursal.ToString() } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_modelo_tratamiento", TipoDato = TipoDato.Integer, ObjValue = request.int_modelo_tratamiento.ToString() } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_codigo_afinidad", TipoDato = TipoDato.Integer, ObjValue = request.int_codigo_afinidad.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_codigo_afinidad", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_codigo_afinidad.ToString() } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_num_promotor", TipoDato = TipoDato.Integer, ObjValue = request.int_num_promotor.ToString() } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_habilitada_compra", TipoDato = TipoDato.Character, ObjValue = request.str_habilitada_compra } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@dec_max_compra", TipoDato = TipoDato.Numeric, ObjValue = request.dec_max_compra.ToString() } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_denominacion_tarjeta", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_denominacion_tarjeta } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_marca_graba", TipoDato = TipoDato.Character, ObjValue = request.str_marca_graba } );
-
+            //Campos agregados 
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_calle_num_puerta", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_calle_num_puerta.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_localidad", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_localidad.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_barrio", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_barrio.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_codigo_provincia", TipoDato = TipoDato.Character, ObjValue = request.str_codigo_provincia } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_codigo_postal", TipoDato = TipoDato.Character, ObjValue = request.str_codigo_postal } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_zona_geografica", TipoDato = TipoDato.Character, ObjValue = request.str_zona_geografica } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_grupo_liquidacion", TipoDato = TipoDato.Character, ObjValue = request.str_grupo_liquidacion } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@dec_imp_lim_compras", TipoDato = TipoDato.Numeric, ObjValue = request.dec_imp_lim_compras.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_telefono_2", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_telefono_2.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_datos_adicionales", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_datos_adicionales.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_codigo_ocupacion", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_codigo_ocupacion.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_duracion", TipoDato = TipoDato.Character, ObjValue = request.str_duracion } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_marca_emision", TipoDato = TipoDato.Character, ObjValue = request.str_marca_emision } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_rfc", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_rfc.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_marca_tpp", TipoDato = TipoDato.Character, ObjValue = request.str_marca_tpp } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_rsrv_uso_credencial_1", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_rsrv_uso_credencial_1.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_rsrv_uso_credencial_2", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_rsrv_uso_credencial_2.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_cuarta_linea", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_cuarta_linea.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_numero_cuenta", TipoDato = TipoDato.Numeric, ObjValue = request.int_numero_cuenta.ToString() } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.CharacterVarying } );
 
-            ds.NombreSP = "add_solicitud_tc"; //add_cliente2
+            ds.NombreSP = "add_solicitud_tc"; //add_clint2
             ds.NombreBD = _settings.DB_meg_tarjetas_credito;
 
 
@@ -118,7 +138,7 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
             respuesta.diccionario.Add( "str_error", ex.InnerException != null ? ex.InnerException.Message : ex.Message );
             //await _logService.SaveExcepcionDataBaseSybase( request, MethodBase.GetCurrentMethod()!.Name, ex, str_clase );
 
-            await _logService.SaveExceptionLogs( request, MethodBase.GetCurrentMethod()!.Name,"add", str_clase,ex  );
+            await _logService.SaveExceptionLogs( request, MethodBase.GetCurrentMethod()!.Name, "add", str_clase, ex );
             throw new ArgumentException( request.str_id_transaccion );
 
         }

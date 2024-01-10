@@ -2,7 +2,7 @@ using Application;
 using Infrastructure;
 using WebUI;
 using WebUI.Middleware;
-using static AccesoDatosPostgresql.Neg.DAL;
+using static AccesoDatosPostgresql.Neg.DALPostgreSql;
 using static AccesoDatosGrpcMongo.Neg.DALMongo;
 
 
@@ -39,7 +39,7 @@ builder.Services.AddGrpcClient<DALMongoClient>( o => { o.Address = new Uri( urlM
     };
 } );
 
-builder.Services.AddGrpcClient<DALClient>( o => { o.Address = new Uri( urlPostgres! ); } ).ConfigureChannel( c =>
+builder.Services.AddGrpcClient<DALPostgreSqlClient>( o => { o.Address = new Uri( urlPostgres! ); } ).ConfigureChannel( c =>
 {
     c.HttpHandler = new SocketsHttpHandler
     {

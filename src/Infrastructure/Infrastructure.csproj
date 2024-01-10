@@ -7,8 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="gRPC_Clients\Protos\datosdal.proto" />
     <None Remove="gRPC_Clients\Protos\datosdalMongo.proto" />
+    <None Remove="gRPC_Clients\Protos\datosdalPostgreSql.proto" />
   </ItemGroup>
 
   <ItemGroup>
@@ -28,8 +28,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Protobuf Include="gRPC_Clients\Protos\datosdal.proto" GrpcServices="Client" />
     <Protobuf Include="gRPC_Clients\Protos\datosdalMongo.proto" GrpcServices="Client" />
+    <Protobuf Include="gRPC_Clients\Protos\datosdalPostgreSql.proto" GrpcServices="Client" />
   </ItemGroup>
 
   <ItemGroup>
