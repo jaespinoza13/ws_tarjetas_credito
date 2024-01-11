@@ -30,7 +30,7 @@ public class ReqAgregarSolicitudTc : Header, IRequest<ResAgregarSolicitudTc>
     public string str_codigo_producto { get; set; } = string.Empty;
     public int int_codigo_sucursal { get; set; }
     public int int_modelo_tratamiento { get; set; }
-    public int str_codigo_afinidad { get; set; }
+    public string str_codigo_afinidad { get; set; } = string.Empty;
     public int int_num_promotor { get; set; }
     public string str_habilitada_compra { get; set; } = string.Empty;
     public Decimal dec_max_compra { get; set; }
@@ -54,7 +54,7 @@ public class ReqAgregarSolicitudTc : Header, IRequest<ResAgregarSolicitudTc>
     public string str_rsrv_uso_credencial_1 { get; set; } = string.Empty;
     public string str_rsrv_uso_credencial_2 { get; set; } = string.Empty;
     public string str_cuarta_linea { get; set; } = string.Empty;
-    public int int_numero_cuenta { get; set; }  
+    public long int_numero_cuenta { get; set; }  
 
 
 }

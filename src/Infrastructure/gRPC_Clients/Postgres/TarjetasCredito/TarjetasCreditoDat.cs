@@ -101,7 +101,7 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@dec_imp_lim_compras", TipoDato = TipoDato.Numeric, ObjValue = request.dec_imp_lim_compras.ToString() } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_telefono_2", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_telefono_2.ToString() } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_datos_adicionales", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_datos_adicionales.ToString() } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_codigo_ocupacion", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_codigo_ocupacion.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_codigo_ocupacion", TipoDato = TipoDato.Character, ObjValue = request.str_codigo_ocupacion.ToString() } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_duracion", TipoDato = TipoDato.Character, ObjValue = request.str_duracion } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_marca_emision", TipoDato = TipoDato.Character, ObjValue = request.str_marca_emision } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_rfc", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_rfc.ToString() } );
