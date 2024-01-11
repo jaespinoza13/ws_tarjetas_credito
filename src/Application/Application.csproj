@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="TarjetasCredito\ObtenerSolicitudTc\**" />
+    <EmbeddedResource Remove="TarjetasCredito\ObtenerSolicitudTc\**" />
+    <None Remove="TarjetasCredito\ObtenerSolicitudTc\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="utgdvck2.1qp~" />
   </ItemGroup>
 
@@ -21,10 +27,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Domain\Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="TarjetasCredito\ObtenerSolicitudTc\" />
   </ItemGroup>
 
 </Project>

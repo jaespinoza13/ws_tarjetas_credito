@@ -106,17 +106,16 @@ public static class ConfigureServices
         services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings" ) );
         services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:DataBases" ) );
         services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:GrpcSettings" ) );
-        services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:ConfigMongodb" ) );
+        //services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:ConfigMongodb" ) );
         services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:LogsPath" ) );
-        services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:LoadParameters" ) );
         services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:valida_peticiones_diarias" ) );
         services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:HttpSettings" ) );
         services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:Endpoints" ) );
         services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:EndpointsAuth" ) );
-        services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:AlfrescoSettings" ) );
         services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:ControlExcepciones" ) );
         services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:TemplatesPath" ) );
-        services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:LogosPath" ) );
+        //services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:LogosPath" ) );
+        services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:Auth" ) );
 
         return services;
     }

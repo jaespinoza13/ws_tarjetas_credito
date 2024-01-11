@@ -39,8 +39,6 @@ public class ApiSettings
     public string logs_path_amenazas { get; set; } = string.Empty;
     public string logs_path_errores_http { get; set; } = string.Empty;
 
-
-    public List<int> lst_codigos_error_sistemas { get; set; } = new();
     public List<string> lst_nombres_parametros { get; set; } = new();
     public List<string> lst_canales_encriptar { get; set; } = new();
 

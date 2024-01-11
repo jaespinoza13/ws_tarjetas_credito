@@ -1,11 +1,9 @@
 ﻿
 using Application.Common.Interfaces;
-using Application.Transacciones.InterfazDat;
 using Application.TarjetasCredito.InterfazDat;
 using Infrastructure.gRPC_Clients.Mongo;
 using Infrastructure.gRPC_Clients.Postgres.TarjetasCredito;
 using Infrastructure.gRPC_Clients.Sybase;
-using Infrastructure.gRPC_Clients.Sybase.Transacciones;
 using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Infrastructure.Common.Interfaces;
@@ -18,15 +16,12 @@ public static class ConfigureInfrastructure
     {
         //INTERFACES DE SERVICIOS
         services.AddSingleton<ILogs, LogsService>();
-        services.AddSingleton<IMongoDat, LogsMongoDat>();
+        //services.AddSingleton<IMongoDat, LogsMongoDat>();
         services.AddTransient<IHttpService, HttpService>();
         services.AddTransient<ISessionControl, SessionControl.SessionControl>();
         services.AddSingleton<ISesionDat, SesionDat>();
         services.AddSingleton<IKeysDat, KeysDat>();
 
-
-        //INTERFACES DE CASOS DE USO
-        services.AddSingleton<ITransaccionesDat, TransaccionesDat>();
 
         // TARJETAS CRÉDITO
         services.AddSingleton<ITarjetasCreditoDat, TarjetasCreditoDat>();

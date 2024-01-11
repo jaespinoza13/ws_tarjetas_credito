@@ -9,7 +9,6 @@ using Application.Common.Converting;
 using Application.Common.Models;
 using System;
 using System.Collections.Generic;
-using Application.Transacciones.InterfazDat;
 
 
 namespace Application.TarjetasCredito.AgregarSolicitudTc;

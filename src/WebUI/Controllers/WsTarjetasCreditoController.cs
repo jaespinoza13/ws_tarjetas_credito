@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
-using Application.Transacciones.ObtenerTransacciones;
 
 using Application.TarjetasCredito.AgregarSolicitudTc;
 
@@ -20,7 +19,6 @@ namespace WebUI.Controllers;
 //[ServiceFilter( typeof( CryptographyAesFilter ) )]
 //[ServiceFilter( typeof( ClaimControlFilter ) )]
 //[ServiceFilter( typeof( SessionControlFilter ) )]
-[ProducesResponseType( typeof( ResObtenerTransaccion ), (int)HttpStatusCode.OK )]
 [ProducesResponseType( typeof( ResBadRequestException ), (int)HttpStatusCode.BadRequest )]
 [ProducesResponseType( typeof( ResException ), (int)HttpStatusCode.Unauthorized )]
 [ProducesResponseType( typeof( ResException ), (int)HttpStatusCode.InternalServerError )]
