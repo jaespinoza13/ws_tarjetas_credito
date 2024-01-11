@@ -3,7 +3,7 @@ using Infrastructure;
 using WebUI;
 using WebUI.Middleware;
 using static AccesoDatosPostgresql.Neg.DALPostgreSql;
-//using static AccesoDatosGrpcMongo.Neg.DALMongo;
+using static AccesoDatosGrpcMongo.Neg.DALMongo;
 
 
 var builder = WebApplication.CreateBuilder( args );
@@ -14,7 +14,7 @@ builder.Services.AddWebUiServices( builder.Configuration );
 
 var grpc = builder.Configuration.GetSection( "ApiSettings:GrpcSettings" );
 var urlSybase = grpc.GetValue<string>( "client_grpc_sybase" );
-//var urlMongo = grpc.GetValue<string>( "client_grpc_mongo" );
+var urlMongo = grpc.GetValue<string>( "client_grpc_mongo" );
 var urlPostgres = grpc.GetValue<string>( "client_grpc_postgres" );
 
 //builder.Services.AddGrpcClient<DALClient>( o => { o.Address = new Uri( urlSybase! ); } ).ConfigureChannel( c =>
@@ -28,16 +28,16 @@ var urlPostgres = grpc.GetValue<string>( "client_grpc_postgres" );
 //    };
 //} );
 
-//builder.Services.AddGrpcClient<DALMongoClient>( o => { o.Address = new Uri( urlMongo! ); } ).ConfigureChannel( c =>
-//{
-//    c.HttpHandler = new SocketsHttpHandler
-//    {
-//        PooledConnectionIdleTimeout = Timeout.InfiniteTimeSpan,
-//        KeepAlivePingDelay = TimeSpan.FromSeconds( 20 ),
-//        KeepAlivePingTimeout = TimeSpan.FromSeconds( 60 ),
-//        EnableMultipleHttp2Connections = true
-//    };
-//} );
+builder.Services.AddGrpcClient<DALMongoClient>( o => { o.Address = new Uri( urlMongo! ); } ).ConfigureChannel( c =>
+{
+    c.HttpHandler = new SocketsHttpHandler
+    {
+        PooledConnectionIdleTimeout = Timeout.InfiniteTimeSpan,
+        KeepAlivePingDelay = TimeSpan.FromSeconds( 20 ),
+        KeepAlivePingTimeout = TimeSpan.FromSeconds( 60 ),
+        EnableMultipleHttp2Connections = true
+    };
+} );
 
 builder.Services.AddGrpcClient<DALPostgreSqlClient>( o => { o.Address = new Uri( urlPostgres! ); } ).ConfigureChannel( c =>
 {

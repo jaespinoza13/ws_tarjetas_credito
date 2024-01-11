@@ -106,7 +106,7 @@ public static class ConfigureServices
         services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings" ) );
         services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:DataBases" ) );
         services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:GrpcSettings" ) );
-        //services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:ConfigMongodb" ) );
+        services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:ConfigMongodb" ) );
         services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:LogsPath" ) );
         services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:valida_peticiones_diarias" ) );
         services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:HttpSettings" ) );
