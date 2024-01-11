@@ -94,7 +94,7 @@ public class TransaccionesDat : ITransaccionesDat
         {
             respuesta.str_codigo = "003";
             respuesta.diccionario.Add( "str_error", ex.InnerException != null ? ex.InnerException.Message : ex.Message );
-            await _logService.SaveExcepcionDataBaseSybase( request, MethodBase.GetCurrentMethod()!.Name, ex, str_clase );
+            //await _logService.SaveExcepcionDataBaseSybase( request, MethodBase.GetCurrentMethod()!.Name, ex, str_clase );
             throw new ArgumentException( request.str_id_transaccion );
         }
 
@@ -138,7 +138,7 @@ public class TransaccionesDat : ITransaccionesDat
         {
             respuesta.str_codigo = "003";
             respuesta.diccionario.Add( "str_error", ex.InnerException != null ? ex.InnerException.Message : ex.Message );
-            await _logService.SaveExcepcionDataBaseSybase( request, MethodBase.GetCurrentMethod()!.Name, ex, str_clase );
+            //await _logService.SaveExcepcionDataBaseSybase( request, MethodBase.GetCurrentMethod()!.Name, ex, str_clase );
             throw new ArgumentException( request.str_id_transaccion );
         }
         return respuesta;
@@ -183,7 +183,7 @@ public class TransaccionesDat : ITransaccionesDat
         {
             respuesta.str_codigo = "003";
             respuesta.diccionario.Add( "str_error", ex.InnerException != null ? ex.InnerException.Message : ex.Message );
-            await _logService.SaveExcepcionDataBaseSybase( request, MethodBase.GetCurrentMethod()!.Name, ex, str_clase );
+            //await _logService.SaveExcepcionDataBaseSybase( request, MethodBase.GetCurrentMethod()!.Name, ex, str_clase );
             throw new ArgumentException( request.str_id_transaccion );
         }
 

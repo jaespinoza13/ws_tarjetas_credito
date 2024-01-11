@@ -59,12 +59,12 @@ public class KeysDat : IKeysDat
         {
             respuesta.str_codigo = "001";
             respuesta.diccionario.Add( "str_error", exception.ToString() );
-            _logsService.SaveExcepcionDataBaseSybase(
-                reqAddKeys,
-                MethodBase.GetCurrentMethod()!.Name,
-                exception,
-                _strClase
-            );
+            //_logsService.SaveHttpErrorLogs(
+            //    reqAddKeys,
+            //    MethodBase.GetCurrentMethod()!.Name,
+            //    exception,
+            //    _strClase
+            //);
             throw new ArgumentException( reqAddKeys.str_id_transaccion );
         }
 
@@ -100,12 +100,12 @@ public class KeysDat : IKeysDat
         {
             respuesta.str_codigo = "001";
             respuesta.diccionario.Add( "str_error", exception.ToString() );
-            _logsService.SaveExcepcionDataBaseSybase(
-                reqGetKeys,
-                MethodBase.GetCurrentMethod()!.Name,
-                exception,
-                _strClase
-            );
+            //_logsService.SaveExcepcionDataBaseSybase(
+            //    reqGetKeys,
+            //    MethodBase.GetCurrentMethod()!.Name,
+            //    exception,
+            //    _strClase
+            //);
             throw new ArgumentException( reqGetKeys.str_id_transaccion );
         }
 

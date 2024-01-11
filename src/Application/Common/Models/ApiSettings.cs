@@ -8,7 +8,10 @@ public class ApiSettings
     public string? DB_meg_convenios { get; set; }
     public string? DB_meg_tarjetas_credito { get; set; }
 
+    //Agregados
+    public string url_logs { get; set; } = string.Empty;
 
+    public string auth_logs { get; set; } = string.Empty;
 
     public string? client_grpc_sybase { get; set; }
     public string? client_grpc_mongo { get; set; }

@@ -1,164 +1,155 @@
-﻿using Application.Common.Interfaces;
+﻿using System.Text.Json;
+using Application.Common.Interfaces;
+using Application.Common.ISO20022.Models;
 using Application.Common.Models;
-using Infrastructure.Common.Tramas;
-using Infrastructure.gRPC_Clients.Mongo;
+using Infrastructure.Common.Interfaces;
 using Microsoft.Extensions.Options;
 
 namespace Infrastructure.Services;
 
 public class LogsService : ILogs
 {
-    private readonly InfoLog _infoLog = new();
     private readonly ApiSettings _settings;
-    private readonly IMongoDat _mongoDat;
+    private readonly IHttpService _httpService;
 
-    public LogsService(IOptionsMonitor<ApiSettings> options, IMongoDat mongoDat)
+    public LogsService(IOptionsMonitor<ApiSettings> options, IHttpService httpService)
     {
-        _settings = options.CurrentValue;
-        _mongoDat = mongoDat;
+        this._settings = options.CurrentValue;
+        this._httpService = httpService;
     }
 
     /// <summary>
     /// Guarda en mongodb la cabecera de la petición
     /// </summary>
-    /// <param name="transaction"></param>
-    /// <param name="strOperacion"></param>
-    /// <param name="strMetodo"></param>
-    /// <param name="strClase"></param>
+    /// <param name="Transaccion"></param>
+    /// <param name="str_operacion"></param>
+    /// <param name="str_metodo"></param>
+    /// <param name="str_clase"></param>
     /// <returns></returns>
-    ///
-    public async Task SaveHeaderLogs(dynamic transaction, string strOperacion, string strMetodo, string strClase)
+    /// 
+    public Task SaveHeaderLogs(dynamic transaction, String str_operacion, String str_metodo, String str_clase)
     {
-        _infoLog.str_id_transaccion = transaction.str_id_transaccion;
-        _infoLog.str_clase = strClase;
-        _infoLog.str_operacion = strOperacion;
-        _infoLog.str_objeto = transaction;
-        _infoLog.str_metodo = strMetodo;
-        _infoLog.str_fecha = transaction.dt_fecha_operacion;
-        _infoLog.str_tipo = "s:<";
-
-        // REGISTRA LOGS DE TEXTO
-        TextFiles.RegistrarTramas( _infoLog.str_tipo, _infoLog, _settings.logs_path_peticiones );
-
-        // REGISTRA LOGS DE MONGO
-        await _mongoDat.GuardarCabeceraMongo( transaction );
+        getArmarObjeto( "SOLICITUD", transaction, str_operacion, str_metodo, str_clase, "" );
+        return Task.CompletedTask;
     }
 
-    /// <summary>
+    /// <summary> 
     /// Guarda en mongodb la respuesta de la petición
     /// </summary>
-    /// <param name="transaction"></param>
-    /// <param name="strOperacion"></param>
-    /// <param name="strMetodo"></param>
-    /// <param name="strClase"></param>
+    /// <param name="Transaccion"></param>
+    /// <param name="str_operacion"></param>
+    /// <param name="str_metodo"></param>
+    /// <param name="str_clase"></param>
     /// <returns></returns>
-    ///
-    public async Task SaveResponseLogs(dynamic transaction, string strOperacion, string strMetodo, string strClase)
+    /// 
+    public Task SaveResponseLogs(dynamic transaction, String str_operacion, String str_metodo, String str_clase)
     {
-        _infoLog.str_id_transaccion = transaction.str_id_transaccion;
-        _infoLog.str_clase = strClase;
-        _infoLog.str_operacion = strOperacion;
-        _infoLog.str_objeto = transaction;
-        _infoLog.str_metodo = strMetodo;
-        _infoLog.str_fecha = transaction.dt_fecha_operacion;
-        _infoLog.str_tipo = "r:>";
-
-        // REGISTRA LOGS DE TEXTO
-        TextFiles.RegistrarTramas( _infoLog.str_tipo, _infoLog, _settings.logs_path_peticiones );
-
-        // REGISTRA LOGS DE MONGO
-        await _mongoDat.GuardarRespuestaMongo( transaction );
+        getArmarObjeto( "RESPUESTA", transaction, str_operacion, str_metodo, str_clase, "" );
+        return Task.CompletedTask;
     }
 
     /// <summary>
     /// Guarda exepciones de codigo
     /// </summary>
-    /// <param name="transaction"></param>
-    /// <param name="strOperacion"></param>
-    /// <param name="strMetodo"></param>
-    /// <param name="strClase"></param>
-    /// <param name="objError"></param>
+    /// <param name="Transaccion"></param>
+    /// <param name="str_operacion"></param>
+    /// <param name="str_metodo"></param>
+    /// <param name="str_clase"></param>
+    /// <param name="obj_error"></param>
     /// <returns></returns>
-    ///
-    public async Task SaveExceptionLogs(dynamic transaction, string strOperacion, string strMetodo, string strClase,object objError)
+    /// 
+    public Task SaveExceptionLogs(dynamic transaction, string str_operacion, string str_metodo, string str_clase, Exception obj_error)
     {
-        var objSave = new { peticion = transaction, error = objError };
-        _infoLog.str_id_transaccion = transaction.str_id_transaccion;
-        _infoLog.str_clase = strClase;
-        _infoLog.str_operacion = strOperacion;
-        _infoLog.str_objeto = objSave.ToString()!;
-        _infoLog.str_metodo = strMetodo;
-        _infoLog.str_fecha = transaction.dt_fecha_operacion;
-        _infoLog.str_tipo = "e:<";
+        transaction.dt_fecha_operacion = DateTime.Now;
+        transaction.str_res_estado_transaccion = "ERR";
+        transaction.str_res_codigo = "001";
 
-        // REGISTRA LOGS DE TEXTO
-        TextFiles.RegistrarTramas( _infoLog.str_tipo, _infoLog, _settings.logs_path_errores );
+        getArmarObjeto( "RESPUESTA", transaction, str_operacion, str_metodo, str_clase, "CODE", obj_error.ToString() );
 
-        //REGISTRA LOGS DE MONGO
-        await _mongoDat.GuardarExcepcionesMongo( transaction, objError );
-    }
-
-    public async Task SaveAmenazasLogs(ValidacionInyeccion validacion, string strOperacion, string strMetodo,string strClase)
-    {
-        _infoLog.str_clase = strClase;
-        _infoLog.str_operacion = strOperacion;
-        _infoLog.str_objeto = validacion;
-        _infoLog.str_metodo = strMetodo;
-        _infoLog.str_fecha = validacion.dtt_fecha;
-        _infoLog.str_id_transaccion = validacion.str_id_header;
-        _infoLog.str_tipo = "s:<";
-
-        // REGISTRA LOGS DE TEXTO
-        TextFiles.RegistrarTramas( _infoLog.str_tipo, _infoLog, _settings.logs_path_amenazas );
-
-        //REGISTRA LOGS DE MONGO
-        await _mongoDat.GuardarAmenazasMongo( validacion );
+        return Task.CompletedTask;
     }
 
     /// <summary>
-    /// Guarda cualquier error
+    /// Guarda errores de http
     /// </summary>
-    /// <param name="transaction"></param>
-    /// <param name="strMetodo"></param>
-    /// <param name="strClase"></param>
-    /// <param name="objError"></param>
-    /// <param name="strIdTransaccion"></param>
+    /// <param name="Transaccion"></param>
+    /// <param name="str_operacion"></param>
+    /// <param name="str_metodo"></param>
+    /// <param name="str_clase"></param>
+    /// <param name="obj_error"></param>
+    /// <param name="str_id_transaccion"></param>
     /// <returns></returns>
-    ///
-    public async Task SaveHttpErrorLogs(dynamic transaction, string strMetodo, string strClase, dynamic objError,
-        string strIdTransaccion)
+    /// 
+    public Task SaveHttpErrorLogs(object obj_solicitud, string str_error, string str_id_transaccion)
     {
-        var objSave = new { peticion = transaction, error = objError };
-
-        _infoLog.str_id_transaccion = strIdTransaccion;
-        _infoLog.str_clase = strClase;
-        _infoLog.str_objeto = objSave.ToString()!;
-        _infoLog.str_metodo = strMetodo;
-        _infoLog.str_fecha = DateTime.Now;
-        _infoLog.str_tipo = "e:<";
-
-        //REGISTRA LOGS DE TEXTO
-        TextFiles.RegistrarTramas( _infoLog.str_tipo, _infoLog, _settings.logs_path_errores_http );
-
-        //REGISTRA LOGS DE MONGO
-        await _mongoDat.GuardaErroresHttp( transaction, objError, strIdTransaccion );
+        return Task.CompletedTask;
     }
 
-    public async Task SaveExcepcionDataBaseSybase(dynamic transaction, string strMetodo, Exception excepcion,
-        string strClase)
+    public Task SaveRespuestasHttp(object obj_sol, object obj_respuesta, string str_id_transaccion)
     {
-        _infoLog.str_id_transaccion = transaction.str_id_transaccion;
-        _infoLog.str_clase = strClase;
-        _infoLog.str_operacion = transaction.str_id_servicio;
-        _infoLog.str_objeto = excepcion.ToString();
-        _infoLog.str_metodo = strMetodo;
-        _infoLog.str_fecha = transaction.dt_fecha_operacion;
-        _infoLog.str_tipo = "e:<";
+        return Task.CompletedTask;
+    }
 
-        //REGISTRA LOGS DE TEXTO
-        TextFiles.RegistrarTramas( _infoLog.str_tipo, _infoLog, _settings.logs_path_errores_db );
+    /// <summary>
+    /// Guardar errores de base
+    /// </summary>
+    /// <param name="obj_error"></param>
+    /// <returns></returns>
+    public Task SaveErroresDb(dynamic transaction, string str_operacion, string str_metodo, string str_clase, Exception obj_error)
+    {
 
-        //REGISTRA LOGS DE MONGO
-        await _mongoDat.GuardarExcepcionesDataBase( transaction, excepcion );
+        try
+        {
+            var respuesta = new ResComun();
+            respuesta.LlenarResHeader( transaction );
+            respuesta.str_res_estado_transaccion = "ERR";
+            respuesta.str_res_codigo = "003";
+            getArmarObjeto( "RESPUESTA", respuesta, str_operacion, str_metodo, str_clase, "BD", obj_error.ToString() );
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine( "Error en mongo: " + ex.Message );
+        }
+        return Task.CompletedTask;
+    }
+
+    public void getArmarObjeto(string str_tipo, dynamic dyn_objeto, string str_operacion, string str_metodo, string str_clase, string str_tipo_error, string str_error = "")
+    {
+        try
+        {
+            Dictionary<string, object> dic_obj = JsonSerializer.Deserialize<Dictionary<string, object>>( JsonSerializer.Serialize( dyn_objeto ) );
+
+            dic_obj.Add( "str_tipo_error", str_tipo_error );
+            dic_obj.Add( "str_error", str_error );
+
+            var solicitud = new
+            {
+                dtt_fecha = DateTime.Now.ToString( "yyyy-MM-ddTHH:mm:ss" ),
+                str_id_transaccion = dyn_objeto.str_id_transaccion,
+                str_tipo = str_tipo,
+                str_webservice = _settings.nombre_base_mongo,
+                str_clase = str_clase,
+                str_metodo = str_metodo,
+                str_operacion = str_operacion,
+                obj_objeto = dic_obj,
+                bln_save_log_txt = true,
+                str_nombre_coleccion = "",
+                str_nombre_bd = ""
+            };
+
+            var solServicio = new SolicitarServicio();
+
+            solServicio.objSolicitud = solicitud;
+            solServicio.urlServicio = _settings.url_logs + "ADD_LOG";
+            solServicio.tipoAuth = "Authorization-Mego";
+            solServicio.valueAuth = _settings.auth_logs;
+
+            _httpService.solicitar_servicio_async( solServicio );
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine( ex.ToString() );
+        }
+
     }
 }

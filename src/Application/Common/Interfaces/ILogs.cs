@@ -4,15 +4,9 @@ namespace Application.Common.Interfaces;
 
 public interface ILogs
 {
-    Task SaveHeaderLogs(dynamic transaction, string strOperacion, string strMetodo, string strClase);
-
-    Task SaveResponseLogs(dynamic transaction, string strOperacion, string strMetodo, string strClase);
-
-    Task SaveExceptionLogs(dynamic transaction, string strOperacion, string strMetodo, string strClase, object objError);
-
-    Task SaveHttpErrorLogs(dynamic transaction, string strMetodo, string strClase, dynamic objError,string strIdTransaccion);
-
-    Task SaveAmenazasLogs(ValidacionInyeccion validacion, string strOperacion, string strMetodo, string strClase);
-
-    Task SaveExcepcionDataBaseSybase(dynamic transaction, string strMetodo, Exception excepcion, string strClase);
+    Task SaveHeaderLogs(dynamic transaction, string str_operacion, string str_metodo, string str_clase);
+    Task SaveResponseLogs(dynamic transaction, string str_operacion, string str_metodo, string str_clase);
+    Task SaveExceptionLogs(dynamic transaction, string str_operacion, string str_metodo, string str_clase, Exception obj_error);
+    Task SaveHttpErrorLogs(object obj_solicitud, string str_error, string str_id_transaccion);
+    Task SaveErroresDb(dynamic transaction, string str_operacion, string str_metodo, string str_clase, Exception obj_error);
 }

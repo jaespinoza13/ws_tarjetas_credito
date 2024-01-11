@@ -2,8 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using Application.Transacciones.ObtenerTransacciones;
-using Application.Transacciones.ActualizarTransacciones;
-using Application.Transacciones.ObtenerEstadosMonitoreo;
 
 using Application.TarjetasCredito.AgregarSolicitudTc;
 

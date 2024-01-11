@@ -8,6 +8,7 @@ using Infrastructure.gRPC_Clients.Sybase;
 using Infrastructure.gRPC_Clients.Sybase.Transacciones;
 using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
+using Infrastructure.Common.Interfaces;
 
 namespace Infrastructure;
 

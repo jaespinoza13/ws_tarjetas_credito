@@ -9,7 +9,7 @@ public class Header
     /// Id de log
     /// </summary>
     public string str_id_transaccion { get; set; } = string.Empty;
-
+    public string? str_id_msj { get; set; } = String.Empty;
     /// <summary>
     /// Ente del socio
     /// </summary>
@@ -89,6 +89,7 @@ public class Header
     /// Tipo de petición REQ o RES
     /// </summary>
     ///
+
     [Required( ErrorMessage = "Especificar el tipo de petición" )]
     public string str_tipo_peticion { get; set; } = string.Empty;
 

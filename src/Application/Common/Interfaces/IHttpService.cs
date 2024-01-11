@@ -1,6 +1,6 @@
 ﻿namespace Application.Common.Interfaces;
 
-public interface IHttpService
+public interface IHttpService_2
 {
     Task<T> GetRestServiceDataAsync<T>(string serviceAddress);
 

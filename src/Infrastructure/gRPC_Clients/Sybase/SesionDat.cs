@@ -59,12 +59,12 @@ public class SesionDat : ISesionDat
         {
             respuesta.str_codigo = "001";
             respuesta.diccionario.Add( "str_error", exception.ToString() );
-            _logsService.SaveExcepcionDataBaseSybase(
-                validaSesion,
-                MethodBase.GetCurrentMethod()!.Name,
-                exception,
-                _strClase
-            );
+            //_logsService.SaveExcepcionDataBaseSybase(
+            //    validaSesion,
+            //    MethodBase.GetCurrentMethod()!.Name,
+            //    exception,
+            //    _strClase
+            //);
             throw new ArgumentException( validaSesion.str_id_transaccion );
         }
 
