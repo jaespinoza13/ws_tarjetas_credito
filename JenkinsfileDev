@@ -10,11 +10,11 @@ pipeline {
     {
         VERSION_DESPLIEGUE  = '1.0.0'
         VERSION_PRODUCCION  = '0.0.0'
-        NOMBRE_CONTENEDOR   = 'servicio_admin_recaudaciones'
-        NOMBRE_IMAGEN       = 'ws_admin_recaudaciones'
-        PUERTO              = '6068'
-        PUERTO_CONTENEDOR   = '80'
-        RUTA_CONFIG = '/config/wsAdminRecaudaciones/'
+        NOMBRE_CONTENEDOR   = 'servicio_tarjeta_credito'
+        NOMBRE_IMAGEN       = 'ws_tarjeta_credito'
+        PUERTO              = '7034'
+        PUERTO_CONTENEDOR   = '8080'
+        RUTA_CONFIG = '/config/wsTarjetaCredito/'
     }
 
     stages {
