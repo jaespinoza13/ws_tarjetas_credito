@@ -4,7 +4,8 @@ WORKDIR /app
 EXPOSE 8080
 
 
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["src/WebUI/WebUI.csproj", "src/WebUI/"]
 COPY ["src/Application/Application.csproj", "src/Application/"]
