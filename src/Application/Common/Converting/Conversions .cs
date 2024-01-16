@@ -13,8 +13,8 @@ public static class Conversions
     /// <returns></returns>
     public static List<T> ConvertConjuntoDatosToListClass<T>(ConjuntoDatos conjuntoDatos)
     {
-        return conjuntoDatos.LstTablas[0].LstFilas
-            .Select( item => (T)Converting.MapDictToObj( item.NombreValor, typeof(T) ) ).ToList();
+        return conjuntoDatos.lst_tablas[0].lst_filas
+            .Select( item => (T)Converting.MapDictToObj( item.nombre_valor, typeof(T) ) ).ToList();
     }
 
 
@@ -26,9 +26,9 @@ public static class Conversions
     public static T ConvertConjuntoDatosToClass<T>(ConjuntoDatos conjuntoDatos)
     {
         var obj = default(T);
-        foreach (var item in conjuntoDatos.LstTablas[0].LstFilas)
+        foreach (var item in conjuntoDatos.lst_tablas[0].lst_filas)
         {
-            obj = (T)Converting.MapDictToObj( item.NombreValor, typeof(T) );
+            obj = (T)Converting.MapDictToObj( item.nombre_valor, typeof(T) );
         }
 
         return obj!;
@@ -37,9 +37,9 @@ public static class Conversions
     public static T ConvertConjuntoDatosToClass<T>(ConjuntoDatos conjuntoDatos, int posicion)
     {
         var obj = default(T);
-        foreach (var item in conjuntoDatos.LstTablas[posicion].LstFilas)
+        foreach (var item in conjuntoDatos.lst_tablas[posicion].lst_filas)
         {
-            obj = (T)Converting.MapDictToObj( item.NombreValor, typeof(T) );
+            obj = (T)Converting.MapDictToObj( item.nombre_valor, typeof(T) );
         }
 
         return obj!;
@@ -52,8 +52,8 @@ public static class Conversions
     /// <param name="table"></param>
     /// <returns></returns>
     public static IEnumerable<T> ConvertToListClassDynamic<T>(ConjuntoDatos conjuntoDatos, int table) =>
-        conjuntoDatos.LstTablas[table].LstFilas
-            .Select( item => (T)Converting.MapDictToObj( item.NombreValor, typeof(T) ) ).ToList();
+        conjuntoDatos.lst_tablas[table].lst_filas
+            .Select( item => (T)Converting.MapDictToObj( item.nombre_valor, typeof(T) ) ).ToList();
 
     #endregion
 }

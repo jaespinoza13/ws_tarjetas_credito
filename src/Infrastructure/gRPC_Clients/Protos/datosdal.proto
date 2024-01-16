@@ -1,51 +1,49 @@
 syntax = "proto3";
 
-option csharp_namespace = "AccesoDatosPostgresql.Neg";
+option csharp_namespace = "AccesoDatosGrpcAse.Neg";
 
 package datosdal;
 
-service DAL {  
-  rpc ExecuteScalar  (DatosSolicitud) returns (DatosRespuesta);
-  rpc ExecuteReader  (DatosSolicitud) returns (DatosRespuesta);
+service DAL {
+  rpc ExecuteDataSet (DatosSolicitud) returns (DatosRespuesta);
+  rpc ExecuteDataSetOld (DatosSolicitud) returns (DatosRespuesta);
   rpc ExecuteNonQuery (DatosSolicitud) returns (DatosRespuestaNonQuery);
 }
 
 enum TipoDato {
-	/*
-	desconocido = 0;
-	int32 = 1;     // número entero de 32 bits
-	int64 = 2;     // número entero de 64 bits
-	float = 3;     // número de punto flotante de 32 bits
-	double = 4;    // número de punto flotante de 64 bits
-	bool = 5;      // valor booleano (verdadero o falso)
-	string = 6;    // cadena de texto
-	date = 7;      // fecha (sin hora)
-	time = 8;      // hora (sin fecha)
-	datetime = 9;  // fecha y hora
-	decimal = 10;   // número decimal
-	bytearray = 11; // arreglo de bytes
-	enumeration = 12; // enumeración (puedes definir valores específicos)
-	*/	
-	boolean = 0;							//NpgsqlDbType:	Boolean		//DbType: Boolean
-	smallint = 1;							//NpgsqlDbType:	Smallint	//DbType: Int16
-	integer = 2;							//NpgsqlDbType:	Integer		//DbType: Int32
-	bigint = 3;								//NpgsqlDbType:	Bigint		//DbType: Int64
-	real = 4;								//NpgsqlDbType:	Real		//DbType: Single
-	double_precision = 5;					//NpgsqlDbType:	Double		//DbType: Double
-	numeric = 6;							//NpgsqlDbType:	Numeric		//DbType: Decimal, VarNumeric
-	money = 7;								//NpgsqlDbType:	Money		//DbType: Currency
-	text = 8;								//NpgsqlDbType:	Text		//DbType: String
-	character_varying = 9;					//NpgsqlDbType:	Varchar		//DbType: 
-	character = 10;							//NpgsqlDbType:	Char		//DbType: 
-	json = 11;								//NpgsqlDbType:	Json		//DbType: 
-	xml = 12;								//NpgsqlDbType:	Xml			//DbType: 
-	timestamp_with_time_zone = 13;			//NpgsqlDbType:	TimestampTz	//DbType: DateTime
-	timestamp_without_time_zone = 14;		//NpgsqlDbType:	Timestamp	//DbType: DateTime
-	date = 15;								//NpgsqlDbType:	Date		//DbType: Date
-	time_without_time_zone = 16;			//NpgsqlDbType:	Time		//DbType: Time
-	time_with_time_zone = 17;				//NpgsqlDbType:	TimeTz		//DbType: 
-	bit = 18;								//NpgsqlDbType:	Bit			//DbType: 
-	enum_types = 19;						//NpgsqlDbType:	Enum		//DbType: 
+  desconocido = 0;
+  BigDateTime = 1;
+  BigInt = 2;
+  Binary = 3;
+  Bit = 4;
+  Char = 5;
+  Date = 6;
+  DateTime = 7;
+  Decimal = 8;
+  Double = 9;
+  Integer = 10;
+  Image = 11;
+  Money = 12;
+  NChar = 13;
+  Numeric = 14;
+  NVarChar = 15;
+  Real = 16;
+  SmallDateTime = 17;
+  SmallInt = 18;
+  SmallMoney = 19;
+  Text = 20;
+  Unitext = 21;
+  Time = 22;
+  TimeStamp = 23;
+  TinyInt = 24;
+  UniChar = 25;
+  UniVarChar = 26;
+  UnsignedBigInt = 27;
+  UnsignedInt = 28;
+  UnsignedSmallInt = 29;
+  Unsupported = 30;
+  VarBinary = 31;
+  VarChar = 32;
 }
 
 message ParametroEntrada {

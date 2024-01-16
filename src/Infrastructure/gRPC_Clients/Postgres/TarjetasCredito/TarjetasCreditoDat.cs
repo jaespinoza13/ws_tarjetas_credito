@@ -58,7 +58,7 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
         {
 
             var ds = new DatosSolicitud();
-            Funciones.llenar_datos_auditoria_salida( ds, request );
+            //Funciones.LlenarDatosAuditoria( ds, request );
 
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_tipo_documento", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_tipo_documento } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_num_documento", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_num_documento } );

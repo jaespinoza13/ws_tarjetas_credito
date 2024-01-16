@@ -2,20 +2,20 @@
 
 public class ConjuntoDatos
 {
-    public List<Tabla> LstTablas { get; set; } = new();
+    public List<Tabla> lst_tablas { get; set; } = new();
 }
 
 public class Tabla
 {
-    public List<Fila> LstFilas { get; set; } = new();
+    public List<Fila> lst_filas { get; set; } = new();
 }
 
 public class Fila
 {
-    public Dictionary<string, object> NombreValor { get; set; }
+    public Dictionary<string, object> nombre_valor { get; set; }
 
     public Fila()
     {
-        NombreValor = new Dictionary<string, object>();
+        nombre_valor = new Dictionary<string, object>();
     }
 }

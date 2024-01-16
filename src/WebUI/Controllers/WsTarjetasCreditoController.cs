@@ -9,6 +9,7 @@ using Domain.Types;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using WebUI.Filters;
+using Application.TarjetasCredito.DatosClienteTc;
 namespace WebUI.Controllers;
 
 [Route( "api/wsTarjetasCredito" )]
@@ -31,6 +32,16 @@ public class WsTarjetasCreditoController : ControllerBase
     {
         _mediator = mediator;
     }
+
+
+    [HttpPost( "GET_DATOS_CLIENTE" )]
+    public async Task<ActionResult<ResGetDatosCliente>> get_informacion_cliente(ReqGetDatosCliente request)
+    {
+        var result = await _mediator.Send( request );
+
+        return Ok( result );
+    }
+
 
     [HttpPost( "ADD_SOLICITUD_TC" )]
     public async Task<ActionResult<ResAgregarSolicitudTc>> add_solicitud_tarjeta_credito(ReqAgregarSolicitudTc request)

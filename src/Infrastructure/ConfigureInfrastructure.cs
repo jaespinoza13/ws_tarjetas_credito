@@ -26,6 +26,9 @@ public static class ConfigureInfrastructure
         // TARJETAS CRÉDITO
         services.AddSingleton<ITarjetasCreditoDat, TarjetasCreditoDat>();
 
+        //Datos Cliente
+        services.AddSingleton<IDatosClienteDat, DatosClienteDat>();
+
         return services;
     }
 }
