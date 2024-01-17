@@ -1,4 +1,5 @@
 ﻿using Application.Common.ISO20022.Models;
+using Domain.Entities.DatosCliente;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,7 @@ namespace Application.TarjetasCredito.DatosClienteTc
 {
     public class ResGetDatosCliente : ResComun
     {
-        public object cuerpo { get; set; } = new object();
-        public string? str_mensaje { get; set; }
-        public string? str_codigo { get; set; }
+
+        public List<DatosCliente> datos_cliente { get; set; } = new List<DatosCliente>();
     }
 }

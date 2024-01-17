@@ -37,12 +37,12 @@ public class AgregarSolicitudTcHandler : IRequestHandler<ReqAgregarSolicitudTc, 
             await _logs.SaveHeaderLogs( request, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
             var result_transacction = await _tarjetasCreditoDat.add_cliente( request );
 
-            if (result_transacction.str_codigo.Equals( "000" ))
+            if (result_transacction.codigo.Equals( "000" ))
             {
                 respuesta.str_res_info_adicional = result_transacction.diccionario["str_o_error"];
             }
 
-            respuesta.str_res_codigo = result_transacction.str_codigo;
+            respuesta.str_res_codigo = result_transacction.codigo;
             respuesta.str_res_info_adicional = result_transacction.diccionario["str_o_error"];
 
             await _logs.SaveResponseLogs( respuesta, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );

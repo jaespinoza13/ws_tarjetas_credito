@@ -25,10 +25,10 @@ public class SessionControlFilter : IActionFilter
         raw.int_estado = estadoSesion;
         var respuesta = _session.SessionControlFilter( raw );
 
-        if (respuesta.str_codigo.Equals( "000" )) return;
+        if (respuesta.codigo.Equals( "000" )) return;
         var resException = new ResException
         {
-            str_res_codigo = respuesta.str_codigo,
+            str_res_codigo = respuesta.codigo,
             str_res_id_servidor = "Sesion Caducada",
             str_res_estado_transaccion = "ERR",
             dt_res_fecha_msj_crea = DateTime.Now,

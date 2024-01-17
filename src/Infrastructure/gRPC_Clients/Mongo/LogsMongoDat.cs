@@ -177,13 +177,13 @@ public class LogsMongoDat : IMongoDat
 
             var res = _objClienteMongo.buscar_documentos( ds );
 
-            respuesta.str_codigo = "000";
-            respuesta.obj_cuerpo = res.Mensaje;
+            respuesta.codigo = "000";
+            respuesta.cuerpo = res.Mensaje;
         }
         catch (Exception ex)
 
         {
-            respuesta.str_codigo = "001";
+            respuesta.codigo = "001";
             respuesta.diccionario.Add( "str_error", ex.ToString() );
         }
 

@@ -34,9 +34,9 @@ public class DatosClienteDat : IDatosClienteDat
 
 
     }
-    public async Task<ResGetDatosCliente> get_datos_cliente(ReqGetDatosCliente request)
+    public RespuestaTransaccion get_datos_cliente(ReqGetDatosCliente request)
     {
-        var respuesta = new ResGetDatosCliente();
+        var respuesta = new RespuestaTransaccion();
 
         try
         {

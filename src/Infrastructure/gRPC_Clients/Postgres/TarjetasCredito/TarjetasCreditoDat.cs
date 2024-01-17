@@ -122,19 +122,19 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
             var str_codigo = lst_valores.Find( x => x.StrNameParameter == "@int_o_error_cod" )!.ObjValue;
             var str_error = lst_valores.Find( x => x.StrNameParameter == "@str_o_error" )!.ObjValue.Trim();
 
-            respuesta.str_codigo = str_codigo.Trim().PadLeft( 3, '0' );
+            respuesta.codigo = str_codigo.Trim().PadLeft( 3, '0' );
             respuesta.diccionario.Add( "str_o_error", str_error );
 
-            if (respuesta.str_codigo == "000")
+            if (respuesta.codigo == "000")
             {
                 //respuesta.obj_cuerpo = Funciones.ObtenerDatos( resultado );
-                respuesta.obj_cuerpo = resultado;
+                respuesta.cuerpo = resultado;
             }
 
         }
         catch (Exception ex)
         {
-            respuesta.str_codigo = "003";
+            respuesta.codigo = "003";
             respuesta.diccionario.Add( "str_error", ex.InnerException != null ? ex.InnerException.Message : ex.Message );
             //await _logService.SaveExcepcionDataBaseSybase( request, MethodBase.GetCurrentMethod()!.Name, ex, str_clase );
 
