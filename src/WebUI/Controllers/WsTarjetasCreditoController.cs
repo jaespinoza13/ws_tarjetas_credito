@@ -38,7 +38,6 @@ public class WsTarjetasCreditoController : ControllerBase
     public async Task<ActionResult<ResGetDatosCliente>> get_informacion_cliente(ReqGetDatosCliente request)
     {
         var result = await _mediator.Send( request );
-
         return Ok( result );
     }
 
@@ -47,7 +46,6 @@ public class WsTarjetasCreditoController : ControllerBase
     public async Task<ActionResult<ResAgregarSolicitudTc>> add_solicitud_tarjeta_credito(ReqAgregarSolicitudTc request)
     {
         var result = await _mediator.Send( request );
-
         return Ok( result );
     }
 }

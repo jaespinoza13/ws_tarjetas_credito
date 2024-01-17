@@ -27,43 +27,39 @@ public class DatosClienteDat : IDatosClienteDat
     {
         _settings = options.CurrentValue;
         _logsService = logsService;
-
         this.str_clase = GetType().FullName!;
-
         _objClienteDal = objClienteDal;
-
-
     }
-    public RespuestaTransaccion get_datos_cliente(ReqGetDatosCliente request)
+    public async Task<RespuestaTransaccion> get_datos_cliente(ReqGetDatosCliente request)
     {
-        var respuesta = new RespuestaTransaccion();
+        RespuestaTransaccion respuesta = new RespuestaTransaccion();
 
         try
         {
             DatosSolicitud ds = new();
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@prm_dcto", TipoDato = TipoDato.VarChar, ObjValue = request.str_num_documento } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@prm_oficial", TipoDato = TipoDato.VarChar, ObjValue = request.str_login_usuario } );
-
+            ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_error", TipoDato = TipoDato.VarChar } );
+            ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_error_cod", TipoDato = TipoDato.Integer } );
             ds.NombreSP = "get_inf_cliente_tc";
             ds.NombreBD = "meg_buro";
 
-            var resultado = _objClienteDal.ExecuteDataSet( ds );
+            var resultado = await _objClienteDal.ExecuteDataSetAsync( ds );
             var lst_valores = new List<ParametroSalidaValores>();
 
             foreach (var item in resultado.ListaPSalidaValores) lst_valores.Add( item );
-            //var str_codigo = lst_valores.Find( x => x.StrNameParameter == "@int_o_error_cod" )!.ObjValue;
-            //var str_error = lst_valores.Find( x => x.StrNameParameter == "@str_o_error" )!.ObjValue.Trim();
-
-            //respuesta.codigo = str_codigo.ToString().Trim().PadLeft( 3, '0' );
+            var str_codigo = lst_valores.Find( x => x.StrNameParameter == "@int_error_cod" )!.ObjValue;
+            var str_error = lst_valores.Find( x => x.StrNameParameter == "@str_error" )!.ObjValue.Trim();
+            respuesta.codigo = str_codigo.ToString().Trim().PadLeft( 3, '0' );
             respuesta.cuerpo = Funciones.ObtenerDatos( resultado );
-            //respuesta.diccionario.Add( "str_error", str_error.ToString() );
+            respuesta.diccionario.Add( "str_error", str_error.ToString() );
         }
         catch (Exception exception)
         {
-            //respuesta.codigo = "001";
-            //respuesta.diccionario.Add( "str_error", exception.ToString() );
+            respuesta.codigo = "001";
+            respuesta.diccionario.Add( "str_error", exception.ToString() );
             //_logsService.SaveExcepcionDataBaseSybase( req_get_parametros, MethodBase.GetCurrentMethod()!.Name, exception, str_clase );
-            //throw new ArgumentException( req_get_parametros.str_id_transaccion )!;
+            throw new ArgumentException( request.str_id_transaccion )!;
         }
         return respuesta;
     }

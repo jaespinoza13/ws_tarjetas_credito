@@ -24,40 +24,38 @@ namespace Application.TarjetasCredito.DatosClienteTc;
 
     private readonly string str_clase;
 
-        public GetDatosClienteHandler(IDatosClienteDat datosCleinteDat, ILogs logs) {
+    private readonly string str_operacion;
+
+    public GetDatosClienteHandler(IDatosClienteDat datosCleinteDat, ILogs logs) {
 
             _datosClienteDat = datosCleinteDat;
             _logs = logs;
             str_clase = GetType().Name;
+            str_operacion = "GET_DATOS_CLIENTE";
 
-        }
+    }
         public async Task<ResGetDatosCliente> Handle(ReqGetDatosCliente request, CancellationToken cancellationToken)
         {
-            const string str_operacion = "GET_DATOS_CLIENTE";
-            var respuesta = new ResGetDatosCliente();
-            respuesta.LlenarResHeader( request );
-            try
-            {
-                await _logs.SaveHeaderLogs( request, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
-            //var result_transacction = await _datosClienteDat.get_datos_cliente( request );
-            RespuestaTransaccion res_tran = _datosClienteDat.get_datos_cliente( request );
-            //respuesta.cuerpo = res_tran.cuerpo;
-            //respuesta.LlenarResHeader( request );
-            respuesta.datos_cliente = Conversions.ConvertConjuntoDatosToListClass<DatosCliente>( (ConjuntoDatos)res_tran.cuerpo )!;
-            await _logs.SaveResponseLogs( respuesta, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
-            //respuesta.cuerpo= res_tran;
-             //return result_transacction;
-                }
-            catch (Exception e)
-            {
-                await _logs.SaveExceptionLogs( respuesta, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase, e );
-                //throw new ArgumentException( respuesta.str_id_transaccion );
-
-            }
-
-            return respuesta;
+        ResGetDatosCliente respuesta = new();
+        respuesta.LlenarResHeader( request );
+        try
+        {
+        await _logs.SaveHeaderLogs( request, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
+        RespuestaTransaccion res_tran = new();
+        res_tran = await _datosClienteDat.get_datos_cliente( request );
+        respuesta.datos_cliente = Conversions.ConvertConjuntoDatosToListClass<DatosCliente>( (ConjuntoDatos)res_tran.cuerpo )!;
+        await _logs.SaveResponseLogs( respuesta, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
+        }
+        catch (Exception e)
+        {
+            await _logs.SaveExceptionLogs( respuesta, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase, e );
+            throw new ArgumentException( respuesta.str_id_transaccion );
 
         }
+
+        return respuesta;
+
+    }
 
 
     }

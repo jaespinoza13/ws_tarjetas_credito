@@ -9,6 +9,6 @@ using System.Threading.Tasks;
 namespace Application.TarjetasCredito.InterfazDat;
     public interface IDatosClienteDat
     {
-       RespuestaTransaccion get_datos_cliente(ReqGetDatosCliente request);
+       Task<RespuestaTransaccion> get_datos_cliente(ReqGetDatosCliente request);
     }
 
