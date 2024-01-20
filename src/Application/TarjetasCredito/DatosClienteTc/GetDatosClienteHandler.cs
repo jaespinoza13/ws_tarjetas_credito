@@ -1,18 +1,11 @@
 ﻿using Application.Common.Converting;
 using Application.Common.Interfaces;
 using Application.Common.Models;
-using Application.TarjetasCredito.AgregarSolicitudTc;
 using Application.TarjetasCredito.InterfazDat;
 using Domain.Entities.DatosCliente;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Reflection.Metadata.BlobBuilder;
+
 
 namespace Application.TarjetasCredito.DatosClienteTc;
 
@@ -40,7 +33,7 @@ namespace Application.TarjetasCredito.DatosClienteTc;
         respuesta.LlenarResHeader( request );
         try
         {
-        await _logs.SaveHeaderLogs( request, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
+        await _logs.SaveHeaderLogs( request, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase ); //Logs ws_logs
         RespuestaTransaccion res_tran = new();
         res_tran = await _datosClienteDat.get_datos_cliente( request );
         respuesta.datos_cliente = Conversions.ConvertConjuntoDatosToListClass<DatosCliente>( (ConjuntoDatos)res_tran.cuerpo )!;
