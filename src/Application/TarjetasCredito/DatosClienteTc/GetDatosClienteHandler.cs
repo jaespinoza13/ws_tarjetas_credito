@@ -9,8 +9,8 @@ using System.Reflection;
 
 namespace Application.TarjetasCredito.DatosClienteTc;
 
-    public class GetDatosClienteHandler : IRequestHandler<ReqGetDatosCliente, ResGetDatosCliente>
-    {
+public class GetDatosClienteHandler : IRequestHandler<ReqGetDatosCliente, ResGetDatosCliente>
+{
     private readonly IDatosClienteDat _datosClienteDat;
 
     private readonly ILogs _logs;
@@ -20,24 +20,22 @@ namespace Application.TarjetasCredito.DatosClienteTc;
     private readonly string str_operacion;
 
     public GetDatosClienteHandler(IDatosClienteDat datosCleinteDat, ILogs logs) {
-
-            _datosClienteDat = datosCleinteDat;
-            _logs = logs;
-            str_clase = GetType().Name;
-            str_operacion = "GET_DATOS_CLIENTE";
-
+        _datosClienteDat = datosCleinteDat;
+        _logs = logs;
+        str_clase = GetType().Name;
+        str_operacion = "GET_DATOS_CLIENTE";
     }
-        public async Task<ResGetDatosCliente> Handle(ReqGetDatosCliente request, CancellationToken cancellationToken)
-        {
+    public async Task<ResGetDatosCliente> Handle(ReqGetDatosCliente request, CancellationToken cancellationToken)
+    {
         ResGetDatosCliente respuesta = new();
         respuesta.LlenarResHeader( request );
         try
         {
-        await _logs.SaveHeaderLogs( request, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase ); //Logs ws_logs
-        RespuestaTransaccion res_tran = new();
-        res_tran = await _datosClienteDat.get_datos_cliente( request );
-        respuesta.datos_cliente = Conversions.ConvertConjuntoDatosToListClass<DatosCliente>( (ConjuntoDatos)res_tran.cuerpo )!;
-        await _logs.SaveResponseLogs( respuesta, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
+            await _logs.SaveHeaderLogs( request, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase ); //Logs ws_logs
+            RespuestaTransaccion res_tran = new();
+            res_tran = await _datosClienteDat.get_datos_cliente( request );
+            respuesta.datos_cliente = Conversions.ConvertConjuntoDatosToListClass<DatosCliente>( (ConjuntoDatos)res_tran.cuerpo )!;
+            await _logs.SaveResponseLogs( respuesta, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
         }
         catch (Exception e)
         {
@@ -45,11 +43,9 @@ namespace Application.TarjetasCredito.DatosClienteTc;
             throw new ArgumentException( respuesta.str_id_transaccion );
 
         }
-
         return respuesta;
-
     }
 
 
-    }
+}
 
