@@ -14,6 +14,7 @@ using static AccesoDatosGrpcAse.Neg.DAL;
 using AccesoDatosGrpcAse.Neg;
 using Application.TarjetasCredito.AgregarSolicitudTc;
 using Application.TarjetasCredito.DatosClienteTc;
+using System.Data;
 
 namespace Infrastructure.gRPC_Clients.Sybase;
 
@@ -35,9 +36,10 @@ public class DatosClienteDat : IDatosClienteDat
         RespuestaTransaccion respuesta = new RespuestaTransaccion();
 
         try
-        {
+        { 
+     
             DatosSolicitud ds = new();
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_num_documento", TipoDato = TipoDato.VarChar, ObjValue = request.str_num_documento } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_identificacion", TipoDato = TipoDato.VarChar, ObjValue = request.str_identificacion } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_oficial", TipoDato = TipoDato.VarChar, ObjValue = request.str_login_usuario } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.VarChar } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
@@ -45,9 +47,12 @@ public class DatosClienteDat : IDatosClienteDat
             ds.NombreBD = "meg_buro";
 
             var resultado = await _objClienteDal.ExecuteDataSetAsync( ds );
+            
             var lst_valores = new List<ParametroSalidaValores>();
+            
 
             foreach (var item in resultado.ListaPSalidaValores) lst_valores.Add( item );
+            
             var str_codigo = lst_valores.Find( x => x.StrNameParameter == "@int_o_error_cod" )!.ObjValue;
             var str_error = lst_valores.Find( x => x.StrNameParameter == "@str_o_error" )!.ObjValue.Trim();
             respuesta.codigo = str_codigo.ToString().Trim().PadLeft( 3, '0' );

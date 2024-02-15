@@ -10,7 +10,7 @@ namespace Application.TarjetasCredito.DatosClienteTc
 {
     public class ReqGetDatosCliente : ResComun, IRequest<ResGetDatosCliente>
     {
-        public string? str_num_documento { get; set; } = string.Empty;
+        public string? str_identificacion { get; set; } = string.Empty;
         public string? str_login_usuario { get; set; } = string.Empty;
     }
 }
