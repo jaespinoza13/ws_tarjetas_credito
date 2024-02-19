@@ -5,7 +5,7 @@ public class ApiSettings
     public string? DB_meg_megonline { get; set; }
     public string? DB_meg_servicios { get; set; }
     public string? DB_meg_sistemas { get; set; }
-    public string? DB_meg_convenios { get; set; }
+    public string? DB_meg_buro { get; set; }
     public string? DB_meg_tarjetas_credito { get; set; }
 
     //Agregados

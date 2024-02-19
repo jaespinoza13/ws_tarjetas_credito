@@ -38,7 +38,7 @@ public class GetDatosClienteHandler : IRequestHandler<ReqGetDatosCliente, ResGet
             res_tran = await _datosClienteDat.get_datos_cliente( request );
             List<DireccionDomicilio> data_list_dom = new List<DireccionDomicilio>();
             List<DireccionTrabajo> data_list_trab = new List<DireccionTrabajo>();
-            respuesta.datos_cliente = Conversions.ConvertConjuntoDatosToListClassPos0<DatosCliente>( (ConjuntoDatos)res_tran.cuerpo )!;
+            respuesta.datos_cliente = Conversions.ConvertConjuntoDatosToListClass<DatosCliente>( (ConjuntoDatos)res_tran.cuerpo )!;
             respuesta.dir_domicilio = Conversions.ConvertConjuntoDatosToListClassPos1<DireccionDomicilio>( (ConjuntoDatos)res_tran.cuerpo )!;
             respuesta.dir_trabajo = Conversions.ConvertConjuntoDatosToListClassPos2<DireccionTrabajo>( (ConjuntoDatos)res_tran.cuerpo )!;
             foreach (DireccionTrabajo dir_trabajo in respuesta.dir_trabajo)
