@@ -51,7 +51,7 @@ public class GetInfoFinHandler : IRequestHandler<ReqGetInfoFin, ResGetInfoFin>
                 {
                     int_codigo = ingresos.int_codigo,
                     str_descripcion = ingresos.str_descripcion,
-                    dec_valor = ingresos.dec_valor,
+                    dcm_valor = ingresos.dcm_valor,
 
                 };
                 data_list_ing.Add( obj_ingresos );
@@ -64,7 +64,7 @@ public class GetInfoFinHandler : IRequestHandler<ReqGetInfoFin, ResGetInfoFin>
                 {
                     int_codigo = egresos.int_codigo,
                     str_descripcion = egresos.str_descripcion,
-                    dec_valor = egresos.dec_valor,
+                    dcm_valor = egresos.dcm_valor,
 
                 };
                 data_list_egr.Add( obj_egresos);

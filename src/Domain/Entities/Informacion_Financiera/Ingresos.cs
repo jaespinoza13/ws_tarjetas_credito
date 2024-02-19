@@ -11,6 +11,6 @@ namespace Domain.Entities.Informacion_Financiera
     {
         public int int_codigo { get; set; } 
         public string? str_descripcion { get; set; } = string.Empty;
-        public Decimal dec_valor { get; set; }  
+        public Decimal dcm_valor { get; set; }  
     }
 }
