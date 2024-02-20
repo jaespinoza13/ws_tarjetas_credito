@@ -16,14 +16,10 @@ public static class Conversions
         return conjuntoDatos.lst_tablas[0].lst_filas
             .Select( item => (T)Converting.MapDictToObj( item.nombre_valor, typeof(T) ) ).ToList();
     }
-    public static List<T> ConvertConjuntoDatosToListClassPos1<T>(ConjuntoDatos conjuntoDatos)
+
+    public static List<T> ConvertConjuntoDatosTableToListClass<T>(ConjuntoDatos conjuntoDatos, int posicion)
     {
-        return conjuntoDatos.lst_tablas[1].lst_filas
-            .Select( item => (T)Converting.MapDictToObj( item.nombre_valor, typeof( T ) ) ).ToList();
-    }
-    public static List<T> ConvertConjuntoDatosToListClassPos2<T>(ConjuntoDatos conjuntoDatos)
-    {
-        return conjuntoDatos.lst_tablas[2].lst_filas
+        return conjuntoDatos.lst_tablas[posicion].lst_filas
             .Select( item => (T)Converting.MapDictToObj( item.nombre_valor, typeof( T ) ) ).ToList();
     }
 

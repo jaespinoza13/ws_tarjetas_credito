@@ -11,8 +11,8 @@ namespace Application.TarjetasCredito.InformacionFinanciera
 {
     public class ResGetInfoFin : ResComun
     {
-        public List<Ingresos> list_ingresos_socio { get; set; } = new List<Ingresos>();
-        public List<Egresos> list_egresos_socio{ get; set; } = new List<Egresos>();
+        public List<Ingresos> lst_ingresos_socio { get; set; } = new List<Ingresos>();
+        public List<Egresos> lst_egresos_socio{ get; set; } = new List<Egresos>();
     }
 }
 

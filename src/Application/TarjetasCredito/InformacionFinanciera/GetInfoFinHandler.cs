@@ -43,9 +43,9 @@ public class GetInfoFinHandler : IRequestHandler<ReqGetInfoFin, ResGetInfoFin>
             res_tran = await _infoFinDat.get_informacion_financiera(request);
             List<Ingresos> data_list_ing = new List<Ingresos>();
             List<Egresos> data_list_egr = new List<Egresos>();
-            respuesta.list_ingresos_socio = Conversions.ConvertConjuntoDatosToListClass<Ingresos>( (ConjuntoDatos)res_tran.cuerpo )!;
-            respuesta.list_egresos_socio = Conversions.ConvertConjuntoDatosToListClassPos1<Egresos>( (ConjuntoDatos)res_tran.cuerpo )!;
-            foreach (Ingresos ingresos in respuesta.list_ingresos_socio)
+            respuesta.lst_ingresos_socio = Conversions.ConvertConjuntoDatosTableToListClass<Ingresos>( (ConjuntoDatos)res_tran.cuerpo,0 )!;
+            respuesta.lst_egresos_socio = Conversions.ConvertConjuntoDatosTableToListClass<Egresos>( (ConjuntoDatos)res_tran.cuerpo,1 )!;
+            foreach (Ingresos ingresos in respuesta.lst_ingresos_socio)
             {
                 Ingresos obj_ingresos = new Ingresos
                 {
@@ -56,9 +56,9 @@ public class GetInfoFinHandler : IRequestHandler<ReqGetInfoFin, ResGetInfoFin>
                 };
                 data_list_ing.Add( obj_ingresos );
             }
-            respuesta.list_ingresos_socio = data_list_ing;
+            respuesta.lst_ingresos_socio = data_list_ing;
 
-            foreach (Egresos egresos in respuesta.list_egresos_socio)
+            foreach (Egresos egresos in respuesta.lst_egresos_socio)
             {
                 Egresos obj_egresos = new Egresos
                 {
@@ -69,7 +69,7 @@ public class GetInfoFinHandler : IRequestHandler<ReqGetInfoFin, ResGetInfoFin>
                 };
                 data_list_egr.Add( obj_egresos);
             }
-            respuesta.list_egresos_socio = data_list_egr;
+            respuesta.lst_egresos_socio = data_list_egr;
 
             await _logs.SaveResponseLogs( respuesta, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
         }
