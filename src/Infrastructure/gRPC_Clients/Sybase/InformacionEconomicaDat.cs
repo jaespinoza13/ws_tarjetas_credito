@@ -1,7 +1,7 @@
 ﻿using AccesoDatosGrpcAse.Neg;
 using Application.Common.Interfaces;
 using Application.Common.Models;
-using Application.TarjetasCredito.InformacionFinanciera;
+using Application.TarjetasCredito.InformacionEconomica;
 using Application.TarjetasCredito.InterfazDat;
 using Infrastructure.Common.Funciones;
 using Microsoft.Extensions.Options;
@@ -14,14 +14,14 @@ using static AccesoDatosGrpcAse.Neg.DAL;
 
 namespace Infrastructure.gRPC_Clients.Sybase;
 
-public class InformacionFinancieraDat : IInfoFinDat
+public class InformacionEconomicaDat : IInfoFinDat
 {
     private readonly ApiSettings _settings;
     private readonly DALClient _objClienteDal;
     private readonly ILogs _logsService;
     private readonly string str_clase;
 
-    public InformacionFinancieraDat(IOptionsMonitor<ApiSettings> options, ILogs logsService, DALClient objClienteDal)
+    public InformacionEconomicaDat(IOptionsMonitor<ApiSettings> options, ILogs logsService, DALClient objClienteDal)
     {
         _settings = options.CurrentValue;
         _logsService = logsService;
@@ -29,13 +29,13 @@ public class InformacionFinancieraDat : IInfoFinDat
         _objClienteDal = objClienteDal;
 
     }
-    public async Task<RespuestaTransaccion> get_informacion_financiera(ReqGetInfoFin request)
+    public async Task<RespuestaTransaccion> get_informacion_economica(ReqGetInfEco request)
     {
         RespuestaTransaccion respuesta = new RespuestaTransaccion();
         try
         {
             DatosSolicitud ds = new ();
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_num_ente", TipoDato = TipoDato.Integer, ObjValue = request.int_num_ente.ToString()} );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_num_ente", TipoDato = TipoDato.Integer, ObjValue = request.str_ente.ToString()} );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.VarChar } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
             ds.NombreSP = "get_ing_egr_soc_tc";

@@ -7,10 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.TarjetasCredito.InformacionFinanciera
+namespace Application.TarjetasCredito.InformacionEconomica
 {
-    public class ReqGetInfoFin: ResComun, IRequest<ResGetInfoFin>
+    public class ReqGetInfEco: ResComun, IRequest<ResGetInfEco>
     {
-        public int int_num_ente {  get; set; } 
     }
 }

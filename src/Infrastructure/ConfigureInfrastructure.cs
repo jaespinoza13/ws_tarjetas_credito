@@ -30,7 +30,7 @@ public static class ConfigureInfrastructure
         services.AddSingleton<IDatosClienteDat, DatosClienteDat>();
 
         //Información Financiera
-        services.AddSingleton<IInfoFinDat, InformacionFinancieraDat>();
+        services.AddSingleton<IInfoFinDat, InformacionEconomicaDat>();
 
         return services;
     }

@@ -71,6 +71,8 @@ public class GetDatosClienteHandler : IRequestHandler<ReqGetDatosCliente, ResGet
                 data_list_dom.Add( obj_dir_domicilio );
             }
             respuesta.lst_dir_domicilio = data_list_dom;
+            respuesta.str_res_codigo = res_tran.codigo;
+            respuesta.str_res_info_adicional = res_tran.diccionario["str_o_error"];
             await _logs.SaveResponseLogs( respuesta, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
         }
         catch (Exception e)
