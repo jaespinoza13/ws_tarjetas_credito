@@ -67,7 +67,7 @@ namespace Application.TarjetasCredito.SituacionFinanciera
                         str_tipo = cred_hist.str_tipo,
                         str_operacion_cred = cred_hist.str_operacion_cred,
                         dcm_monto_aprobado = cred_hist.dcm_monto_aprobado,
-                        dtt_fecha_consecion = cred_hist.dtt_fecha_consecion,
+                        dtt_fecha_concesion = cred_hist.dtt_fecha_concesion,
                         dtt_fecha_vencimiento = cred_hist.dtt_fecha_vencimiento,
                         int_cuotas_vencidas = cred_hist.int_cuotas_vencidas,
                         int_dias_mora = cred_hist.int_dias_mora,
