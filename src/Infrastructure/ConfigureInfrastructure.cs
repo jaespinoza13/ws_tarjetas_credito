@@ -29,8 +29,12 @@ public static class ConfigureInfrastructure
         //Datos Cliente
         services.AddSingleton<IDatosClienteDat, DatosClienteDat>();
 
-        //Información Financiera
+        //Información Economica
         services.AddSingleton<IInfoFinDat, InformacionEconomicaDat>();
+
+        //Situacion Financiera
+        services.AddSingleton<ISitFinDat, SituacionFinancieraDat>();
+
 
         return services;
     }

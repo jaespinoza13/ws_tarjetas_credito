@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using WebUI.Filters;
 using Application.TarjetasCredito.DatosClienteTc;
 using Application.TarjetasCredito.InformacionEconomica;
+using Application.TarjetasCredito.SituacionFinanciera;
 namespace WebUI.Controllers;
 
 [Route( "api/wsTarjetasCredito" )]
@@ -53,6 +54,14 @@ public class WsTarjetasCreditoController : ControllerBase
 
     [HttpPost( "GET_INFORMACION_ECONOMICA" )]
     public async Task<ActionResult<ResGetInfEco>> get_informacion_economica(ReqGetInfEco request)
+    {
+        var result = await _mediator.Send( request );
+        return Ok( result );
+    }
+
+
+    [HttpPost( "GET_SITUACION_FINANCIERA" )]
+    public async Task<ActionResult<ResGetInfEco>> get_situacion_financiera(ReqGetSitFin request)
     {
         var result = await _mediator.Send( request );
         return Ok( result );
