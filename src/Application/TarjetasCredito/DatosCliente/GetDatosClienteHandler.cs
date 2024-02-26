@@ -45,6 +45,8 @@ public class GetDatosClienteHandler : IRequestHandler<ReqGetDatosCliente, ResGet
             {
                 DireccionTrabajo obj_dir_trabajo = new DireccionTrabajo
                 {
+                    int_dir_direccion = dir_trabajo.int_dir_direccion,
+                    str_dir_tipo = dir_trabajo .str_dir_tipo,
                     str_dir_ciudad = dir_trabajo.str_dir_ciudad,
                     str_dir_sector = dir_trabajo.str_dir_sector,
                     str_dir_barrio = dir_trabajo.str_dir_barrio,
@@ -60,6 +62,8 @@ public class GetDatosClienteHandler : IRequestHandler<ReqGetDatosCliente, ResGet
             {
                 DireccionDomicilio obj_dir_domicilio = new DireccionDomicilio
                 {
+                    int_dir_direccion = dir_domicilio.int_dir_direccion,
+                    str_dir_tipo = dir_domicilio.str_dir_tipo,
                     str_dir_ciudad = dir_domicilio.str_dir_ciudad,
                     str_dir_sector = dir_domicilio.str_dir_sector,
                     str_dir_barrio = dir_domicilio.str_dir_barrio,
