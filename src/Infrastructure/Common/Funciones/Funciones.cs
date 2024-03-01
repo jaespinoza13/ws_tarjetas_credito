@@ -32,6 +32,31 @@ namespace Infrastructure.Common.Funciones
             return cd;
         }
 
+        public static ConjuntoDatos ObtenerDataBasePg(AccesoDatosPostgresql.Neg.DatosRespuesta resultado)
+        {
+            ConjuntoDatos cd = new();
+            var lst_tablas = new List<Tabla>();
+            for (int k = 0; k < resultado.ListaTablas.Count; k++)
+            {
+                var lst_filas = new List<Application.Common.Models.Fila>();
+                for (int i = 0; i < resultado.ListaTablas[k].ListaFilas.Count; i++)
+                {
+                    Application.Common.Models.Fila fila = new();
+
+                    for (int j = 0; j < resultado.ListaTablas[k].ListaFilas[i].ListaColumnas.Count; j++)
+                    {
+
+                        fila.nombre_valor.Add( resultado.ListaTablas[k].ListaFilas[i].ListaColumnas[j].NombreCampo, resultado.ListaTablas[k].ListaFilas[i].ListaColumnas[j].Valor );
+
+                    }
+                    lst_filas.Add( new Application.Common.Models.Fila { nombre_valor = fila.nombre_valor } );
+                }
+                lst_tablas.Add( new Tabla { lst_filas = lst_filas } );
+            }
+            cd.lst_tablas = lst_tablas;
+            return cd;
+        }
+
         public static void LlenarDatosAuditoria(DatosSolicitud ds, Header header)
         {
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_id_transaccion", TipoDato = TipoDato.VarChar, ObjValue = header.str_id_transaccion } );

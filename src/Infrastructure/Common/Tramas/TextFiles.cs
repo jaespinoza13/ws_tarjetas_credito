@@ -24,7 +24,7 @@ public static class TextFiles
                 using (var writer = new StreamWriter( fs ))
                 {
 
-                    writer.WriteLine($"{DateTime.Now.ToString( "HHmmssff" ) } { strTramaRequest }");
+                    writer.WriteLine( $"{DateTime.Now.ToString( "HHmmssff" )} {strTramaRequest}" );
                 }
 
                 fs.Close();

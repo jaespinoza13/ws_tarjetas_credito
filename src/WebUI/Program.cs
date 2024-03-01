@@ -2,9 +2,8 @@ using Application;
 using Infrastructure;
 using WebUI;
 using WebUI.Middleware;
-using static AccesoDatosPostgresql.Neg.DALPostgreSql;
-using static AccesoDatosGrpcMongo.Neg.DALMongo;
 using static AccesoDatosGrpcAse.Neg.DAL;
+using static AccesoDatosPostgresql.Neg.DALPostgreSql;
 
 
 var builder = WebApplication.CreateBuilder( args );

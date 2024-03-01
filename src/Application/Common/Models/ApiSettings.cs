@@ -3,6 +3,7 @@
 public class ApiSettings
 {
     public string? DB_meg_megonline { get; set; }
+    public string? DB_meg_atms { get; set; }
     public string? DB_meg_servicios { get; set; }
     public string? DB_meg_sistemas { get; set; }
     public string? DB_meg_convenios { get; set; }
@@ -49,4 +50,21 @@ public class ApiSettings
     public string auth_ws_otp { get; set; } = string.Empty;
 
     public int mostrar_descripcion_badrequest { get; set; }
+
+    #region Variables 
+
+    public string estado_creado { get; set; } = string.Empty;
+    public string estado_entregado { get; set; } = string.Empty;
+    public string estado_analisis_gestor { get; set; } = string.Empty;
+    public string estado_anulado { get; set; } = string.Empty;
+    public int int_id_sistema { get; set; }
+    public int fun_tipo_accion { get; set; }
+    #endregion
+
+    #region PermisosEstados
+    public string enviarUAC { get; set; } = string.Empty;
+    public List<string> permisosVisualizacion { get; set; } = new();
+    public List<string> permisosAccion { get; set; } = new();
+    public List<string> estadosSolTC { get; set; } = new();
+    #endregion
 }

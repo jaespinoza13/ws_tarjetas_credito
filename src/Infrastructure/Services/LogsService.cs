@@ -1,9 +1,9 @@
-﻿using System.Text.Json;
-using Application.Common.Interfaces;
+﻿using Application.Common.Interfaces;
 using Application.Common.ISO20022.Models;
 using Application.Common.Models;
 using Infrastructure.Common.Interfaces;
 using Microsoft.Extensions.Options;
+using System.Text.Json;
 
 namespace Infrastructure.Services;
 

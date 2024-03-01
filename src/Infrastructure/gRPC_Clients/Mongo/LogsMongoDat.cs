@@ -1,7 +1,7 @@
-﻿using System.Text.Json;
-using AccesoDatosGrpcMongo.Neg;
+﻿using AccesoDatosGrpcMongo.Neg;
 using Application.Common.Models;
 using Microsoft.Extensions.Options;
+using System.Text.Json;
 using static AccesoDatosGrpcMongo.Neg.DALMongo;
 
 namespace Infrastructure.gRPC_Clients.Mongo;
@@ -234,8 +234,11 @@ public class LogsMongoDat : IMongoDat
             else
             {
                 object solicitud = new
-                    { dbl_promedio_peticion = promedio,
-                        str_operacion = strOperacion, str_fecha_actualizacion = strFecha };
+                {
+                    dbl_promedio_peticion = promedio,
+                    str_operacion = strOperacion,
+                    str_fecha_actualizacion = strFecha
+                };
                 datosSolicitud.Filter = string.Empty;
                 datosSolicitud.SolTran = JsonSerializer.Serialize( solicitud );
                 _objClienteMongo.insertar_documento( datosSolicitud );

@@ -1,4 +1,3 @@
-using Application.Common.Cryptography;
 using System.ComponentModel.DataAnnotations;
 
 namespace Application.Common.ISO20022.Models;

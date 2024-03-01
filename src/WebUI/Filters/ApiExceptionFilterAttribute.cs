@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 
 namespace WebUI.Filters;
 
-public  class ApiExceptionFilterAttribute : ExceptionFilterAttribute
+public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
 {
     private readonly IDictionary<Type, Action<ExceptionContext>> _exceptionHandlers;
     private readonly ILogger<ApiExceptionFilterAttribute> _logger;

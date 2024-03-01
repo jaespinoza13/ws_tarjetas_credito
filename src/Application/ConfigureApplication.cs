@@ -1,9 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using MediatR;
-using System.Reflection;
-using FluentValidation;
-using Application.Common.Behaviours;
+﻿using Application.Common.Behaviours;
 using Application.Common.ISO20022.Models;
+using FluentValidation;
+using MediatR;
+using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
 
 namespace Application;
 
@@ -14,8 +14,8 @@ public static class ConfigureApplication
         //SERVICIOS
         services.AddValidatorsFromAssembly( Assembly.GetExecutingAssembly() );
         services.AddValidatorsFromAssemblyContaining<Header>();
-        services.AddMediatR( cfg => cfg.RegisterServicesFromAssembly( typeof(ConfigureApplication).Assembly ) );
-        services.AddTransient( typeof(IPipelineBehavior<,>), typeof(ValidationBehaviour<,>) );
+        services.AddMediatR( cfg => cfg.RegisterServicesFromAssembly( typeof( ConfigureApplication ).Assembly ) );
+        services.AddTransient( typeof( IPipelineBehavior<,> ), typeof( ValidationBehaviour<,> ) );
         return services;
     }
 }

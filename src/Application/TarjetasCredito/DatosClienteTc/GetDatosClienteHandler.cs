@@ -19,7 +19,8 @@ public class GetDatosClienteHandler : IRequestHandler<ReqGetDatosCliente, ResGet
 
     private readonly string str_operacion;
 
-    public GetDatosClienteHandler(IDatosClienteDat datosCleinteDat, ILogs logs) {
+    public GetDatosClienteHandler(IDatosClienteDat datosCleinteDat, ILogs logs)
+    {
         _datosClienteDat = datosCleinteDat;
         _logs = logs;
         str_clase = GetType().Name;

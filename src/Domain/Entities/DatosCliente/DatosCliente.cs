@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain.Entities.DatosCliente
+﻿namespace Domain.Entities.DatosCliente
 {
     public class DatosCliente
     {
+        public int ente { get; set; }
         public string? nombres { get; set; } = string.Empty;
         public string? apellido_paterno { get; set; } = string.Empty;
         public string? apellido_materno { get; set; } = string.Empty;
