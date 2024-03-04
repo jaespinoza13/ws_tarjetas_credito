@@ -35,6 +35,8 @@ public static class ConfigureInfrastructure
         //Situacion Financiera
         services.AddSingleton<ISitFinDat, SituacionFinancieraDat>();
 
+        //Catalogo de Agencias
+        services.AddSingleton<ICatalogoAgenciasDat, AgenciasDat>();
 
         return services;
     }
