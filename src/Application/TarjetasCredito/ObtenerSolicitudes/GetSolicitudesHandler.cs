@@ -44,7 +44,7 @@ namespace Application.TarjetasCredito.ObtenerSolicitudes
                 for (int i = 0; i < _settings.permisosVisualizacion.Count; i++)
                 {
                     if (_funcionalidadesMemory.FindPermisoPerfil( Convert.ToInt32( reqGetSolicitudes.str_id_perfil ),
-                    _funcionalidadesMemory.FindFuncionalidadNombre( _settings.permisosVisualizacion[i] ).int_id_permiso ))
+                    _funcionalidadesMemory.FindFuncionalidadNombre( _settings.permisosVisualizacion[i] ).fun_id ))
                         reqGetSolicitudes.str_estado = reqGetSolicitudes.str_estado + _parametersInMemory.FindParametroNemonico( _settings.estadosSolTC[i] ).int_id_parametro.ToString() + "|";
                 }
                 reqGetSolicitudes.str_estado = reqGetSolicitudes.str_estado.TrimEnd( '|' );
@@ -89,7 +89,7 @@ namespace Application.TarjetasCredito.ObtenerSolicitudes
             for (int i = 0; i<_settings.permisosVisualizacion.Count; i++)
             {
                 if (_funcionalidadesMemory.FindPermisoPerfil( Convert.ToInt32( perfil ),
-                _funcionalidadesMemory.FindFuncionalidadNombre( _settings.permisosVisualizacion[i] ).int_id_permiso ))
+                _funcionalidadesMemory.FindFuncionalidadNombre( _settings.permisosVisualizacion[i] ).fun_id ))
                     estados = estados  + _parametersInMemory.FindParametroNemonico( _settings.estadosSolTC[i] ).int_id_parametro.ToString() + "|";
                     estados = estados.TrimEnd( '|' );
             }

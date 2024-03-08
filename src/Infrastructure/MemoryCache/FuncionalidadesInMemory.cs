@@ -42,7 +42,7 @@ namespace Infrastructure.MemoryCache
                         lst_funcionalidades = Mapper.ConvertConjuntoDatosToListClass<Funcionalidad>( resTran.cuerpo );
                         foreach (var item in lst_funcionalidades)
                         {
-                            if (item.int_tipo == _settings.fun_tipo_accion)
+                            if (item.fun_tipo == _settings.fun_tipo_accion)
                                 lst_funcionalidaes_accion.Add( item );
                         }
 
@@ -54,7 +54,7 @@ namespace Infrastructure.MemoryCache
                         lst_funcionalidades = Mapper.ConvertConjuntoDatosToListClass<Funcionalidad>( resTran.cuerpo );
                         foreach (var item in lst_funcionalidades)
                         {
-                            if (item.int_tipo == _settings.fun_tipo_accion)
+                            if (item.fun_tipo == _settings.fun_tipo_accion)
                                 lst_funcionalidaes_accion.Add( item );
                         }
 
@@ -88,7 +88,7 @@ namespace Infrastructure.MemoryCache
             bool bl_permiso = false;
             var lst_permisos = _memoryCache.Get<List<PermisoPerfil>>( "permiso_perfil" );
 
-            var permiso_perfil = lst_permisos!.Find( x => x.int_perfil == int_perfil && x.int_funcionalidad == funcionalidad )!;
+            var permiso_perfil = lst_permisos!.Find( x => x.prm_fk_perfil == int_perfil && x.prm_fk_funcionalidad == funcionalidad )!;
 
             return bl_permiso = permiso_perfil != null ? true : false;
         }
@@ -96,7 +96,7 @@ namespace Infrastructure.MemoryCache
         public Funcionalidad FindFuncionalidadNombre(string str_nombre)
         {
             var lst_funcionalidades = _memoryCache.Get<List<Funcionalidad>>( "funcionalidades" );
-            return lst_funcionalidades!.Find( x => x.str_nombre == str_nombre )!;
+            return lst_funcionalidades!.Find( x => x.fun_nombre == str_nombre )!;
         }
     }
 }

@@ -53,12 +53,13 @@ namespace Application.TarjetasCredito.AgregarComentario
 
                         if (func_nombre != "")
                         {
-                            int_funcionalidad = _funcionalidadesMemory.FindFuncionalidadNombre( func_nombre ).int_id_permiso;
+                            int_funcionalidad = _funcionalidadesMemory.FindFuncionalidadNombre( func_nombre ).fun_id;
 
                             if (_funcionalidadesMemory.FindPermisoPerfil( Convert.ToInt32( reqAgregarComentario.str_id_perfil ), int_funcionalidad ))
                             {
                                 res_tran = await _tarjetasCreditoDat.addProcesoSolicitud( reqAgregarComentario );
                                 res_tran.codigo = "000";
+                                func_nombre = "";
                             }
                             else
                             {

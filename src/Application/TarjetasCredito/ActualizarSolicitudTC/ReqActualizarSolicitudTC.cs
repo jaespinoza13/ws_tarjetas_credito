@@ -11,6 +11,9 @@ namespace Application.TarjetasCredito.ActualizarSolicitudTC
 {
     public class ReqActualizarSolicitudTC : Header, IRequest<ResActualizarSolicutdTC>
     {
+        public int int_id_solicitud { get; set; }
+        public int int_id_flujo_sol { get; set; }
+
         public string str_nombres { get; set; } = string.Empty;
         public string str_primer_apellido { get; set; } = string.Empty;
         public string str_segundo_apellido { get; set; } = string.Empty;

@@ -50,7 +50,16 @@ namespace Application.TarjetasCredito.ActualizarSolicitudTC
                     {
 
                     }
+
+                    respuesta.str_res_info_adicional = res_tran.diccionario["str_o_error"].ToString();
                 }
+                else
+                {
+                    res_tran.codigo = "001";
+                    respuesta.str_res_info_adicional = "Esta solicitud no se encuentra en estado creado, por lo tanto no se puede actualizar";
+                } 
+                respuesta.str_res_estado_transaccion = res_tran.codigo == "000" ? "OK" : "ERR";
+                respuesta.str_res_codigo = res_tran.codigo;
 
             }
             catch (Exception ex)

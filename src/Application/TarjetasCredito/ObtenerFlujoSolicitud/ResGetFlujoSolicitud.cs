@@ -9,11 +9,11 @@ namespace Application.TarjetasCredito.ObtenerFlujoSolicitud
 
         public class FlujoSolicitudes
         {
-            [JsonIgnore]
             public int slw_estado { get; set; }
+            public int slw_id { get; set; }
             public string str_estado { get; set; } = string.Empty;
-            public decimal slw_cupo_solicitado { get; set; }
-            public decimal slw_cupo_aprobado { get; set; }
+            public string slw_cupo_solicitado { get; set; } = string.Empty;
+            public string slw_cupo_aprobado { get; set; } = string.Empty;
             public string slw_celular { get; set; } = string.Empty;
             public string slw_correo { get; set; } = string.Empty;
             public DateTime slw_fecha_solicitud { get; set; }
