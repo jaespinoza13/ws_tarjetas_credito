@@ -60,7 +60,7 @@ namespace Infrastructure.MemoryCache
 
                         _memoryCache.Set( "funcionalidades", lst_funcionalidaes_accion );
 
-                        var lst_permisos = Mapper.ConvertConjuntoDatosToListClass<PermisoPerfil>( resTran.cuerpo, 1 );
+                        var lst_permisos = Mapper.ConvertConjuntoDatosToListClass<PermisoPerfil>( resTran.cuerpo );
                         _memoryCache.Set( "permiso_perfil", lst_permisos );
                         break;
                     default:
