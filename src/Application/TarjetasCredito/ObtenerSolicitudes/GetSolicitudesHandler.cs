@@ -62,7 +62,6 @@ namespace Application.TarjetasCredito.ObtenerSolicitudes
                         solicitudes.str_estado = _parametersInMemory.FindParametroId( solicitudes.int_estado ).str_valor_ini;
 
                         respuesta.solicitudes.Add( solicitudes );
-
                     }
                 }
                 else
