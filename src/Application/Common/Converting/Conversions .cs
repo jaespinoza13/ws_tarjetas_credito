@@ -14,7 +14,7 @@ public static class Conversions
     public static List<T> ConvertConjuntoDatosToListClass<T>(ConjuntoDatos conjuntoDatos)
     {
         return conjuntoDatos.lst_tablas[0].lst_filas
-            .Select( item => (T)Converting.MapDictToObj( item.nombre_valor, typeof(T) ) ).ToList();
+            .Select( item => (T)Converting.MapDictToObj( item.nombre_valor, typeof( T ) ) ).ToList();
     }
 
     public static List<T> ConvertConjuntoDatosTableToListClass<T>(ConjuntoDatos conjuntoDatos, int posicion)
@@ -31,10 +31,10 @@ public static class Conversions
     /// <returns></returns>
     public static T ConvertConjuntoDatosToClass<T>(ConjuntoDatos conjuntoDatos)
     {
-        var obj = default(T);
+        var obj = default( T );
         foreach (var item in conjuntoDatos.lst_tablas[0].lst_filas)
         {
-            obj = (T)Converting.MapDictToObj( item.nombre_valor, typeof(T) );
+            obj = (T)Converting.MapDictToObj( item.nombre_valor, typeof( T ) );
         }
 
         return obj!;
@@ -42,10 +42,10 @@ public static class Conversions
 
     public static T ConvertConjuntoDatosToClass<T>(ConjuntoDatos conjuntoDatos, int posicion)
     {
-        var obj = default(T);
+        var obj = default( T );
         foreach (var item in conjuntoDatos.lst_tablas[posicion].lst_filas)
         {
-            obj = (T)Converting.MapDictToObj( item.nombre_valor, typeof(T) );
+            obj = (T)Converting.MapDictToObj( item.nombre_valor, typeof( T ) );
         }
 
         return obj!;
@@ -59,7 +59,7 @@ public static class Conversions
     /// <returns></returns>
     public static IEnumerable<T> ConvertToListClassDynamic<T>(ConjuntoDatos conjuntoDatos, int table) =>
         conjuntoDatos.lst_tablas[table].lst_filas
-            .Select( item => (T)Converting.MapDictToObj( item.nombre_valor, typeof(T) ) ).ToList();
+            .Select( item => (T)Converting.MapDictToObj( item.nombre_valor, typeof( T ) ) ).ToList();
 
     #endregion
 }

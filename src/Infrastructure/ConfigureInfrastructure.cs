@@ -1,12 +1,13 @@
 ﻿
 using Application.Common.Interfaces;
+using Application.Common.Interfaces.Dat;
 using Application.TarjetasCredito.InterfazDat;
-using Infrastructure.gRPC_Clients.Mongo;
+using Infrastructure.Common.Interfaces;
 using Infrastructure.gRPC_Clients.Postgres.TarjetasCredito;
 using Infrastructure.gRPC_Clients.Sybase;
+using Infrastructure.MemoryCache;
 using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
-using Infrastructure.Common.Interfaces;
 
 namespace Infrastructure;
 
@@ -25,6 +26,13 @@ public static class ConfigureInfrastructure
 
         // TARJETAS CRÉDITO
         services.AddSingleton<ITarjetasCreditoDat, TarjetasCreditoDat>();
+        services.AddSingleton<IParametros, ParametrosDat>();
+        services.AddSingleton<IParametrosDat, ParametrosDat>();
+        services.AddSingleton<IParametersInMemory, ParametersInMemory>();
+        services.AddSingleton<ITarjetasCreditoDat, TarjetasCreditoDat>();
+        services.AddSingleton<IFuncionalidades, FuncionalidadesDat>();
+        services.AddSingleton<IFuncionalidadesDat, FuncionalidadesDat>();
+        services.AddSingleton<IFuncionalidadesMemory, FuncionalidadesInMemory>();
 
         //Datos Cliente
         services.AddSingleton<IDatosClienteDat, DatosClienteDat>();

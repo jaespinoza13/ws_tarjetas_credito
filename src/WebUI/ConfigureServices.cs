@@ -1,13 +1,14 @@
-using System.Reflection;
-using System.Security.Cryptography;
-using System.Text;
 using Application.Common.Models;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
+using System.Security.Cryptography;
+using System.Text;
 using WebUI.Filters;
+using wsMegomovil.Filters;
 
 namespace WebUI;
 
@@ -67,6 +68,7 @@ public static class ConfigureServices
         services.AddTransient<CryptographyAesFilter>();
         services.AddTransient<ClaimControlFilter>();
         services.AddTransient<SessionControlFilter>();
+        services.AddTransient<RequestFilter>();
 
         //SWAGGER
         services.AddEndpointsApiExplorer();
@@ -114,7 +116,8 @@ public static class ConfigureServices
         services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:EndpointsAuth" ) );
         services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:ControlExcepciones" ) );
         services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:TemplatesPath" ) );
-        //services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:LogosPath" ) );
+        services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:Variables" ) );
+        services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:PermisosEstados" ) );
         services.Configure<ApiSettings>( configuration.GetSection( "ApiSettings:Auth" ) );
 
         return services;

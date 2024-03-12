@@ -1,10 +1,9 @@
 ﻿using AccesoDatosGrpcAse.Neg;
 using Application.Common.Cryptography;
 using Application.Common.Interfaces;
+using Application.Common.Interfaces.Dat;
 using Application.Common.Models;
-using Infrastructure.Common.Funciones;
 using Microsoft.Extensions.Options;
-using System.Reflection;
 using static AccesoDatosGrpcAse.Neg.DAL;
 
 namespace Infrastructure.gRPC_Clients.Sybase

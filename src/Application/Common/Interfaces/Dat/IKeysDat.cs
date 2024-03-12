@@ -1,7 +1,7 @@
 ﻿using Application.Common.Cryptography;
 using Application.Common.Models;
 
-namespace Application.Common.Interfaces;
+namespace Application.Common.Interfaces.Dat;
 
 public interface IKeysDat
 {

@@ -1,20 +1,11 @@
-﻿using Application.Common.Interfaces;
+﻿using AccesoDatosGrpcAse.Neg;
+using Application.Common.Interfaces;
 using Application.Common.Models;
+using Application.TarjetasCredito.DatosClienteTc;
 using Application.TarjetasCredito.InterfazDat;
 using Infrastructure.Common.Funciones;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Grpc.Net.Client;
 using static AccesoDatosGrpcAse.Neg.DAL;
-using AccesoDatosGrpcAse.Neg;
-using Application.TarjetasCredito.AgregarSolicitudTc;
-using Application.TarjetasCredito.DatosClienteTc;
-using System.Data;
 
 namespace Infrastructure.gRPC_Clients.Sybase;
 
