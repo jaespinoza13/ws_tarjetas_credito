@@ -5,6 +5,9 @@ using Application.TarjetasCredito.AgregarSolicitudTc;
 using Application.TarjetasCredito.DatosClienteTc;
 using Application.TarjetasCredito.ObtenerFlujoSolicitud;
 using Application.TarjetasCredito.ObtenerSolicitudes;
+using Application.TarjetasCredito.SituacionFinanciera;
+using Application.TarjetasCredito.InformacionEconomica;
+using Application.TarjetasCredito.CatalogoAgencias;
 using Domain.Types;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -89,7 +92,7 @@ public class WsTarjetasCreditoController : ControllerBase
 
 
     [HttpPost( "GET_SITUACION_FINANCIERA" )]
-    public async Task<ActionResult<ResGetInfEco>> get_situacion_financiera(ReqGetSitFin request)
+    public async Task<ActionResult<ResGetSitFin>> get_situacion_financiera(ReqGetSitFin request)
     {
         var result = await _mediator.Send( request );
         return Ok( result );
