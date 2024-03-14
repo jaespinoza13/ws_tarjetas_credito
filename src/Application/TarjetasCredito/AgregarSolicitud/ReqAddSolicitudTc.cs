@@ -6,19 +6,13 @@ namespace Application.TarjetasCredito.AgregarSolicitudTc;
 
 public class ReqAddSolicitudTc : Header, IRequest<ResAddSolicitudTc>
 {
-    [Required]
     public string str_tipo_documento { get; set; } = string.Empty;
-    [Required]
     public string str_num_documento { get; set; } = string.Empty;
     public int int_ente { get; set; }
     public string str_nombres { get; set; } = string.Empty;
-    [Required]
     public string str_primer_apellido { get; set; } = string.Empty;
-    [Required] 
     public string str_segundo_apellido { get; set; } = string.Empty;
-    [Required]
     public DateTime dtt_fecha_nacimiento { get; set; }
-    [Required] 
     public string str_sexo { get; set; } = string.Empty;
 
     // tcr_solicitudes
