@@ -45,15 +45,15 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
 
             string rangoEncontrado = "";
 
-            if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_clasica )) != "No está en este rango")
+            if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_clasica )) != "N")
             {
                 request.int_tipo_tarjeta = _parametersInMemory.FindParametroNemonico( _settings.tarjeta_clasica ).int_id_parametro;
             }
-            else if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_black )) != "No está en este rango")
+            else if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_black )) != "N")
             {
                 request.int_tipo_tarjeta = _parametersInMemory.FindParametroNemonico( _settings.rango_tc_black ).int_id_parametro;
             }
-            else if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_gold )) != "No está en este rango")
+            else if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_gold )) != "N")
             {
                 request.int_tipo_tarjeta = _parametersInMemory.FindParametroNemonico( _settings.rango_tc_gold ).int_id_parametro;
             }
@@ -65,6 +65,7 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
             var result_transacction = await _tarjetasCreditoDat.addSolicitudTc( request );
 
             respuesta.str_res_codigo = result_transacction.codigo;
+            respuesta.str_res_estado_transaccion = result_transacction.codigo == "000" ? "OK" : "ERR";
             respuesta.str_res_info_adicional = result_transacction.diccionario["str_o_error"];
 
         }
@@ -86,7 +87,7 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
         int minValue, maxValue;
         if (!int.TryParse( parts[0], out minValue ) || !int.TryParse( parts[1], out maxValue ))
         {
-            return "No está en este rango";
+            return "N";
         }
 
         if (valor >= minValue && valor <= maxValue)
@@ -95,7 +96,7 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
         }
         else
         {
-            return "No está en este rango";
+            return "N";
         }
     }
 

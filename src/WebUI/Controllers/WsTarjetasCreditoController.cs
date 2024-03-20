@@ -15,8 +15,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using WebUI.Filters;
-using Application.TarjetasCredito.DatosClienteTc;
 using wsMegomovil.Filters;
+using Application.TarjetasCredito.AgregarProspectoTC;
 namespace WebUI.Controllers;
 
 [Route( "api/wsTarjetasCredito" )]
@@ -62,7 +62,7 @@ public class WsTarjetasCreditoController : ControllerBase
     }
 
     [HttpPost( "ADD_COMENTARIO_SOLICITUD" )]
-    public async Task<ActionResult<ResAddComentario>> addComentarioSolicitud(ReqAddProcesoSolicitud reqAgregarComentario)
+    public async Task<ActionResult<ResAddProcesoSolicitud>> addComentarioSolicitud(ReqAddProcesoSolicitud reqAgregarComentario)
     {
         var result = await _mediator.Send( reqAgregarComentario );
         return Ok( result );
@@ -100,6 +100,13 @@ public class WsTarjetasCreditoController : ControllerBase
 
     [HttpPost( "GET_CATALOGO_AGENCIAS" )]
     public async Task<ActionResult<ResGetCatalogoAgencias>> get_catalogo_agencias(ReqGetCatalogoAgencias request)
+    {
+        var result = await _mediator.Send( request );
+        return Ok( result );
+    }
+
+    [HttpPost( "ADD_PROSPECTO_TC" )]
+    public async Task<ActionResult<ResAddProspectoTc>> addProspectoTc(ReqAddProspectoTc request)
     {
         var result = await _mediator.Send( request );
         return Ok( result );

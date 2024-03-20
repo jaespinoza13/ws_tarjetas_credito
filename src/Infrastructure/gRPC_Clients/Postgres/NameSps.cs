@@ -9,5 +9,6 @@
         public const string addComentarioProceso = "add_comentario_proceso";
         public const string getFlujoSolicitud = "get_flujo_solicitud";
         public const string updSolicitudTC = "upd_solicitud_tc";
+        public const string addProspeccionTC = "add_prospeccion_tc";
     }
 }

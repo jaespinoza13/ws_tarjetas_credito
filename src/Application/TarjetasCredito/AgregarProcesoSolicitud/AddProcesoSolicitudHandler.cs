@@ -11,7 +11,7 @@ using System.Reflection;
 
 namespace Application.TarjetasCredito.AgregarComentario
 {
-    public class AddComentarioHandler : IRequestHandler<ReqAddProcesoSolicitud, ResAddComentario>
+    public class AddProcesoSolicitudHandler : IRequestHandler<ReqAddProcesoSolicitud, ResAddProcesoSolicitud>
     {
         public readonly ApiSettings _settings;
         private readonly IParametersInMemory _parametersInMemory;
@@ -20,7 +20,7 @@ namespace Application.TarjetasCredito.AgregarComentario
         private readonly ILogs _logs;
         private readonly string str_clase;
 
-        public AddComentarioHandler(IOptionsMonitor<ApiSettings> options, ITarjetasCreditoDat tarjetasCreditoDat, ILogs logs, IParametersInMemory parametersInMemory, IFuncionalidadesMemory funcionalidadesMemory)
+        public AddProcesoSolicitudHandler(IOptionsMonitor<ApiSettings> options, ITarjetasCreditoDat tarjetasCreditoDat, ILogs logs, IParametersInMemory parametersInMemory, IFuncionalidadesMemory funcionalidadesMemory)
         {
             _tarjetasCreditoDat = tarjetasCreditoDat;
             _logs = logs;
@@ -30,9 +30,9 @@ namespace Application.TarjetasCredito.AgregarComentario
             _funcionalidadesMemory = funcionalidadesMemory;
         }
 
-        public async Task<ResAddComentario> Handle(ReqAddProcesoSolicitud reqAgregarComentario, CancellationToken cancellationToken)
+        public async Task<ResAddProcesoSolicitud> Handle(ReqAddProcesoSolicitud reqAgregarComentario, CancellationToken cancellationToken)
         {
-            ResAddComentario respuesta = new();
+            ResAddProcesoSolicitud respuesta = new();
             RespuestaTransaccion res_tran = new();
             const string str_operacion = "ADD_PROCESO_SOLICITUD";
             respuesta.LlenarResHeader( reqAgregarComentario );
@@ -58,6 +58,12 @@ namespace Application.TarjetasCredito.AgregarComentario
                             if (_funcionalidadesMemory.FindPermisoPerfil( Convert.ToInt32( reqAgregarComentario.str_id_perfil ), int_funcionalidad ))
                             {
                                 res_tran = await _tarjetasCreditoDat.addProcesoSolicitud( reqAgregarComentario );
+
+                                if(_parametersInMemory.FindParametroId(reqAgregarComentario.int_estado).str_nemonico == _settings.estado_analisis_gestor)
+                                {
+
+                                }
+
                                 res_tran.codigo = "000";
                                 func_nombre = "";
                             }

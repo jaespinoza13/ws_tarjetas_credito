@@ -53,10 +53,9 @@ namespace Application.TarjetasCredito.AnularSolicitud
                     reqAddProceso.int_id_solicitud = reqAddAnularSolicitud.int_id_solicitud;
                     reqAddProceso.str_comentario = reqAddAnularSolicitud.str_comentario;
                     res_tran = await _tarjetasCreditoDat.addProcesoSolicitud(reqAddProceso);
-
+    
                     respuesta.str_res_codigo = res_tran.codigo;
                     respuesta.str_res_info_adicional = res_tran.diccionario["str_o_error"];
-
                 }
 
             }

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Application.TarjetasCredito.AgregarComentario
 {
-    public class ReqAddProcesoSolicitud : Header, IRequest<ResAddComentario>
+    public class ReqAddProcesoSolicitud : Header, IRequest<ResAddProcesoSolicitud>
     {
         [Required]
         public bool bl_regresa_estado { get; set; }
