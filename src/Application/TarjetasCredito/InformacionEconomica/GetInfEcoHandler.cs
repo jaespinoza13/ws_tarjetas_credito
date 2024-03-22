@@ -11,7 +11,9 @@ using Application.TarjetasCredito.DatosClienteTc;
 using Application.TarjetasCredito.InterfazDat;
 using Domain.Entities.DatosCliente;
 using Domain.Entities.Informacion_Financiera;
+using Domain.Entities.SituacionFinanciera;
 using MediatR;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Application.TarjetasCredito.InformacionEconomica;
 
@@ -24,13 +26,16 @@ public class GetInfEcoHandler : IRequestHandler<ReqGetInfEco, ResGetInfEco>
     private readonly string str_clase;
 
     private readonly string str_operacion;
-    
-    public GetInfEcoHandler(IInfoFinDat infoFinDat, ILogs logs)
+    private readonly IMemoryCache _memoryCache;
+
+
+    public GetInfEcoHandler(IInfoFinDat infoFinDat, ILogs logs, IMemoryCache memoryCache)
     {
         _infoFinDat = infoFinDat;
         _logs = logs;
         str_clase = GetType().Name;
         str_operacion = "GET_INF_FIN";
+        _memoryCache = memoryCache;
     }
     public async Task<ResGetInfEco> Handle(ReqGetInfEco request, CancellationToken cancellationToken)
     {
@@ -57,6 +62,8 @@ public class GetInfEcoHandler : IRequestHandler<ReqGetInfEco, ResGetInfEco>
                 data_list_ing.Add( obj_ingresos );
             }
             respuesta.lst_ingresos_socio = data_list_ing;
+
+            var lst_parametros = _memoryCache.Get<List<DepositosPlazoFijo>>( "Parametros_dpfs" );
 
             foreach (Egresos egresos in respuesta.lst_egresos_socio)
             {

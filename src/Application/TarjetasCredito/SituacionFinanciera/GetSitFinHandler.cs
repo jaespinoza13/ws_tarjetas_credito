@@ -5,7 +5,9 @@ using Application.TarjetasCredito.InformacionEconomica;
 using Application.TarjetasCredito.InterfazDat;
 using Domain.Entities.Informacion_Financiera;
 using Domain.Entities.SituacionFinanciera;
+using Domain.Parameters;
 using MediatR;
+using Microsoft.Extensions.Caching.Memory;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,14 +21,17 @@ namespace Application.TarjetasCredito.SituacionFinanciera
     {
         private readonly ISitFinDat _infoSitDat;
         private readonly ILogs _logs;
+        public readonly IMemoryCache _memoryCache;
         private readonly string str_clase;
         private readonly string str_operacion;
-        public GetSitFinHandler(ISitFinDat infoSitFinDat, ILogs logs)
+        public DateTime dt_fecha_codigos;
+        public GetSitFinHandler(ISitFinDat infoSitFinDat, ILogs logs, IMemoryCache memoryCache)
         {
             _infoSitDat = infoSitFinDat;
             _logs = logs;
             str_clase = GetType().Name;
             str_operacion = "GET_SITUACION_FINANCIERA";
+            this._memoryCache = memoryCache;
         }
 
         public async Task<ResGetSitFin> Handle(ReqGetSitFin request, CancellationToken cancellationToken)
@@ -52,12 +57,24 @@ namespace Application.TarjetasCredito.SituacionFinanciera
                         dtt_fecha_movimiento = dpf.dtt_fecha_movimiento,
                         dcm_promedio = dpf.dcm_promedio,
                         str_tipo_cta = dpf.str_tipo_cta,
-                        str_estado = dpf.str_estado,    
+                        str_estado = dpf.str_estado,
                         int_orden = dpf.int_orden,
                     };
                     data_lst_dep.Add( obj_dpf );
                 }
                 respuesta.lst_dep_plazo_fijo = data_lst_dep;
+
+                var validar = _memoryCache.Get<List<DepositosPlazoFijo>>( "Parametros_dpfs" );
+
+                //Analizar si se deja esta sección
+                if (data_lst_dep.Any())
+                {
+                    _memoryCache.Set( "Parametros_dpfs", data_lst_dep );
+                    var lst_parametros = _memoryCache.Get<List<DepositosPlazoFijo>>( "Parametros_dpfs" );
+                }
+                else
+                    throw new ArgumentException( "No existen datos dpfs para almacenar." );
+
 
                 foreach (CreditosHistoricos cred_hist in respuesta.lst_creditos_historicos)
                 {

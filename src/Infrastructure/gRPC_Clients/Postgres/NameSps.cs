@@ -9,5 +9,9 @@
         public const string addComentarioProceso = "add_comentario_proceso";
         public const string getFlujoSolicitud = "get_flujo_solicitud";
         public const string updSolicitudTC = "upd_solicitud_tc";
+        public const string getCatalogoAgencias = "get_catalogo_agencias_tc";
+        public const string getInfCliente = "get_inf_cliente_tc";
+        public const string getIngEgrSoc = "get_ing_egr_soc_tc";
+        public const string getSitFinSoc = "get_sit_fin_soc_tc";
     }
 }

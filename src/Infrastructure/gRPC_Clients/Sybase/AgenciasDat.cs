@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using static AccesoDatosGrpcAse.Neg.DAL;
 using AccesoDatosGrpcAse.Neg;
 using Infrastructure.Common.Funciones;
+using Infrastructure.gRPC_Clients.Postgres;
 
 namespace Infrastructure.gRPC_Clients.Sybase
 {
@@ -37,8 +38,8 @@ namespace Infrastructure.gRPC_Clients.Sybase
                 ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_id_sistema", TipoDato = TipoDato.Integer, ObjValue = request.str_id_sistema.ToString() } );
                 ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.VarChar } );
                 ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
-                ds.NombreSP = "get_catalogo_agencias_tc";
-                ds.NombreBD = "meg_atms";
+                ds.NombreSP = NameSps.getCatalogoAgencias;
+                ds.NombreBD = _settings.DB_meg_atms;
                 var resultado = await _objClienteDal.ExecuteDataSetAsync( ds );
 
                 var lst_valores = new List<ParametroSalidaValores>();

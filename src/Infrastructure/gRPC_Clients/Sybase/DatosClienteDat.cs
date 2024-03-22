@@ -4,6 +4,7 @@ using Application.Common.Models;
 using Application.TarjetasCredito.DatosClienteTc;
 using Application.TarjetasCredito.InterfazDat;
 using Infrastructure.Common.Funciones;
+using Infrastructure.gRPC_Clients.Postgres;
 using Microsoft.Extensions.Options;
 using static AccesoDatosGrpcAse.Neg.DAL;
 
@@ -34,8 +35,8 @@ public class DatosClienteDat : IDatosClienteDat
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_oficial", TipoDato = TipoDato.VarChar, ObjValue = request.str_login_usuario } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.VarChar } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
-            ds.NombreSP = "get_inf_cliente_tc";
-            ds.NombreBD = "meg_buro";
+            ds.NombreSP = NameSps.getInfCliente;
+            ds.NombreBD = _settings.DB_meg_buro;
 
             var resultado = await _objClienteDal.ExecuteDataSetAsync( ds );
             

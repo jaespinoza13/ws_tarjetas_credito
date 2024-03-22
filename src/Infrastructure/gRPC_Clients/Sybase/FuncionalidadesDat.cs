@@ -86,8 +86,8 @@ namespace Infrastructure.gRPC_Clients.Sybase
                 ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_oficial", TipoDato = TipoDato.VarChar, ObjValue = "" } );
                 ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.VarChar } );
                 ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
-                ds.NombreSP = "get_inf_cliente_tc";
-                ds.NombreBD = "meg_buro";
+                ds.NombreSP = NameSps.getInfCliente;
+                ds.NombreBD = _settings.DB_meg_buro;
 
                 var resultado = await _objClienteDal.ExecuteDataSetAsync( ds );
                 var lst_valores = new List<ParametroSalidaValores>();
