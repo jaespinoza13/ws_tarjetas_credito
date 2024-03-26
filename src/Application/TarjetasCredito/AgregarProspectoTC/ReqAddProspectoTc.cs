@@ -21,5 +21,7 @@ namespace Application.TarjetasCredito.AgregarProspectoTC
         public string str_id_autoriza_cons_buro { get; set; } = string.Empty;
         public string str_id_autoriza_datos_per { get; set; } = string.Empty;
         public string str_estado { get; set; } = string.Empty;
+        public string str_comentario { get; set; } = string.Empty;
+        public string str_comentario_adicional { get; set; } = string.Empty;
     }
 }

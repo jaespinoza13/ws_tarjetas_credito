@@ -59,6 +59,7 @@ public class ReqAddSolicitudTc : Header, IRequest<ResAddSolicitudTc>
     public string str_rsrv_uso_credencial_2 { get; set; } = string.Empty;
     public string str_cuarta_linea { get; set; } = string.Empty;
     public string str_comentario_proceso { get; set; } = string.Empty;
+    public string str_comentario_adicional { get; set; } = string.Empty;
     public string str_tipo_cuenta_banc { get; set; } = string.Empty;
     public string str_cod_lim_compra { get; set; } = string.Empty;
     public string str_id_doc_adicional { get; set; } = string.Empty;

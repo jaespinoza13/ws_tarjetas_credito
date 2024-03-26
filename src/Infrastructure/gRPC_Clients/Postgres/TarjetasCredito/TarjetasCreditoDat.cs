@@ -99,6 +99,7 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_numero_cuenta", TipoDato = TipoDato.Numeric, ObjValue = request.int_numero_cuenta.ToString() } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_tipo_cuenta_banc", TipoDato = TipoDato.Character, ObjValue = request.str_tipo_cuenta_banc } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_comentario", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_comentario_proceso } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_comentario_adicional", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_comentario_adicional } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_id_doc_aut_cons_buro", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_id_doc_adicional } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_id_doc_tratamiento_datos_per", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_id_doc_tratamiento_datos_per } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_id_doc_adicional", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_id_doc_adicional } );
@@ -375,6 +376,8 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_oficina_crea", TipoDato = TipoDato.Integer, ObjValue = reqAddProspectoTc.str_id_oficina} );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_autorizacion_cons_buro", TipoDato = TipoDato.CharacterVarying, ObjValue = reqAddProspectoTc.str_id_autoriza_cons_buro } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_autorizacion_datos_pers", TipoDato = TipoDato.CharacterVarying, ObjValue = reqAddProspectoTc.str_id_autoriza_datos_per} );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_comentario", TipoDato = TipoDato.CharacterVarying, ObjValue = reqAddProspectoTc.str_comentario } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_comentario_adicional", TipoDato = TipoDato.CharacterVarying, ObjValue = reqAddProspectoTc.str_comentario_adicional } );
 
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.CharacterVarying } );
