@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.TarjetasCredito.AnularSolicitud
 {
-    public class ResAddAnularSolicitud : ResComun
+    public class ResAddProcesoEspecifico : ResComun
     {
     }
 }

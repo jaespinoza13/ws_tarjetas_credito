@@ -15,7 +15,7 @@ using Application.TarjetasCredito.AgregarComentario;
 
 namespace Application.TarjetasCredito.AnularSolicitud
 {
-    public class AddAnularSolicitudHandler : IRequestHandler<ReqAddAnularSolicitud, ResAddAnularSolicitud>
+    public class AddProcesoEspecificoHandler : IRequestHandler<ReqAddProcesoEspecifico, ResAddProcesoEspecifico>
     {
         private readonly IParametersInMemory _parametersInMemory;
         private readonly ITarjetasCreditoDat _tarjetasCreditoDat;
@@ -23,7 +23,7 @@ namespace Application.TarjetasCredito.AnularSolicitud
         private readonly string str_clase;
         private readonly ApiSettings _settings;
 
-        public AddAnularSolicitudHandler(IOptionsMonitor<ApiSettings> options, ITarjetasCreditoDat tarjetasCreditoDat, ILogs logs, IParametersInMemory parametersInMemory)
+        public AddProcesoEspecificoHandler(IOptionsMonitor<ApiSettings> options, ITarjetasCreditoDat tarjetasCreditoDat, ILogs logs, IParametersInMemory parametersInMemory)
         {
             _tarjetasCreditoDat = tarjetasCreditoDat;
             _logs = logs;
@@ -32,10 +32,10 @@ namespace Application.TarjetasCredito.AnularSolicitud
             _settings = options.CurrentValue;
         }
 
-        public async Task<ResAddAnularSolicitud> Handle(ReqAddAnularSolicitud reqAddAnularSolicitud, CancellationToken cancellationToken)
+        public async Task<ResAddProcesoEspecifico> Handle(ReqAddProcesoEspecifico reqAddAnularSolicitud, CancellationToken cancellationToken)
         {
-            const string str_operacion = "ANULAR_SOLICITUD_HANDLER";
-            var respuesta = new ResAddAnularSolicitud();
+            const string str_operacion = "PROCESO_ESPECIFICO_HANDLER";
+            var respuesta = new ResAddProcesoEspecifico();
             var res_tran = new RespuestaTransaccion();
             respuesta.LlenarResHeader( reqAddAnularSolicitud );
 
@@ -43,9 +43,10 @@ namespace Application.TarjetasCredito.AnularSolicitud
             {
                 await _logs.SaveHeaderLogs( reqAddAnularSolicitud, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
 
-                int estado = _parametersInMemory.FindParametroNemonico( _settings.estado_anulado ).int_id_parametro;
+                //int estado = _parametersInMemory.FindParametroNemonico( _settings.estado_anulado ).int_id_parametro;
+                int estado = estado_proceso( reqAddAnularSolicitud.str_id_servicio );
 
-                if(estado != 0)
+                if (estado != 0)
                 {
                     ReqAddProcesoSolicitud reqAddProceso = new();
 
@@ -62,6 +63,24 @@ namespace Application.TarjetasCredito.AnularSolicitud
             catch ( Exception ex ) { }
 
             return respuesta;
+        }
+
+        public int estado_proceso(string id_servicio)
+        {
+            int estado = 0;
+            id_servicio = id_servicio.Substring( "REQ_".Length ); 
+
+            switch (id_servicio)
+            {
+                case "NEGAR_SOLICITUD":
+                    estado = _parametersInMemory.FindParametroNemonico( _settings.estado_anulado ).int_id_parametro;
+                    break;
+                case "APROBAR_SOLICITUD":
+                    estado = _parametersInMemory.FindParametroNemonico( _settings.estado_anulado ).int_id_parametro;
+                    break;
+            }
+
+            return estado;
         }
      }
 }

@@ -127,7 +127,7 @@ public class LogsService : ILogs
                 dtt_fecha = DateTime.Now.ToString( "yyyy-MM-ddTHH:mm:ss" ),
                 str_id_transaccion = dyn_objeto.str_id_transaccion,
                 str_tipo = str_tipo,
-                str_webservice = _settings.nombre_base_mongo,
+                str_webservice = _settings.DB_mongo,
                 str_clase = str_clase,
                 str_metodo = str_metodo,
                 str_operacion = str_operacion,

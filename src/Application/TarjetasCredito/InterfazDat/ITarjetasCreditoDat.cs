@@ -13,6 +13,7 @@ public interface ITarjetasCreditoDat
 {
     Task<RespuestaTransaccion> addSolicitudTc(ReqAddSolicitudTc request);
     Task<RespuestaTransaccion> getSolititudesTc(ReqGetSolicitudes reqGetSolicitudes);
+    Task<RespuestaTransaccion> getProspectosTc(ReqGetSolicitudes reqGetSolicitudes);
     Task<RespuestaTransaccion> addProcesoSolicitud(ReqAddProcesoSolicitud reqAddProcesoSolicitud);
     Task<RespuestaTransaccion> getFlujoSolicitud(ReqGetFlujoSolicitud reqGetFlujoSolicitud);
     Task<RespuestaTransaccion> updSolicitudTc(ReqActualizarSolicitudTC reqActualizarSolicitudTC);

@@ -1,7 +1,10 @@
 ﻿
 using Application.Common.Interfaces;
+using Application.Common.Interfaces.Apis;
 using Application.Common.Interfaces.Dat;
 using Application.TarjetasCredito.InterfazDat;
+using Infraestructure.ExternalApis;
+using Infraestructure.InternalApis;
 using Infrastructure.Common.Interfaces;
 using Infrastructure.gRPC_Clients.Postgres.TarjetasCredito;
 using Infrastructure.gRPC_Clients.Sybase;
@@ -45,6 +48,12 @@ public static class ConfigureInfrastructure
 
         //Catalogo de Agencias
         services.AddSingleton<ICatalogoAgenciasDat, AgenciasDat>();
+
+        //GestorDocumental
+        services.AddSingleton<IWsGestorDocumental, wsGestorDocumental>();
+        
+        //Validaciones
+        services.AddSingleton<IValidacionesBuro, ValidacionesBuro>();
 
         return services;
     }

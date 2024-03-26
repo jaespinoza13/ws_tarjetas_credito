@@ -9,13 +9,10 @@ using System.Threading.Tasks;
 
 namespace Application.TarjetasCredito.AnularSolicitud
 {
-    public class ReqAddAnularSolicitud : Header, IRequest<ResAddAnularSolicitud>
+    public class ReqAddProcesoEspecifico : Header, IRequest<ResAddProcesoEspecifico>
     {
-        [Required]
         public int int_id_solicitud { get; set; }
-        [Required]
         public string str_comentario { get; set; } = string.Empty;
-        [Required]
         public int int_estado { get; set; }
     }
 }

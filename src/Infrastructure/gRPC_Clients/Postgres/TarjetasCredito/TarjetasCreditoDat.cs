@@ -65,8 +65,6 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_segundo_apellido", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_segundo_apellido } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@dtt_fecha_nacimiento", TipoDato = TipoDato.Date, ObjValue = request.dtt_fecha_nacimiento.ToString() } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_sexo", TipoDato = TipoDato.Character, ObjValue = request.str_sexo } );
-            //ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_celular", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_celular } );
-            //ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_correo", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_correo } );
 
             // tcr_solicitudes
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_tipo_tarjeta", TipoDato = TipoDato.Integer, ObjValue = request.int_tipo_tarjeta.ToString() } );
@@ -174,6 +172,45 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
         return respuesta;
     }
 
+    public async Task<RespuestaTransaccion> getProspectosTc(ReqGetSolicitudes reqGetSolicitudes)
+    {
+        var respuesta = new RespuestaTransaccion();
+
+        try
+        {
+            var ds = new DatosSolicitud();
+
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_usuario", TipoDato = TipoDato.CharacterVarying, ObjValue = reqGetSolicitudes.str_login.ToString() } );
+
+            ds.NombreSP = NameSps.getProspectosTc;
+            ds.NombreBD = _settings.DB_meg_tarjetas_credito;
+
+
+            var resultado = _objClienteDal.ExecuteReader( ds );//ExecuteNonQuery para sps - ExecuteReader para funciones
+            var lst_valores = resultado.ListaPSalidaValores.ToList();
+
+            if (resultado.ListaTablas.Count > 0)
+            {
+                respuesta.cuerpo = Funciones.ObtenerDataBasePg( resultado );
+                respuesta.codigo = "000";
+                respuesta.diccionario.Add( "str_error", "" );
+            }
+
+
+        }
+        catch (Exception ex)
+        {
+            respuesta.codigo = "003";
+            respuesta.diccionario.Add( "str_error", ex.InnerException != null ? ex.InnerException.Message : ex.Message );
+            //await _logService.SaveExcepcionDataBaseSybase( request, MethodBase.GetCurrentMethod()!.Name, ex, str_clase );
+
+            await _logService.SaveExceptionLogs( reqGetSolicitudes, MethodBase.GetCurrentMethod()!.Name, "getSolicitudesTc", str_clase, ex );
+            throw new ArgumentException( reqGetSolicitudes.str_id_transaccion );
+
+        }
+        return respuesta;
+    }
+
     public async Task<RespuestaTransaccion> addProcesoSolicitud(ReqAddProcesoSolicitud reqAgregarComentario)
     {
         var respuesta = new RespuestaTransaccion();
@@ -203,7 +240,6 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
             respuesta.codigo = str_codigo.Trim().PadLeft( 3, '0' );
             respuesta.diccionario.Add( "str_o_error", str_error );
 
-
         }
         catch (Exception ex)
         {
@@ -228,7 +264,6 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
 
             ds.NombreSP = NameSps.getFlujoSolicitud;
             ds.NombreBD = _settings.DB_meg_tarjetas_credito;
-
 
             var resultado = _objClienteDal.ExecuteReader( ds );//ExecuteNonQuery para sps - ExecuteReader para funciones
             var lst_valores = resultado.ListaPSalidaValores.ToList();
@@ -268,8 +303,7 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_segundo_apellido", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_segundo_apellido } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@dtt_fecha_nacimiento", TipoDato = TipoDato.Date, ObjValue = request.dtt_fecha_nacimiento.ToString() } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_sexo", TipoDato = TipoDato.Character, ObjValue = request.str_sexo } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_celular", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_celular } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_correo", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_correo } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_ente", TipoDato = TipoDato.Integer, ObjValue = request.int_ente.ToString()} );
 
             // tcr_solicitudes
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_estado", TipoDato = TipoDato.Integer, ObjValue = request.int_estado.ToString() } );
@@ -278,23 +312,22 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_usuario_proc", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_usuario_proc } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_habilitada_compra", TipoDato = TipoDato.Character, ObjValue = request.str_habilitada_compra } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@dec_max_compra", TipoDato = TipoDato.Numeric, ObjValue = request.dec_max_compra.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_denominacion_socio", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_denominacion_socio } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_denominacion_tarjeta", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_denominacion_tarjeta } );
 
             //Campos agregados 
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_calle_num_puerta", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_calle_num_puerta } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_localidad", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_localidad } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_barrio", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_barrio } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_codigo_provincia", TipoDato = TipoDato.Character, ObjValue = request.str_codigo_provincia } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_codigo_postal", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_codigo_postal } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_zona_geografica", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_zona_geografica } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_grupo_liquidacion", TipoDato = TipoDato.Character, ObjValue = request.str_grupo_liquidacion } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@dec_imp_lim_compras", TipoDato = TipoDato.Numeric, ObjValue = request.dec_imp_lim_compras.ToString() } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_telefono_2", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_telefono_2 } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_datos_adicionales", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_datos_adicionales } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_codigo_ocupacion", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_codigo_ocupacion } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_duracion", TipoDato = TipoDato.Character, ObjValue = request.str_duracion } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_cod_lim_compra", TipoDato = TipoDato.Character, ObjValue = request.str_cod_lim_compra } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_numero_cuenta", TipoDato = TipoDato.Numeric, ObjValue = request.int_numero_cuenta.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_tipo_cuenta_banc", TipoDato = TipoDato.Character, ObjValue = request.str_tipo_cuenta_banc } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_comentario", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_comentario_proceso } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_id_doc_aut_cons_buro", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_id_doc_adicional } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_id_doc_tratamiento_datos_per", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_id_doc_tratamiento_datos_per } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_id_doc_adicional", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_id_doc_adicional } );
 
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.CharacterVarying } );
