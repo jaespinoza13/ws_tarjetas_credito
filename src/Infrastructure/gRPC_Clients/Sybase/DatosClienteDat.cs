@@ -36,7 +36,7 @@ public class DatosClienteDat : IDatosClienteDat
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.VarChar } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
             ds.NombreSP = NameSps.getInfCliente;
-            ds.NombreBD = _settings.DB_meg_buro;
+            ds.NombreBD = _settings.DB_meg_atms;
 
             var resultado = await _objClienteDal.ExecuteDataSetAsync( ds );
             
