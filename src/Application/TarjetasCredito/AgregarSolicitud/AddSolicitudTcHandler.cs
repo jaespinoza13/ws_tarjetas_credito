@@ -1,7 +1,9 @@
 ﻿using Application.Common.Interfaces;
+using Application.Common.Interfaces.Apis;
 using Application.Common.Interfaces.Dat;
 using Application.Common.Models;
 using Application.TarjetasCredito.InterfazDat;
+using Domain.Entities.Axentria;
 using MediatR;
 using Microsoft.Extensions.Options;
 using System.Reflection;
@@ -12,23 +14,25 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
 {
     private readonly IParametersInMemory _parametersInMemory;
     private readonly ITarjetasCreditoDat _tarjetasCreditoDat;
+    private readonly IWsGestorDocumental _wsGestorDocumental;
     private readonly ILogs _logs;
     private readonly string str_clase;
     private readonly ApiSettings _settings;
 
-    public AddSolicitudTcHandler(IOptionsMonitor<ApiSettings> options, ITarjetasCreditoDat tarjetasCreditoDat, ILogs logs, IParametersInMemory parametersInMemory)
+    public AddSolicitudTcHandler(IOptionsMonitor<ApiSettings> options, ITarjetasCreditoDat tarjetasCreditoDat, ILogs logs, IParametersInMemory parametersInMemory, IWsGestorDocumental wsGestorDocumental)
     {
         _tarjetasCreditoDat = tarjetasCreditoDat;
         _logs = logs;
         str_clase = GetType().Name;
         _parametersInMemory = parametersInMemory;
         _settings = options.CurrentValue;
-
+        _wsGestorDocumental = wsGestorDocumental;
     }
     public async Task<ResAddSolicitudTc> Handle(ReqAddSolicitudTc request, CancellationToken cancellationToken)
     {
         const string str_operacion = "ADD_SOLICITUD_TC";
         var respuesta = new ResAddSolicitudTc();
+        var res_tran = new RespuestaTransaccion();
         respuesta.LlenarResHeader( request );
 
 
@@ -45,15 +49,15 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
 
             string rangoEncontrado = "";
 
-            if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_clasica )) != "No está en este rango")
+            if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_clasica )) != "N")
             {
                 request.int_tipo_tarjeta = _parametersInMemory.FindParametroNemonico( _settings.tarjeta_clasica ).int_id_parametro;
             }
-            else if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_black )) != "No está en este rango")
+            else if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_black )) != "N")
             {
                 request.int_tipo_tarjeta = _parametersInMemory.FindParametroNemonico( _settings.rango_tc_black ).int_id_parametro;
             }
-            else if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_gold )) != "No está en este rango")
+            else if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_gold )) != "N")
             {
                 request.int_tipo_tarjeta = _parametersInMemory.FindParametroNemonico( _settings.rango_tc_gold ).int_id_parametro;
             }
@@ -62,10 +66,23 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
                 request.int_tipo_tarjeta = _parametersInMemory.FindParametroNemonico( _settings.tarjeta_clasica ).int_id_parametro;
             }
 
-            var result_transacction = await _tarjetasCreditoDat.addSolicitudTc( request );
+            res_tran = await _tarjetasCreditoDat.addSolicitudTc( request );
 
-            respuesta.str_res_codigo = result_transacction.codigo;
-            respuesta.str_res_info_adicional = result_transacction.diccionario["str_o_error"];
+            if (res_tran.codigo == "000")
+            {
+                var req_load_doc = new ReqLoadDocumento();
+
+                req_load_doc.int_canal = Convert.ToInt32( request.str_id_sistema );
+                req_load_doc.int_oficina = Convert.ToInt32( request.str_id_oficina );
+                req_load_doc.int_tipo_ide = Convert.ToInt32( request.str_num_documento );
+                req_load_doc.str_nombre_canal = request.str_nemonico_canal;
+
+                var a = _wsGestorDocumental.addDocumento( req_load_doc, request.str_id_transaccion );
+            }
+
+            respuesta.str_res_codigo = res_tran.codigo;
+            respuesta.str_res_estado_transaccion = res_tran.codigo == "000" ? "OK" : "ERR";
+            respuesta.str_res_info_adicional = res_tran.diccionario["str_o_error"];
 
         }
         catch (Exception e)
@@ -86,16 +103,15 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
         int minValue, maxValue;
         if (!int.TryParse( parts[0], out minValue ) || !int.TryParse( parts[1], out maxValue ))
         {
-            return "No está en este rango";
+            return "N";
         }
-
         if (valor >= minValue && valor <= maxValue)
         {
             return rango;
         }
         else
         {
-            return "No está en este rango";
+            return "N";
         }
     }
 

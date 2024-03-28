@@ -2,7 +2,7 @@
 
 namespace Application.TarjetasCredito.AgregarComentario
 {
-    public class ResAddComentario : ResComun
+    public class ResAddProcesoSolicitud : ResComun
     {
 
     }

@@ -19,6 +19,7 @@ namespace Application.TarjetasCredito.ActualizarSolicitudTC
         public string str_segundo_apellido { get; set; } = string.Empty;
         public DateTime dtt_fecha_nacimiento { get; set; }
         public string str_sexo { get; set; } = string.Empty;
+        public int int_ente { get; set; }
 
         // tcr_solicitudes
         public int int_estado { get; set; }
@@ -32,19 +33,27 @@ namespace Application.TarjetasCredito.ActualizarSolicitudTC
         public Decimal dec_max_compra { get; set; }
         public string str_denominacion_tarjeta { get; set; } = string.Empty;
         public string str_calle_num_puerta { get; set; } = string.Empty;
-        public string str_localidad { get; set; } = string.Empty;
         public string str_barrio { get; set; } = string.Empty;
         public string str_codigo_provincia { get; set; } = string.Empty;
         public string str_codigo_postal { get; set; } = string.Empty;
         public string str_zona_geografica { get; set; } = string.Empty;
-        public string str_grupo_liquidacion { get; set; } = string.Empty;
-        public Decimal dec_imp_lim_compras { get; set; }
-        public string str_telefono_2 { get; set; } = string.Empty;
-        public string str_datos_adicionales { get; set; } = string.Empty;
-        public string str_codigo_ocupacion { get; set; } = string.Empty;
-        public string str_duracion { get; set; } = string.Empty;
-        public string str_comentario_proceso { get; set; } = string.Empty;
-        public long int_numero_cuenta { get; set; }
         public int int_estado_entregado { get; set; }
+        public Decimal dec_cupo_sugerido { get; set; }
+        public Decimal dec_cupo_aprobado { get; set; }
+        public int int_ente_aprobador { get; set; }
+        public string str_codigo_producto { get; set; } = string.Empty;
+        public int int_codigo_sucursal { get; set; }
+        public int int_modelo_tratamiento { get; set; }
+        public string str_codigo_afinidad { get; set; } = string.Empty;
+        public int int_num_promotor { get; set; }
+        public string str_denominacion_socio { get; set; } = string.Empty;
+        public string str_marca_graba { get; set; } = string.Empty;
+        public string str_comentario_proceso { get; set; } = string.Empty;
+        public string str_tipo_cuenta_banc { get; set; } = string.Empty;
+        public string str_cod_lim_compra { get; set; } = string.Empty;
+        public string str_id_doc_adicional { get; set; } = string.Empty;
+        public string str_id_doc_tratamiento_datos_per { get; set; } = string.Empty;
+        public string str_id_doc_aut_cons_buro { get; set; } = string.Empty;
+        public long int_numero_cuenta { get; set; }
     }
 }

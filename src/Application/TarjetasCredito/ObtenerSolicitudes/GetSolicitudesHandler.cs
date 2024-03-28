@@ -36,6 +36,7 @@ namespace Application.TarjetasCredito.ObtenerSolicitudes
             RespuestaTransaccion res_tran = new();
             const string str_operacion = "GET_SOLICITUDES_TC";
             respuesta.LlenarResHeader( reqGetSolicitudes );
+            var funcionalidad = new Domain.Funcionalidades.Funcionalidad(); 
 
             try
             {
@@ -43,9 +44,12 @@ namespace Application.TarjetasCredito.ObtenerSolicitudes
 
                 for (int i = 0; i < _settings.permisosVisualizacion.Count; i++)
                 {
-                    if (_funcionalidadesMemory.FindPermisoPerfil( Convert.ToInt32( reqGetSolicitudes.str_id_perfil ),
-                    _funcionalidadesMemory.FindFuncionalidadNombre( _settings.permisosVisualizacion[i] ).fun_id ))
-                        reqGetSolicitudes.str_estado = reqGetSolicitudes.str_estado + _parametersInMemory.FindParametroNemonico( _settings.estadosSolTC[i] ).int_id_parametro.ToString() + "|";
+                    funcionalidad = _funcionalidadesMemory.FindFuncionalidadNombre( _settings.permisosVisualizacion[i] );
+                    if (funcionalidad != null)
+                    {
+                        if (_funcionalidadesMemory.FindPermisoPerfil( Convert.ToInt32( reqGetSolicitudes.str_id_perfil ), funcionalidad.fun_id ))
+                            reqGetSolicitudes.str_estado = reqGetSolicitudes.str_estado + _parametersInMemory.FindParametroNemonico( _settings.estadosSolTC[i] ).int_id_parametro.ToString() + "|";
+                    }
                 }
                 reqGetSolicitudes.str_estado = reqGetSolicitudes.str_estado.TrimEnd( '|' );
 
@@ -62,7 +66,6 @@ namespace Application.TarjetasCredito.ObtenerSolicitudes
                         solicitudes.str_estado = _parametersInMemory.FindParametroId( solicitudes.int_estado ).str_valor_ini;
 
                         respuesta.solicitudes.Add( solicitudes );
-
                     }
                 }
                 else
@@ -70,6 +73,26 @@ namespace Application.TarjetasCredito.ObtenerSolicitudes
                     respuesta.str_res_codigo = "001";
                     respuesta.str_res_info_adicional = "No existen solicitudes";
                 }
+
+                funcionalidad = _funcionalidadesMemory.FindFuncionalidadNombre( _settings.visualizar_prospectos );
+
+                if (funcionalidad != null && _funcionalidadesMemory.FindPermisoPerfil( Convert.ToInt32( reqGetSolicitudes.str_id_perfil ), funcionalidad.fun_id ))
+                {
+                    res_tran = await _tarjetasCreditoDat.getProspectosTc( reqGetSolicitudes );
+
+                    if (res_tran.codigo == "000")
+                    {
+                        List<ProspectosTc> lista_prospectos = Mapper.ConvertConjuntoDatosToListClass<ProspectosTc>( res_tran.cuerpo );
+
+                        respuesta.prospectos = lista_prospectos;
+                    }
+                    else
+                    {
+                        respuesta.str_res_codigo = "001";
+                        respuesta.str_res_info_adicional = "No existen prospecciones";
+                    }
+                }
+
                 respuesta.str_res_estado_transaccion = res_tran.codigo == "000" ? "OK" : "ERR";
 
             }
