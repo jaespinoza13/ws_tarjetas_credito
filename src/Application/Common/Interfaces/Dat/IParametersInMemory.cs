@@ -11,4 +11,5 @@ public interface IParametersInMemory
     Parametro FindParametroValorFin(string str_valor_fin);
     Parametro FindParametroId(int int_id_param);
     string getMensajeProceso(string str_codigo, string str_mensaje = "");
+
 }

@@ -46,10 +46,9 @@ public class WsTarjetasCreditoController : ControllerBase
         return Ok( result );
     }
 
-
     [HttpPost( "ADD_SOLICITUD_TC" )]
     public async Task<ActionResult<ResAddSolicitudTc>> add_solicitud_tarjeta_credito(ReqAddSolicitudTc request)
-    {
+     {
         var result = await _mediator.Send( request );
         return Ok( result );
     }
@@ -82,7 +81,6 @@ public class WsTarjetasCreditoController : ControllerBase
         return Ok( result );
     }
 
-
     [HttpPost( "GET_INFORMACION_ECONOMICA" )]
     public async Task<ActionResult<ResGetInfEco>> get_informacion_economica(ReqGetInfEco request)
     {
@@ -111,4 +109,5 @@ public class WsTarjetasCreditoController : ControllerBase
         var result = await _mediator.Send( request );
         return Ok( result );
     }
+
 }

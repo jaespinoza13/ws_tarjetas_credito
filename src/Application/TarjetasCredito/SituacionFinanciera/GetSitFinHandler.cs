@@ -64,18 +64,6 @@ namespace Application.TarjetasCredito.SituacionFinanciera
                 }
                 respuesta.lst_dep_plazo_fijo = data_lst_dep;
 
-                var validar = _memoryCache.Get<List<DepositosPlazoFijo>>( "Parametros_dpfs" );
-
-                //Analizar si se deja esta sección
-                if (data_lst_dep.Any())
-                {
-                    _memoryCache.Set( "Parametros_dpfs", data_lst_dep );
-                    var lst_parametros = _memoryCache.Get<List<DepositosPlazoFijo>>( "Parametros_dpfs" );
-                }
-                else
-                    throw new ArgumentException( "No existen datos dpfs para almacenar." );
-
-
                 foreach (CreditosHistoricos cred_hist in respuesta.lst_creditos_historicos)
                 {
                     CreditosHistoricos obj_cred_hist = new CreditosHistoricos
@@ -94,6 +82,15 @@ namespace Application.TarjetasCredito.SituacionFinanciera
                 }
                 respuesta.lst_creditos_historicos = data_lst_cred;
                 respuesta.str_res_codigo = res_tran.codigo;
+                //Analizar si se deja esta sección
+                if (data_lst_dep.Any())
+                {
+                    _memoryCache.Set( $"Informacion_dpfs_{request.str_ente}_ente", data_lst_dep );
+                }
+                if (data_lst_cred.Any())
+                {
+                    _memoryCache.Set( $"Informacion_cred_hist_{request.str_ente}_ente", data_lst_cred );
+                }
                 respuesta.str_res_info_adicional = res_tran.diccionario["str_o_error"];
                 await _logs.SaveResponseLogs( respuesta, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
             }

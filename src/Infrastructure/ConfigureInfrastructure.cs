@@ -55,6 +55,15 @@ public static class ConfigureInfrastructure
         //Validaciones
         services.AddSingleton<IValidacionesBuro, ValidacionesBuro>();
 
+        services.AddSingleton<IActivosPasivosDat, ActivosPasivosDat>();
+        //Inyección de dependia de los Creditos Vigentes 
+        services.AddSingleton<ICreditosVigentesDat, CreditosVigentesDat>();
+
+        //Inyeccion de las garantias constitudas 
+        services.AddSingleton<IGarantiasConstituidasDat,GarantiasConstitudasDat>();
+
+        services.AddSingleton<GetInformacionAdicional>();
+        
         return services;
     }
 }

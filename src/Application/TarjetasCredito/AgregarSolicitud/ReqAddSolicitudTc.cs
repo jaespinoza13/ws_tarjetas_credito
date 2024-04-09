@@ -1,4 +1,5 @@
 ﻿using Application.Common.ISO20022.Models;
+using Domain.InformacionAdicional;
 using MediatR;
 using System.ComponentModel.DataAnnotations;
 
@@ -8,7 +9,7 @@ public class ReqAddSolicitudTc : Header, IRequest<ResAddSolicitudTc>
 {
     public string str_tipo_documento { get; set; } = string.Empty;
     public string str_num_documento { get; set; } = string.Empty;
-    public int int_ente { get; set; }
+    //public int int_ente { get; set; }
     public string str_nombres { get; set; } = string.Empty;
     public string str_primer_apellido { get; set; } = string.Empty;
     public string str_segundo_apellido { get; set; } = string.Empty;
@@ -67,4 +68,17 @@ public class ReqAddSolicitudTc : Header, IRequest<ResAddSolicitudTc>
     public string str_id_doc_aut_cons_buro { get; set; } = string.Empty;
     public long int_numero_cuenta { get; set; }
     public int int_estado_entregado { get; set; }
+    
+    //Se agrega campos json 
+    public string str_act_soc_json {  get; set; } = string.Empty;
+    public string str_pas_soc_json { get; set; } = string.Empty;
+    public string str_dpfs_json { get; set; } = string.Empty;
+    public string str_cred_hist_json { get; set; } = string.Empty;
+    public string str_ingr_soc_json { get; set; } = string.Empty;
+    public string str_egr_soc_json { get; set; } = string.Empty;
+    public string str_cred_vig_json { get; set; } = string.Empty;
+    public string str_gar_cns_json { get; set; } = string.Empty;
+
+
+
 }

@@ -63,8 +63,6 @@ public class GetInfEcoHandler : IRequestHandler<ReqGetInfEco, ResGetInfEco>
             }
             respuesta.lst_ingresos_socio = data_list_ing;
 
-            var lst_parametros = _memoryCache.Get<List<DepositosPlazoFijo>>( "Parametros_dpfs" );
-
             foreach (Egresos egresos in respuesta.lst_egresos_socio)
             {
                 Egresos obj_egresos = new Egresos
@@ -75,6 +73,15 @@ public class GetInfEcoHandler : IRequestHandler<ReqGetInfEco, ResGetInfEco>
 
                 };
                 data_list_egr.Add( obj_egresos);
+            }
+            //Se almacena en memoria cache 
+            if (data_list_ing.Any())
+            {
+                _memoryCache.Set( $"Informacion_ing_{request.str_ente}_ente", data_list_ing );
+            }
+            if (data_list_egr.Any())
+            {
+                _memoryCache.Set( $"Informacion_egr_{request.str_ente}_ente", data_list_egr );
             }
             respuesta.lst_egresos_socio = data_list_egr;
             respuesta.str_res_codigo = res_tran.codigo;

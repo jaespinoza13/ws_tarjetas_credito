@@ -15,5 +15,8 @@
         public const string getInfCliente = "get_inf_cliente_tc";
         public const string getIngEgrSoc = "get_ing_egr_soc_tc";
         public const string getSitFinSoc = "get_sit_fin_soc_tc";
+        public const string getActPasSoc = "get_act_pas_soc_tc";
+        public const string getCredVigSoc = "get_cred_vig_cob_tc";
+        public const string getGarConsSoc = "get_garantias_constituidas_tc";
     }
 }

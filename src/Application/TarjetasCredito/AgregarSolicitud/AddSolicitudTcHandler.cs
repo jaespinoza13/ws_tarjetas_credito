@@ -5,9 +5,15 @@ using Application.Common.Models;
 using Application.TarjetasCredito.InterfazDat;
 using Domain.Entities.Axentria;
 using MediatR;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using System.Reflection;
-
+using Infrastructure.MemoryCache;
+using Application.Common.ISO20022.Models;
+using Application.TarjetasCredito.InformacionAdicional;
+using Newtonsoft.Json;
+using Domain.Entities.SituacionFinanciera;
+using Domain.Entities.Informacion_Financiera;
 
 namespace Application.TarjetasCredito.AgregarSolicitudTc;
 public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSolicitudTc>
@@ -18,8 +24,10 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
     private readonly ILogs _logs;
     private readonly string str_clase;
     private readonly ApiSettings _settings;
-
-    public AddSolicitudTcHandler(IOptionsMonitor<ApiSettings> options, ITarjetasCreditoDat tarjetasCreditoDat, ILogs logs, IParametersInMemory parametersInMemory, IWsGestorDocumental wsGestorDocumental)
+    private readonly IFuncionalidadesMemory _funcionalidades;
+    private readonly GetInformacionAdicional _getInformacionAdicional ;
+    private readonly IMemoryCache _memoryCache;
+    public AddSolicitudTcHandler(IOptionsMonitor<ApiSettings> options, ITarjetasCreditoDat tarjetasCreditoDat, ILogs logs, IParametersInMemory parametersInMemory, IWsGestorDocumental wsGestorDocumental, GetInformacionAdicional getInformacionAdicional, IMemoryCache memoryCache)
     {
         _tarjetasCreditoDat = tarjetasCreditoDat;
         _logs = logs;
@@ -27,14 +35,18 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
         _parametersInMemory = parametersInMemory;
         _settings = options.CurrentValue;
         _wsGestorDocumental = wsGestorDocumental;
+        _getInformacionAdicional = getInformacionAdicional;
+        _memoryCache = memoryCache;
     }
     public async Task<ResAddSolicitudTc> Handle(ReqAddSolicitudTc request, CancellationToken cancellationToken)
     {
         const string str_operacion = "ADD_SOLICITUD_TC";
         var respuesta = new ResAddSolicitudTc();
         var res_tran = new RespuestaTransaccion();
+        ResActivosPasivos resActivosPasivos = new( );
+        ResCreditosVigentes resCreditosVigentes = new( );
+        ResGarantiasConstituidas resGarantiasConstituidas = new( );
         respuesta.LlenarResHeader( request );
-
 
         try
         {
@@ -65,19 +77,41 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
             {
                 request.int_tipo_tarjeta = _parametersInMemory.FindParametroNemonico( _settings.tarjeta_clasica ).int_id_parametro;
             }
+            //Se agrega la información de las Garantias Constituidas (SYBASE)
+            resGarantiasConstituidas = await _getInformacionAdicional.LoadGarantiasConstitudas( request.str_ente );
+            request.str_gar_cns_json = JsonConvert.SerializeObject( resGarantiasConstituidas.lst_gar_cns_soc );
 
+            //Se agrega los creditos vigentes que posee (SYBASE)
+            resCreditosVigentes = await _getInformacionAdicional.LoadCreditosVigentes( request.str_ente );
+            request.str_cred_vig_json= JsonConvert.SerializeObject( resCreditosVigentes.lst_creditos_vigentes);
+
+            //Se agregan los activos y los pasivos del socio (SYBASE)
+            resActivosPasivos = await _getInformacionAdicional.LoadActivosPasivos( request.str_ente );
+            request.str_act_soc_json = JsonConvert.SerializeObject( resActivosPasivos.lst_activos_socio );
+            request.str_pas_soc_json = JsonConvert.SerializeObject( resActivosPasivos.lst_pasivos_socio );
+            //Se recupera la información de la memoria cache 
+            request.str_dpfs_json = JsonConvert.SerializeObject( _memoryCache.Get<List<DepositosPlazoFijo>>( $"Informacion_dpfs_{request.str_ente}_ente" ) );
+            request.str_cred_hist_json = JsonConvert.SerializeObject( _memoryCache.Get<List<CreditosHistoricos>>( $"Informacion_cred_hist_{request.str_ente}_ente" ) );
+            request.str_ingr_soc_json= JsonConvert.SerializeObject( _memoryCache.Get<List<Ingresos>>( $"Informacion_ing_{request.str_ente}_ente" ) );
+            request.str_egr_soc_json = JsonConvert.SerializeObject( _memoryCache.Get<List<Egresos>>( $"Informacion_egr_{request.str_ente}_ente" ) );
+            //Se almacena la solicitud de TC
             res_tran = await _tarjetasCreditoDat.addSolicitudTc( request );
 
             if (res_tran.codigo == "000")
             {
                 var req_load_doc = new ReqLoadDocumento();
-
                 req_load_doc.int_canal = Convert.ToInt32( request.str_id_sistema );
                 req_load_doc.int_oficina = Convert.ToInt32( request.str_id_oficina );
                 req_load_doc.int_tipo_ide = Convert.ToInt32( request.str_num_documento );
                 req_load_doc.str_nombre_canal = request.str_nemonico_canal;
 
                 var a = _wsGestorDocumental.addDocumento( req_load_doc, request.str_id_transaccion );
+
+                // Elimina los datos de la memoria caché--> Analizar si se aplica el Principio SOLID
+                _memoryCache.Remove( $"Informacion_dpfs_{request.str_ente}_ente" );
+                _memoryCache.Remove( $"Informacion_cred_hist_{request.str_ente}_ente" );
+                _memoryCache.Remove( $"Informacion_ing_{request.str_ente}_ente" );
+                _memoryCache.Remove( $"Informacion_egr_{request.str_ente}_ente" );
             }
 
             respuesta.str_res_codigo = res_tran.codigo;
