@@ -394,7 +394,6 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
 
             respuesta.codigo = str_codigo.Trim().PadLeft( 3, '0' );
             respuesta.diccionario.Add( "str_o_error", str_error );
-
         }
         catch (Exception ex)
         {
