@@ -11,6 +11,7 @@ namespace Application.TarjetasCredito.AgregarProspectoTC
     public class ReqAddProspectoTc : Header, IRequest<ResAddProspectoTc>
     {
         public int int_ente { get; set; } 
+        public string str_tipo_documento { get; set; } = string.Empty;
         public string str_num_documento { get; set; } = string.Empty;
         public string str_nombres { get; set; } = string.Empty;
         public string str_apellidos { get; set; } = string.Empty;
