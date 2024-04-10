@@ -36,6 +36,7 @@ public class ApiExceptionFilterAttribute : ExceptionFilterAttribute
     public override void OnException(ExceptionContext context)
     {
         _logger.LogError( "An error occurred: {Message}", context.Exception.Message );
+        Console.WriteLine( context.Exception );
         HandleException( context );
 
         base.OnException( context );
