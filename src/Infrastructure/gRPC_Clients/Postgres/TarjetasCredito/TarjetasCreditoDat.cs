@@ -11,6 +11,7 @@ using Application.TarjetasCredito.ObtenerSolicitudes;
 using Grpc.Net.Client;
 using Infrastructure.Common.Funciones;
 using Microsoft.Extensions.Options;
+using Org.BouncyCastle.Asn1.Ocsp;
 using System.Reflection;
 using static AccesoDatosPostgresql.Neg.DALPostgreSql;
 
@@ -365,6 +366,7 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
         {
             var ds = new DatosSolicitud();
 
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_tipo_documento", TipoDato = TipoDato.Character, ObjValue = reqAddProspectoTc.str_tipo_documento } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_num_documento", TipoDato = TipoDato.CharacterVarying, ObjValue = reqAddProspectoTc.str_num_documento } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_ente", TipoDato = TipoDato.Integer, ObjValue = reqAddProspectoTc.int_ente.ToString() } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_nombres", TipoDato = TipoDato.CharacterVarying, ObjValue = reqAddProspectoTc.str_nombres } );
