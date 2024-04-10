@@ -376,6 +376,7 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
         {
             var ds = new DatosSolicitud();
 
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_tipo_documento", TipoDato = TipoDato.CharacterVarying, ObjValue = reqAddProspectoTc.str_tipo_documento } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_num_documento", TipoDato = TipoDato.CharacterVarying, ObjValue = reqAddProspectoTc.str_num_documento } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_ente", TipoDato = TipoDato.Integer, ObjValue = reqAddProspectoTc.int_ente.ToString() } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_nombres", TipoDato = TipoDato.CharacterVarying, ObjValue = reqAddProspectoTc.str_nombres } );
