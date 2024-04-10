@@ -44,12 +44,12 @@ public class ApiSettings
     public string visualizar_prospectos { get; set; } = string.Empty;
     public int int_id_sistema { get; set; }
     public int fun_tipo_accion { get; set; }
-    public string rango_tc_clasica { get; set; } = string.Empty;
-    public string rango_tc_black { get; set; } = string.Empty;
+    public string rango_tc_standard { get; set; } = string.Empty;
+    public string rango_tc_platinum { get; set; } = string.Empty;
     public string rango_tc_gold { get; set; } = string.Empty;
     public string tarjeta_gold { get; set; } = string.Empty;
-    public string tarjeta_black { get; set; } = string.Empty;
-    public string tarjeta_clasica { get; set; } = string.Empty;
+    public string tarjeta_platinum { get; set; } = string.Empty;
+    public string tarjeta_standard { get; set; } = string.Empty;
     public int id_gabinete { get; set; }
     #endregion
 
