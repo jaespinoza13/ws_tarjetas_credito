@@ -121,6 +121,7 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
         }
         catch (Exception e)
         {
+            Console.WriteLine( e.ToString() );
             await _logs.SaveExceptionLogs( respuesta, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase, e );
             throw new ArgumentException( respuesta.str_id_transaccion );
         }
