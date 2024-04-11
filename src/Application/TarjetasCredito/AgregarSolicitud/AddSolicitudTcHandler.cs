@@ -95,7 +95,14 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
             request.str_ingr_soc_json= JsonConvert.SerializeObject( _memoryCache.Get<List<Ingresos>>( $"Informacion_ing_{request.str_ente}_ente" ) );
             request.str_egr_soc_json = JsonConvert.SerializeObject( _memoryCache.Get<List<Egresos>>( $"Informacion_egr_{request.str_ente}_ente" ) );
             //Se almacena la solicitud de TC
-            Console.WriteLine( request );
+            Console.WriteLine( request.str_dpfs_json );
+            Console.WriteLine( request.str_cred_hist_json );
+            Console.WriteLine( request.str_ingr_soc_json );
+            Console.WriteLine( request.str_egr_soc_json );
+            Console.WriteLine( request.str_pas_soc_json );
+            Console.WriteLine( request.str_act_soc_json );
+            Console.WriteLine( request.str_cred_vig_json );
+            Console.WriteLine( request.str_gar_cns_json );
             res_tran = await _tarjetasCreditoDat.addSolicitudTc( request );
             if (res_tran.codigo == "000")
             {
