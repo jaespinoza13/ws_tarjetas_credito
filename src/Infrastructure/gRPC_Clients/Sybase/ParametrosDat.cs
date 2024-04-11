@@ -46,6 +46,7 @@ internal class ParametrosDat : IParametros, IParametrosDat
             if (respuesta.codigo == "000")
             {
                 respuesta.cuerpo = Funciones.ObtenerDatos( resultado );
+                Console.WriteLine( respuesta.codigo );
             }
 
         }
