@@ -65,12 +65,7 @@ internal class ParametersInMemory : IParametersInMemory
     {
         var lst_parametros = _memoryCache.Get<List<Parametro>>( "Parametros_back" );
         Parametro parametro = new Parametro();
-        var test = lst_parametros.Find( x => x.str_nemonico == str_nemonico )!;
-        if (test != null)
-        {
-            return test;
-        }
-        return parametro;
+        return lst_parametros.Find( x => x.str_nemonico == str_nemonico )!; 
     }
     public Parametro FindParametroValorFin(string str_valor_fin)
     {
