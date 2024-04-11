@@ -75,7 +75,7 @@ internal class ParametersInMemory : IParametersInMemory
     public Parametro FindParametroId(int int_id_param)
     {
         var lst_parametros = _memoryCache.Get<List<Parametro>>( "Parametros_back" );
-        return lst_parametros.Find( x => x.int_id_parametro == int_id_param )!;
+        return lst_parametros.Find( x => x.int_id_parametro == int_id_param )!; 
     }
     public string getMensajeProceso(string str_codigo, string str_mensaje = "")
     {
