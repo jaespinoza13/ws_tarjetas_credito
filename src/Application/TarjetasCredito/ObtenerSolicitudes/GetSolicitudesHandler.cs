@@ -59,14 +59,7 @@ namespace Application.TarjetasCredito.ObtenerSolicitudes
                 {
                     List<SolicitudTc> lista_solicitudes = Mapper.ConvertConjuntoDatosToListClass<SolicitudTc>( res_tran.cuerpo );
 
-                    foreach (SolicitudTc solicitudes in lista_solicitudes)
-                    {
-                        solicitudes.str_tipo_tarjeta = _parametersInMemory.FindParametroId( solicitudes.int_tipo_tarjeta ).str_valor_ini;
-                        solicitudes.int_estado = Convert.ToInt32( solicitudes.str_estado );
-                        solicitudes.str_estado = _parametersInMemory.FindParametroId( solicitudes.int_estado ).str_valor_ini;
-
-                        respuesta.solicitudes.Add( solicitudes );
-                    }
+                    respuesta.solicitudes = lista_solicitudes;
                 }
                 else
                 {

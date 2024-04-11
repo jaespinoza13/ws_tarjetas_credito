@@ -59,22 +59,24 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
 
             string rangoEncontrado = "";
 
-            if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_standard )) != "N")
-            {
-                request.int_tipo_tarjeta = _parametersInMemory.FindParametroNemonico( _settings.tarjeta_standard ).int_id_parametro;
-            }
-            else if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_gold )) != "N")
-            {
-                request.int_tipo_tarjeta = _parametersInMemory.FindParametroNemonico( _settings.tarjeta_gold ).int_id_parametro;
-            }
-            else if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_platinum )) != "N")
-            {
-                request.int_tipo_tarjeta = _parametersInMemory.FindParametroNemonico( _settings.tarjeta_platinum ).int_id_parametro;
-            }
-            else
-            {
-                request.int_tipo_tarjeta = _parametersInMemory.FindParametroNemonico( _settings.tarjeta_standard ).int_id_parametro;
-            }
+            //No va
+            //if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_standard )) != "N")
+            //{
+            //    request.int_tipo_tarjeta = _parametersInMemory.FindParametroNemonico( _settings.tarjeta_standard ).int_id_parametro;
+            //}
+            //else if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_gold )) != "N")
+            //{
+            //    request.int_tipo_tarjeta = _parametersInMemory.FindParametroNemonico( _settings.tarjeta_gold ).int_id_parametro;
+            //}
+            //else if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_platinum )) != "N")
+            //{
+            //    request.int_tipo_tarjeta = _parametersInMemory.FindParametroNemonico( _settings.tarjeta_platinum ).int_id_parametro;
+            //}
+            //else
+            //{
+            //    request.int_tipo_tarjeta = _parametersInMemory.FindParametroNemonico( _settings.tarjeta_standard ).int_id_parametro;
+            //}
+
             //Se agrega la información de las Garantias Constituidas (SYBASE)
             resGarantiasConstituidas = await _getInformacionAdicional.LoadGarantiasConstitudas( request.str_ente );
             request.str_gar_cns_json = JsonConvert.SerializeObject( resGarantiasConstituidas.lst_gar_cns_soc );
