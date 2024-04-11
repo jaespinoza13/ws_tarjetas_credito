@@ -37,6 +37,7 @@ internal class ParametrosDat : IParametros, IParametrosDat
             var resultado = await objClienteDal.ExecuteDataSetAsync( ds );
 
             var lst_valores = new List<ParametroSalidaValores>();
+            Console.WriteLine( resultado.ToString() );
 
             foreach (var item in resultado.ListaPSalidaValores) lst_valores.Add( item );
 
@@ -46,7 +47,7 @@ internal class ParametrosDat : IParametros, IParametrosDat
             if (respuesta.codigo == "000")
             {
                 respuesta.cuerpo = Funciones.ObtenerDatos( resultado );
-                Console.WriteLine( respuesta.codigo );
+                
             }
 
         }
