@@ -57,9 +57,9 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
             var rango_gold = _parametersInMemory.FindParametroNemonico( _settings.rango_tc_gold ).str_valor_ini;
             var rango_platinum = _parametersInMemory.FindParametroNemonico( _settings.rango_tc_platinum ).str_valor_ini;
 
-            string rangoEncontrado = "";
 
             //No va
+            //string rangoEncontrado = "";
             //if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_standard )) != "N")
             //{
             //    request.int_tipo_tarjeta = _parametersInMemory.FindParametroNemonico( _settings.tarjeta_standard ).int_id_parametro;
@@ -95,8 +95,8 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
             request.str_ingr_soc_json= JsonConvert.SerializeObject( _memoryCache.Get<List<Ingresos>>( $"Informacion_ing_{request.str_ente}_ente" ) );
             request.str_egr_soc_json = JsonConvert.SerializeObject( _memoryCache.Get<List<Egresos>>( $"Informacion_egr_{request.str_ente}_ente" ) );
             //Se almacena la solicitud de TC
+            Console.WriteLine( request );
             res_tran = await _tarjetasCreditoDat.addSolicitudTc( request );
-
             if (res_tran.codigo == "000")
             {
                 var req_load_doc = new ReqLoadDocumento();
