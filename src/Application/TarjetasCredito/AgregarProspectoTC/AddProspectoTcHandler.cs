@@ -37,9 +37,7 @@ namespace Application.TarjetasCredito.AgregarProspectoTC
             try
             {
                 await _logs.SaveHeaderLogs( reqAddProspectoTc, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
-
                 res_tran = await _tarjetasCreditoDat.addProspectoTc( reqAddProspectoTc );
-
                 respuesta.str_res_codigo = res_tran.codigo;
                 respuesta.str_res_estado_transaccion = res_tran.codigo =="000" ? "OK" : "ERR";
 
