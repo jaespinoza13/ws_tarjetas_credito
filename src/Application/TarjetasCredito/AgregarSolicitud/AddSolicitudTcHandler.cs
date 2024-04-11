@@ -53,12 +53,12 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
             await _logs.SaveHeaderLogs( request, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
             request.int_estado = _parametersInMemory.FindParametroNemonico( _settings.estado_creado ).int_id_parametro;
             request.int_estado_entregado = _parametersInMemory.FindParametroNemonico( _settings.estado_entregado ).int_id_parametro;
-            Console.WriteLine( request.int_estado_entregado );
+            var rango_standard = _parametersInMemory.FindParametroNemonico( _settings.rango_tc_standard ).str_valor_ini;
+            var rango_gold = _parametersInMemory.FindParametroNemonico( _settings.rango_tc_gold ).str_valor_ini;
+            var rango_platinum = _parametersInMemory.FindParametroNemonico( _settings.rango_tc_platinum ).str_valor_ini;
+
 
             //No va
-            //var rango_standard = _parametersInMemory.FindParametroNemonico( _settings.rango_tc_standard ).str_valor_ini;
-            //var rango_gold = _parametersInMemory.FindParametroNemonico( _settings.rango_tc_gold ).str_valor_ini;
-            //var rango_platinum = _parametersInMemory.FindParametroNemonico( _settings.rango_tc_platinum ).str_valor_ini;
             //string rangoEncontrado = "";
             //if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_standard )) != "N")
             //{
@@ -95,14 +95,7 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
             request.str_ingr_soc_json= JsonConvert.SerializeObject( _memoryCache.Get<List<Ingresos>>( $"Informacion_ing_{request.str_ente}_ente" ) );
             request.str_egr_soc_json = JsonConvert.SerializeObject( _memoryCache.Get<List<Egresos>>( $"Informacion_egr_{request.str_ente}_ente" ) );
             //Se almacena la solicitud de TC
-            Console.WriteLine( request.str_dpfs_json );
-            Console.WriteLine( request.str_cred_hist_json );
-            Console.WriteLine( request.str_ingr_soc_json );
-            Console.WriteLine( request.str_egr_soc_json );
-            Console.WriteLine( request.str_pas_soc_json );
-            Console.WriteLine( request.str_act_soc_json );
-            Console.WriteLine( request.str_cred_vig_json );
-            Console.WriteLine( request.str_gar_cns_json );
+            
             res_tran = await _tarjetasCreditoDat.addSolicitudTc( request );
             if (res_tran.codigo == "000")
             {
