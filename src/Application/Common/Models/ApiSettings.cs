@@ -59,4 +59,13 @@ public class ApiSettings
     public List<string> permisosAccion { get; set; } = new();
     public List<string> estadosSolTC { get; set; } = new();
     #endregion
+
+    #region
+    public string parametro_busqueda_comt {  get; set; } = string.Empty;
+    public string par_bus_est_comt_acp {  get; set; } = string.Empty;
+    public string par_bus_est_comt_rec { get; set; } = string.Empty;
+
+
+    #endregion
+
 }

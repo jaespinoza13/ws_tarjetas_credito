@@ -46,7 +46,7 @@ public class ActivosPasivosDat : IActivosPasivosDat
 
             var resultado = await _objClienteDal.ExecuteDataSetAsync( ds );
 
-            var lst_valores = new List<ParametroSalidaValores>();
+             var lst_valores = new List<ParametroSalidaValores>();
 
             foreach (var item in resultado.ListaPSalidaValores) lst_valores.Add( item );
             var str_codigo = lst_valores.Find( x => x.StrNameParameter == "@int_o_error_cod" )!.ObjValue;
