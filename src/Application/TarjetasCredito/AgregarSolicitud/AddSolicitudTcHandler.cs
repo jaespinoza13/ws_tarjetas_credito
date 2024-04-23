@@ -69,19 +69,19 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
             //Se consulta los comentarios que agregara el asesor 
 
             //No va, Definir un rango de monto solicitado
-            string rangoEncontrado = "";
-            if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_standard )) != "N")
-            {
-                determinar_tipo_tarjeta( _settings.tarjeta_standard );
-            }
-            else if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_gold )) != "N")
-            {
-                determinar_tipo_tarjeta( _settings.tarjeta_gold );
-            }
-            else if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_black )) != "N")
-            {
-                determinar_tipo_tarjeta( _settings.tarjeta_black );
-            }
+            //string rangoEncontrado = "";
+            //if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_standard )) != "N")
+            //{
+            //    determinar_tipo_tarjeta( _settings.tarjeta_standard );
+            //}
+            //else if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_gold )) != "N")
+            //{
+            //    determinar_tipo_tarjeta( _settings.tarjeta_gold );
+            //}
+            //else if ((rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_black )) != "N")
+            //{
+            //    determinar_tipo_tarjeta( _settings.tarjeta_black );
+            //}
 
             //string rangoEncontrado = validaRango( request.dec_cupo_solicitado, rango_standard );
             //switch (rangoEncontrado)
@@ -147,7 +147,7 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
         }
         catch (Exception e)
         {
-            Console.WriteLine( e.ToString() );
+            //Console.WriteLine( e.ToString() );
             await _logs.SaveExceptionLogs( respuesta, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase, e );
             throw new ArgumentException( respuesta.str_id_transaccion );
         }
@@ -205,7 +205,6 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
         ResActivosPasivos resActivosPasivos = new();
         ResCreditosVigentes resCreditosVigentes = new();
         ResGarantiasConstituidas resGarantiasConstituidas = new();
-
 
         //Se agrega la información de las Garantias Constituidas (SYBASE)
         resGarantiasConstituidas = await _getInformacionAdicional.LoadGarantiasConstitudas( str_num_ente );

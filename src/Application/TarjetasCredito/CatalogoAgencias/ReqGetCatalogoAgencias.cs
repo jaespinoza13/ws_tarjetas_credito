@@ -7,10 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.TarjetasCredito.CatalogoAgencias
+namespace Application.TarjetasCredito.CatalogoAgencias;
+
+public class ReqGetCatalogoAgencias : ResComun, IRequest<ResGetCatalogoAgencias>
 {
-    public class ReqGetCatalogoAgencias : ResComun, IRequest<ResGetCatalogoAgencias>
-    {
-        
-    }
+    
 }

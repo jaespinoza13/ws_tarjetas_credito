@@ -18,6 +18,7 @@ using WebUI.Filters;
 using wsMegomovil.Filters;
 using Application.TarjetasCredito.AgregarProspectoTC;
 using Application.TarjetasCredito.ComentariosGestion;
+using Application.TarjetasCredito.ComentariosAsesor;
 namespace WebUI.Controllers;
 
 [Route( "api/wsTarjetasCredito" )]
@@ -113,6 +114,20 @@ public class WsTarjetasCreditoController : ControllerBase
 
     [HttpPost( "GET_COMENTARIOS_GESTION" )]
     public async Task<ActionResult<ResGetComentGestion>> get_comentarios_gestion(ReqGetComentGestion request)
+    {
+        var result = await _mediator.Send( request );
+        return Ok( result );
+    }
+
+    [HttpPost( "ADD_COMENTARIOS_ASESOR" )]
+    public async Task<ActionResult<ResAddComentariosAsesor>> add_comentarios_asesor(ReqAddComentariosAsesor request)
+    {
+        var result = await _mediator.Send( request );
+        return Ok( result );
+    }
+
+    [HttpPost( "GET_COMENTARIOS_ASESOR" )]
+    public async Task<ActionResult<ResGetComentariosAsesor>> get_comentarios_asesor(ReqGetComentariosAsesor request)
     {
         var result = await _mediator.Send( request );
         return Ok( result );
