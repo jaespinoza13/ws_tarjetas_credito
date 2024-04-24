@@ -57,10 +57,13 @@ public class GetComentariosAsesorHandler : IRequestHandler<ReqGetComentariosAses
                 string jsonString = obj_cmnt_ase_res[0].json_comentarios;
                 List<ComentarioAsesor> comentarios = JsonConvert.DeserializeObject<List<ComentarioAsesor>>( jsonString )!;
                 respuesta.lst_comn_ase_cre = comentarios;
+                respuesta.str_res_codigo = res_tran.codigo;
+                respuesta.str_res_info_adicional = res_tran.diccionario["str_o_error"];
             }
             else if (res_tran.codigo == "001")
             {
-                respuesta.str_res_info_adicional = "No existe solicitudes con el id de la solictud ...";
+                respuesta.str_res_codigo = res_tran.codigo;
+                respuesta.str_res_info_adicional = res_tran.diccionario["str_o_error"];
             }
             else
             {
@@ -71,9 +74,6 @@ public class GetComentariosAsesorHandler : IRequestHandler<ReqGetComentariosAses
                 respuesta.str_res_codigo = res_tran.codigo;
                 respuesta.str_res_info_adicional = res_tran.diccionario["str_o_error"];
             }
-
-            respuesta.str_res_codigo = res_tran.codigo;
-            respuesta.str_res_info_adicional = res_tran.diccionario["str_o_error"];
 
         }
         catch (Exception e)

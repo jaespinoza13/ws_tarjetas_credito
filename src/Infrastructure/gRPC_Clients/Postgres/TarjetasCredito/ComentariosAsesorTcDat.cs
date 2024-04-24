@@ -49,15 +49,12 @@ public class ComentariosAsesorTcDat : IComentarioAsesorDat
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_cmnt_ase_json", TipoDato = TipoDato.Json, ObjValue = request.str_cmnt_ase_json } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.CharacterVarying } );
-
             ds.NombreSP = NameSps.updComentariosAsesorTc;
             ds.NombreBD = _settings.DB_meg_tarjetas_credito;
-
             var resultado = _objClienteDal.ExecuteNonQuery( ds );//ExecuteNonQuery para sps - ExecuteReader para funciones
             var lst_valores = resultado.ListaPSalidaValores.ToList();
             var str_codigo = lst_valores.Find( x => x.StrNameParameter == "@int_o_error_cod" )!.ObjValue;
             var str_error = lst_valores.Find( x => x.StrNameParameter == "@str_o_error" )!.ObjValue.Trim();
-
             respuesta.codigo = str_codigo.Trim().PadLeft( 3, '0' );
             respuesta.diccionario.Add( "str_o_error", str_error );
 
@@ -81,22 +78,17 @@ public class ComentariosAsesorTcDat : IComentarioAsesorDat
         {
             var ds = new DatosSolicitud();
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_id_sol", TipoDato = TipoDato.Integer, ObjValue = request.int_id_sol.ToString() } );
-            //ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@json_comentarios", TipoDato = TipoDato.Json } );
-            //ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
-            //ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.CharacterVarying } );
-
+            ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
+            ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.CharacterVarying } );
             ds.NombreSP = NameSps.getComentariosAsesorTc;
             ds.NombreBD = _settings.DB_meg_tarjetas_credito;
-
             var resultado = _objClienteDal.ExecuteReader( ds );//ExecuteNonQuery para sps - ExecuteReader para funciones
-
-            if (resultado.ListaTablas.Count > 0)
-            {
-                respuesta.cuerpo = Funciones.ObtenerDataBasePg( resultado );
-                respuesta.codigo = "000";
-                respuesta.diccionario.Add( "str_o_error", "" );
-            }
-
+            var lst_valores = resultado.ListaPSalidaValores.ToList();
+            var str_codigo = lst_valores.Find( x => x.StrNameParameter == "@int_o_error_cod" )!.ObjValue;
+            var str_error = lst_valores.Find( x => x.StrNameParameter == "@str_o_error" )!.ObjValue.Trim();
+            respuesta.cuerpo = Funciones.ObtenerDataBasePg( resultado );
+            respuesta.codigo = str_codigo.Trim().PadLeft( 3, '0' );
+            respuesta.diccionario.Add( "str_o_error", str_error );
         }
         catch (Exception ex)
         {

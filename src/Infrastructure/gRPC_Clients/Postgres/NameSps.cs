@@ -20,6 +20,6 @@
         public const string getGarConsSoc = "get_garantias_constituidas_tc";
         public const string getParametrosInformeTc= "get_parametros_informe_tc";
         public const string updComentariosAsesorTc = "upd_comentarios_asesor_tc";
-        public const string getComentariosAsesorTc = "get_comentarios_asesor";
+        public const string getComentariosAsesorTc = "get_comentariosf_tc";
     }
 }
