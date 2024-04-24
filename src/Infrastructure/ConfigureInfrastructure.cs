@@ -2,6 +2,7 @@
 using Application.Common.Interfaces;
 using Application.Common.Interfaces.Apis;
 using Application.Common.Interfaces.Dat;
+using Application.TarjetasCredito.ComentariosGestion;
 using Application.TarjetasCredito.InterfazDat;
 using Infraestructure.ExternalApis;
 using Infraestructure.InternalApis;
@@ -11,6 +12,7 @@ using Infrastructure.gRPC_Clients.Sybase;
 using Infrastructure.MemoryCache;
 using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
+using System.Dynamic;
 
 namespace Infrastructure;
 
@@ -63,7 +65,10 @@ public static class ConfigureInfrastructure
         services.AddSingleton<IGarantiasConstituidasDat,GarantiasConstitudasDat>();
 
         services.AddSingleton<GetInformacionAdicional>();
-        
+
+        services.AddSingleton<IComentariosGestionDat, GetComentariosGestion>();
+        services.AddSingleton<IParametrosInformeDat, ComentariosAsesorDat>();
+        services.AddSingleton<IComentarioAsesorDat, ComentariosAsesorTcDat>();
         return services;
     }
 }

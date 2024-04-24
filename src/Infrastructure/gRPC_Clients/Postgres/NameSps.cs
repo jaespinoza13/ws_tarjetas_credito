@@ -18,5 +18,8 @@
         public const string getActPasSoc = "get_act_pas_soc_tc";
         public const string getCredVigSoc = "get_cred_vig_cob_tc";
         public const string getGarConsSoc = "get_garantias_constituidas_tc";
+        public const string getParametrosInformeTc= "get_parametros_informe_tc";
+        public const string updComentariosAsesorTc = "upd_comentarios_asesor_tc";
+        public const string getComentariosAsesorTc = "get_comentariosf_tc";
     }
 }
