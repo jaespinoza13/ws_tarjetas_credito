@@ -77,6 +77,24 @@ internal class ParametersInMemory : IParametersInMemory
         var lst_parametros = _memoryCache.Get<List<Parametro>>( "Parametros_back" );
         return lst_parametros.Find( x => x.int_id_parametro == int_id_param )!; 
     }
+    public Parametro nuevoEstado(string str_valor_fin)
+    {
+        var lst_parametros = _memoryCache.Get<List<Parametro>>( "Parametros_back" );
+        var parametro = new Parametro();
+        foreach (var p in lst_parametros!)
+        {
+            if (p.str_nemonico.StartsWith( "EST_" ))
+            {
+                if (p.str_valor_fin == str_valor_fin)
+                {
+                    parametro = p;
+                    break;
+                }
+            }
+        }
+
+        return parametro;
+    }
     public string getMensajeProceso(string str_codigo, string str_mensaje = "")
     {
         var dcc_codigos = _memoryCache.Get<Dictionary<string, object>>( "CodigosError" );
