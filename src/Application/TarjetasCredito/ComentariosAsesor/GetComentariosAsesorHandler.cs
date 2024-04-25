@@ -52,7 +52,7 @@ public class GetComentariosAsesorHandler : IRequestHandler<ReqGetComentariosAses
             res_tran = await _iComentariosAsesorDat.GetComentarios( request );
             obj_cmnt_ase_res = Conversions.ConvertConjuntoDatosTableToListClass<ComentarioAsesorRes>( (ConjuntoDatos)res_tran.cuerpo, 0 );
             bool bool_ver_res = obj_cmnt_ase_res.All( obj_cmnt_ase_res => obj_cmnt_ase_res.json_comentarios == " " );
-            if (obj_cmnt_ase_res.Count > 0 & res_tran.codigo == "000")
+            if (obj_cmnt_ase_res.Count > 0 & res_tran.codigo == "000" & bool_ver_res == false)
             {
                 string jsonString = obj_cmnt_ase_res[0].json_comentarios;
                 List<ComentarioAsesor> comentarios = JsonConvert.DeserializeObject<List<ComentarioAsesor>>( jsonString )!;
