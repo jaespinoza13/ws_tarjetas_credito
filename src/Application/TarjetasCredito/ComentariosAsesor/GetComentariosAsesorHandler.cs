@@ -40,7 +40,7 @@ public class GetComentariosAsesorHandler : IRequestHandler<ReqGetComentariosAses
     public async Task<ResGetComentariosAsesor> Handle(ReqGetComentariosAsesor request, CancellationToken cancellationToken)
     {
         ResGetComentariosAsesor respuesta = new();
-        List<ComentarioAsesorRes> obj_cmnt_ase_res = new List<ComentarioAsesorRes>();
+        List<InformeAnalisisAsesorCredito> obj_lst_inf_anl = new List<InformeAnalisisAsesorCredito>();
         respuesta.LlenarResHeader( request );
         try
         {
@@ -50,11 +50,11 @@ public class GetComentariosAsesorHandler : IRequestHandler<ReqGetComentariosAses
             //Se obtiene los parametros del informe (POSTGRES)
             await _logs.SaveHeaderLogs( request, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
             res_tran = await _iComentariosAsesorDat.GetComentarios( request );
-            obj_cmnt_ase_res = Conversions.ConvertConjuntoDatosTableToListClass<ComentarioAsesorRes>( (ConjuntoDatos)res_tran.cuerpo, 0 );
-            bool bool_ver_res = obj_cmnt_ase_res.All( obj_cmnt_ase_res => obj_cmnt_ase_res.json_comentarios == " " );
-            if (obj_cmnt_ase_res.Count > 0 & res_tran.codigo == "000" & bool_ver_res == false)
+            obj_lst_inf_anl = Conversions.ConvertConjuntoDatosTableToListClass<InformeAnalisisAsesorCredito>( (ConjuntoDatos)res_tran.cuerpo, 0 );
+            bool bool_ver_res = obj_lst_inf_anl.All( obj_cmnt_ase_res => obj_cmnt_ase_res.json_inf_anl_ase_cre == " " );
+            if (obj_lst_inf_anl.Count > 0 & res_tran.codigo == "000" & bool_ver_res == false)
             {
-                string jsonString = obj_cmnt_ase_res[0].json_comentarios;
+                string jsonString = obj_lst_inf_anl[0].json_inf_anl_ase_cre;
                 List<ComentarioAsesor> comentarios = JsonConvert.DeserializeObject<List<ComentarioAsesor>>( jsonString )!;
                 respuesta.lst_comn_ase_cre = comentarios;
                 respuesta.str_res_codigo = res_tran.codigo;

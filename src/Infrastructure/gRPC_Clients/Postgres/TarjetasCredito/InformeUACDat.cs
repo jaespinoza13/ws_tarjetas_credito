@@ -1,7 +1,7 @@
 ﻿using AccesoDatosPostgresql.Neg;
 using Application.Common.Interfaces;
 using Application.Common.Models;
-using Application.TarjetasCredito.ComentariosAsesor;
+using Application.TarjetasCredito.InformeUAC;
 using Application.TarjetasCredito.InterfazDat;
 using Grpc.Net.Client;
 using Infrastructure.Common.Funciones;
@@ -16,13 +16,14 @@ using static AccesoDatosPostgresql.Neg.DALPostgreSql;
 
 namespace Infrastructure.gRPC_Clients.Postgres.TarjetasCredito;
 
-public class ComentariosAsesorTcDat : IComentarioAsesorDat
+public class InformeUACDat : IInformeUAC
 {
     private readonly ILogs _logService;
     private readonly DALPostgreSqlClient _objClienteDal;
     private readonly string str_clase;
     private readonly ApiSettings _settings;
-    public ComentariosAsesorTcDat(IOptionsMonitor<ApiSettings> options, ILogs logService, DALPostgreSqlClient objClienteDal)
+
+    public InformeUACDat(IOptionsMonitor<ApiSettings> options, ILogs logService, DALPostgreSqlClient objClienteDal)
     {
         _logService = logService;
         _settings = options.CurrentValue;
@@ -36,17 +37,17 @@ public class ComentariosAsesorTcDat : IComentarioAsesorDat
             EnableMultipleHttp2Connections = true
         };
         var canal = GrpcChannel.ForAddress( _settings.client_grpc_postgres!,
-            new GrpcChannelOptions { HttpHandler = handler } );
+                    new GrpcChannelOptions { HttpHandler = handler } );
         _objClienteDal = new DALPostgreSqlClient( canal );
     }
-    public async Task<RespuestaTransaccion> AddComentario(ReqAddComentariosAsesor request)
+    public async Task<RespuestaTransaccion> AddInformeUAC(ReqAddInformeUAC request)
     {
         RespuestaTransaccion respuesta = new RespuestaTransaccion();
         try
         {
             var ds = new DatosSolicitud();
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_id_solicitud", TipoDato = TipoDato.Integer, ObjValue = request.int_id_sol.ToString() } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_cmnt_ase_json", TipoDato = TipoDato.Json, ObjValue = request.str_cmnt_ase_json } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_cmnt_ase_json", TipoDato = TipoDato.Json, ObjValue = request.str_obj_anl_uac_json } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.CharacterVarying } );
             ds.NombreSP = NameSps.updComentariosAsesorTc;
@@ -71,8 +72,9 @@ public class ComentariosAsesorTcDat : IComentarioAsesorDat
         return respuesta;
     }
 
-    public async Task<RespuestaTransaccion> GetComentarios(ReqGetComentariosAsesor request)
+    public async Task<RespuestaTransaccion> GetInformeUAC(ReqGetInformeUAC request)
     {
+
         RespuestaTransaccion respuesta = new RespuestaTransaccion();
         try
         {
@@ -101,6 +103,4 @@ public class ComentariosAsesorTcDat : IComentarioAsesorDat
 
         return respuesta;
     }
-
-
 }

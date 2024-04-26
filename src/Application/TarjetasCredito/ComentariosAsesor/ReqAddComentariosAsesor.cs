@@ -15,7 +15,6 @@ public class ReqAddComentariosAsesor : ResComun, IRequest<ResAddComentariosAseso
 
     public List<ComentarioAsesor> lst_cmnt_ase_cre { get; set; } = new List<ComentarioAsesor>();
 
-    //public ComentarioAsesor obj_cmnt_asesor {  get; set; } = new ComentarioAsesor();
     public string str_cmnt_ase_json { get; set; } = string.Empty;
     
 }
