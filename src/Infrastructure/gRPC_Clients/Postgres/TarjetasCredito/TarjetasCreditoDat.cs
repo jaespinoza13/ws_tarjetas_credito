@@ -266,7 +266,7 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
 
     public async Task<RespuestaTransaccion> getFlujoSolicitud(ReqGetFlujoSolicitud reqGetFlujoSolicitud)
     {
-        var respuesta = new RespuestaTransaccion();
+        var respuesta = new RespuestaTransaccion(); 
 
         try
         {
