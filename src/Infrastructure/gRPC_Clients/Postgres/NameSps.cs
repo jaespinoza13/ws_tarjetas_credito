@@ -9,7 +9,6 @@
         public const string getFuncPermisos = "get_func_permisos";
         public const string addComentarioProceso = "add_comentario_proceso";
         public const string getFlujoSolicitud = "get_flujo_solicitud";
-        public const string getFlujoSolicitud_2 = "get_flujo_solicitud_2";
         public const string updSolicitudTC = "upd_solicitud_tc";
         public const string addProspeccionTC = "add_prospeccion_tc";
         public const string getCatalogoAgencias = "get_catalogo_agencias_tc";
@@ -22,5 +21,8 @@
         public const string getParametrosInformeTc= "get_parametros_informe_tc";
         public const string addInformeTc = "add_informe_tc";
         public const string getInformesTC = "get_informes_tc";
+        //Se agregan varibales para duplicar SP's
+        public const string getFlujoSolicitud_2 = "get_flujo_solicitud_2";
+        public const string addSolicitudTC_2 = "add_solicitud_tc_2";
     }
 }
