@@ -5,12 +5,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Domain.Entities.ComentariosAsesorCredito.ComentarioAsesor;
+using static Domain.Entities.ComentariosAsesorCredito.Informes;
 
 namespace Application.TarjetasCredito.ComentariosAsesor;
 
-public class ResGetComentariosAsesor : ResComun
+public class ResGetInforme : ResComun
 {
-    public List<ComentarioAsesor> lst_comn_ase_cre { get; set; } = new List<ComentarioAsesor>();
+    public List<Informes> lst_informe { get; set; } = new List<Informes>();
 
 }

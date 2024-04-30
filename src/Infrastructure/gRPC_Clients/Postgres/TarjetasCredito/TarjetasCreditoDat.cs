@@ -274,7 +274,7 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
 
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_id_solicitud", TipoDato = TipoDato.Integer, ObjValue = reqGetFlujoSolicitud.int_id_solicitud.ToString() } );
 
-            ds.NombreSP = NameSps.getFlujoSolicitud;
+            ds.NombreSP = NameSps.getFlujoSolicitud_2;
             ds.NombreBD = _settings.DB_meg_tarjetas_credito;
 
             var resultado = _objClienteDal.ExecuteReader( ds );//ExecuteNonQuery para sps - ExecuteReader para funciones

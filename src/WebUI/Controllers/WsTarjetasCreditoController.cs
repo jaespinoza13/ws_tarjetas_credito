@@ -119,15 +119,15 @@ public class WsTarjetasCreditoController : ControllerBase
         return Ok( result );
     }
 
-    [HttpPost( "ADD_COMENTARIOS_ASESOR" )]
-    public async Task<ActionResult<ResAddComentariosAsesor>> add_comentarios_asesor(ReqAddComentariosAsesor request)
+    [HttpPost( "ADD_INFORME_TC" )]
+    public async Task<ActionResult<ResAddInforme>> add_informe_tc(ReqAddInforme request)
     {
         var result = await _mediator.Send( request );
         return Ok( result );
     }
 
-    [HttpPost( "GET_COMENTARIOS_ASESOR" )]
-    public async Task<ActionResult<ResGetComentariosAsesor>> get_comentarios_asesor(ReqGetComentariosAsesor request)
+    [HttpPost( "GET_INFORME_TC" )]
+    public async Task<ActionResult<ResGetInforme>> get_informe_tc(ReqGetInforme request)
     {
         var result = await _mediator.Send( request );
         return Ok( result );

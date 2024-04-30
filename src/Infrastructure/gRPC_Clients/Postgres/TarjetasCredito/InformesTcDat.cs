@@ -16,13 +16,13 @@ using static AccesoDatosPostgresql.Neg.DALPostgreSql;
 
 namespace Infrastructure.gRPC_Clients.Postgres.TarjetasCredito;
 
-public class ComentariosAsesorTcDat : IComentarioAsesorDat
+public class InformesTcDat : IInformesTarjetasCreditoDat
 {
     private readonly ILogs _logService;
     private readonly DALPostgreSqlClient _objClienteDal;
     private readonly string str_clase;
     private readonly ApiSettings _settings;
-    public ComentariosAsesorTcDat(IOptionsMonitor<ApiSettings> options, ILogs logService, DALPostgreSqlClient objClienteDal)
+    public InformesTcDat(IOptionsMonitor<ApiSettings> options, ILogs logService, DALPostgreSqlClient objClienteDal)
     {
         _logService = logService;
         _settings = options.CurrentValue;
@@ -39,17 +39,18 @@ public class ComentariosAsesorTcDat : IComentarioAsesorDat
             new GrpcChannelOptions { HttpHandler = handler } );
         _objClienteDal = new DALPostgreSqlClient( canal );
     }
-    public async Task<RespuestaTransaccion> AddComentario(ReqAddComentariosAsesor request)
+    public async Task<RespuestaTransaccion> AddInforme(ReqAddInforme request)
     {
         RespuestaTransaccion respuesta = new RespuestaTransaccion();
         try
         {
             var ds = new DatosSolicitud();
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_id_solicitud", TipoDato = TipoDato.Integer, ObjValue = request.int_id_sol.ToString() } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_cmnt_ase_json", TipoDato = TipoDato.Json, ObjValue = request.str_cmnt_ase_json } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_nem_par_inf", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_nem_par_inf } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_cmnt_ase_json", TipoDato = TipoDato.Json, ObjValue = request.str_informes_json } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.CharacterVarying } );
-            ds.NombreSP = NameSps.updComentariosAsesorTc;
+            ds.NombreSP = NameSps.addInformeTc;
             ds.NombreBD = _settings.DB_meg_tarjetas_credito;
             var resultado = _objClienteDal.ExecuteNonQuery( ds );//ExecuteNonQuery para sps - ExecuteReader para funciones
             var lst_valores = resultado.ListaPSalidaValores.ToList();
@@ -71,16 +72,17 @@ public class ComentariosAsesorTcDat : IComentarioAsesorDat
         return respuesta;
     }
 
-    public async Task<RespuestaTransaccion> GetComentarios(ReqGetComentariosAsesor request)
+    public async Task<RespuestaTransaccion> GetInforme(ReqGetInforme request)
     {
         RespuestaTransaccion respuesta = new RespuestaTransaccion();
         try
         {
             var ds = new DatosSolicitud();
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_id_sol", TipoDato = TipoDato.Integer, ObjValue = request.int_id_sol.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_nem_par_inf", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_nem_par_inf } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.CharacterVarying } );
-            ds.NombreSP = NameSps.getInfAnalisisAsesorCreditoTc;
+            ds.NombreSP = NameSps.getInformesTC;
             ds.NombreBD = _settings.DB_meg_tarjetas_credito;
             var resultado = _objClienteDal.ExecuteReader( ds );//ExecuteNonQuery para sps - ExecuteReader para funciones
             var lst_valores = resultado.ListaPSalidaValores.ToList();

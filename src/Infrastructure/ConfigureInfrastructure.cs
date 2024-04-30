@@ -68,8 +68,7 @@ public static class ConfigureInfrastructure
 
         services.AddSingleton<IComentariosGestionDat, GetComentariosGestion>();
         services.AddSingleton<IParametrosInformeDat, ComentariosAsesorDat>();
-        services.AddSingleton<IComentarioAsesorDat, ComentariosAsesorTcDat>();
-        services.AddSingleton<IInformeUAC, InformeUACDat>();
+        services.AddSingleton<IInformesTarjetasCreditoDat, InformesTcDat>();
         return services;
     }
 }
