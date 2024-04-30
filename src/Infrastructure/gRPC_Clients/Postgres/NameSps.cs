@@ -21,5 +21,6 @@
         public const string getParametrosInformeTc= "get_parametros_informe_tc";
         public const string updComentariosAsesorTc = "upd_comentarios_asesor_tc";
         public const string getComentariosAsesorTc = "get_comentariosf_tc";
+        public const string getAnalistasCredito = "get_analistas_credito";
     }
 }

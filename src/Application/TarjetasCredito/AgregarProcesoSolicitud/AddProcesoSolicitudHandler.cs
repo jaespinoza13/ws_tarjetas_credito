@@ -2,12 +2,15 @@
 using Application.Common.Interfaces.Dat;
 using Application.Common.Models;
 using Application.Common.Utilidades;
+using Application.TarjetasCredito.AnalistasCredito;
 using Application.TarjetasCredito.InterfazDat;
+using Application.TarjetasCredito.ObtenerSolicitudes;
 using Domain.Funcionalidades;
 using iText.Kernel.Pdf.Canvas.Wmf;
 using MediatR;
 using Microsoft.Extensions.Options;
 using System.Reflection;
+using System.Text.Json;
 
 namespace Application.TarjetasCredito.AgregarComentario
 {
@@ -17,10 +20,11 @@ namespace Application.TarjetasCredito.AgregarComentario
         private readonly IParametersInMemory _parametersInMemory;
         private readonly IFuncionalidadesMemory _funcionalidadesMemory;
         private readonly ITarjetasCreditoDat _tarjetasCreditoDat;
+        private readonly IAnalistasCreditoDat _analistasCreditoDat;
         private readonly ILogs _logs;
         private readonly string str_clase;
 
-        public AddProcesoSolicitudHandler(IOptionsMonitor<ApiSettings> options, ITarjetasCreditoDat tarjetasCreditoDat, ILogs logs, IParametersInMemory parametersInMemory, IFuncionalidadesMemory funcionalidadesMemory)
+        public AddProcesoSolicitudHandler(IOptionsMonitor<ApiSettings> options, ITarjetasCreditoDat tarjetasCreditoDat, ILogs logs, IParametersInMemory parametersInMemory, IFuncionalidadesMemory funcionalidadesMemory, IAnalistasCreditoDat analistasCreditoDat)
         {
             _tarjetasCreditoDat = tarjetasCreditoDat;
             _logs = logs;
@@ -28,6 +32,7 @@ namespace Application.TarjetasCredito.AgregarComentario
             _parametersInMemory = parametersInMemory;
             _settings = options.CurrentValue;
             _funcionalidadesMemory = funcionalidadesMemory;
+            _analistasCreditoDat = analistasCreditoDat;
         }
 
         public async Task<ResAddProcesoSolicitud> Handle(ReqAddProcesoSolicitud reqAgregarComentario, CancellationToken cancellationToken)
@@ -59,9 +64,22 @@ namespace Application.TarjetasCredito.AgregarComentario
                             {
                                 res_tran = await _tarjetasCreditoDat.addProcesoSolicitud( reqAgregarComentario );
 
-                                if(_parametersInMemory.FindParametroId(reqAgregarComentario.int_estado).str_nemonico == _settings.estado_analisis_gestor)
+                                if(res_tran.codigo == "000" && _parametersInMemory.FindParametroId(reqAgregarComentario.int_estado).str_nemonico == _settings.estado_analisis_gestor)
                                 {
-
+                                    ReqGetAnalistasCredito getAnalistasCredito = new ReqGetAnalistasCredito();
+                                    getAnalistasCredito.str_id_oficina = reqAgregarComentario.str_id_oficina;
+                                    res_tran = await _analistasCreditoDat.getAnalistasCredito( getAnalistasCredito );
+                                    var lst_analistas = JsonSerializer.Deserialize<ResGetAnalistasCredito.Analistas>( JsonSerializer.Serialize( res_tran.cuerpo ) )!;
+                                    /*foreach (var lista in lst_analistas)
+                                    {
+                                        funcionalidad = _funcionalidadesMemory.FindFuncionalidadNombre( _settings.permisosVisualizacion[i] );
+                                        if (funcionalidad != null)
+                                        {
+                                            if (_funcionalidadesMemory.FindPermisoPerfil( Convert.ToInt32( reqGetSolicitudes.str_id_perfil ), funcionalidad.fun_id ))
+                                                reqGetSolicitudes.str_estado = reqGetSolicitudes.str_estado + _parametersInMemory.FindParametroNemonico( _settings.estadosSolTC[i] ).int_id_parametro.ToString() + "|";
+                                        }
+                                    }
+                                    reqGetSolicitudes.str_estado = reqGetSolicitudes.str_estado.TrimEnd( '|' );*/
                                 }
 
                                 res_tran.codigo = "000";
