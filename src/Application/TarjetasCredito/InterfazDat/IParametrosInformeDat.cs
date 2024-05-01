@@ -10,8 +10,6 @@ namespace Application.TarjetasCredito.InterfazDat;
 
 public interface IParametrosInformeDat
 {
-    Task<RespuestaTransaccion> get_parametros_informe(ReqGetComentariosAsesor request);
-    //Task<RespuestaTransaccion> GetComentarios(ReqGetComentariosAsesor request);
-    //Task<RespuestaTransaccion> get_parametros_informe_sol(ReqGetComentariosAsesor request);
+    Task<RespuestaTransaccion> get_parametros_informe(ReqGetInforme request);
 
 }

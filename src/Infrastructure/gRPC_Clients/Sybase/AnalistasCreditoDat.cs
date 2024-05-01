@@ -7,7 +7,8 @@ using Infrastructure.gRPC_Clients.Postgres;
 using Microsoft.Extensions.Options;
 using static AccesoDatosGrpcAse.Neg.DAL;
 using System.Reflection;
-using Application.TarjetasCredito.AnalistasCredito;
+using Application.TarjetasCredito.AnalistasCredito.Get;
+using Application.TarjetasCredito.AnalistasCredito.AddSolicitud;
 
 namespace Infrastructure.gRPC_Clients.Sybase;
 
@@ -31,11 +32,11 @@ public class AnalistasCreditoDat : IAnalistasCreditoDat
         try
         {
             DatosSolicitud ds = new();
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_id_oficina", TipoDato = TipoDato.VarChar, ObjValue = reqGetAnalistasCredito.str_id_oficina } );
-            ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.VarChar } );
-            ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
-            ds.NombreSP = NameSps.getInfCliente;
-            ds.NombreBD = _settings.DB_meg_atms;
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_id_oficina", TipoDato = TipoDato.Integer, ObjValue = reqGetAnalistasCredito.str_id_oficina } );
+            ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_err", TipoDato = TipoDato.VarChar } );
+            ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_err_cod", TipoDato = TipoDato.Integer } );
+            ds.NombreSP = NameSps.getAnalistasCredito;
+            ds.NombreBD = _settings.DB_meg_buro;
 
             var resultado = await _objClienteDal.ExecuteDataSetAsync( ds );
 
@@ -44,8 +45,8 @@ public class AnalistasCreditoDat : IAnalistasCreditoDat
 
             foreach (var item in resultado.ListaPSalidaValores) lst_valores.Add( item );
 
-            var str_codigo = lst_valores.Find( x => x.StrNameParameter == "@int_o_error_cod" )!.ObjValue;
-            var str_error = lst_valores.Find( x => x.StrNameParameter == "@str_o_error" )!.ObjValue.Trim();
+            var str_codigo = lst_valores.Find( x => x.StrNameParameter == "@int_o_err_cod" )!.ObjValue;
+            var str_error = lst_valores.Find( x => x.StrNameParameter == "@str_o_err" )!.ObjValue.Trim();
             respuesta.codigo = str_codigo.ToString().Trim().PadLeft( 3, '0' );
             respuesta.cuerpo = Funciones.ObtenerDatos( resultado );
             respuesta.diccionario.Add( "str_o_error", str_error.ToString() );

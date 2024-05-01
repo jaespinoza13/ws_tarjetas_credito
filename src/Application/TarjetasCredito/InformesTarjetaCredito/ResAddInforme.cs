@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Application.TarjetasCredito.ComentariosAsesor;
 
-public class ResAddComentariosAsesor : ResComun
+public class ResAddInforme : ResComun
 {
 
 }

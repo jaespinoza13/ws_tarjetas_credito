@@ -8,9 +8,9 @@ namespace wsMegomovil.Filters;
 public class RequestFilter : IActionFilter
 {
     private readonly IParametersInMemory _parameters;
-    private readonly IFuncionalidadesMemory _funcionalidades;
+    private readonly IFuncionalidadesInMemory _funcionalidades;
 
-    public RequestFilter(IParametersInMemory parameters, IOptionsMonitor<ApiSettings> options, IFuncionalidadesMemory funcionalidades)
+    public RequestFilter(IParametersInMemory parameters, IOptionsMonitor<ApiSettings> options, IFuncionalidadesInMemory funcionalidades)
     {
         this._parameters = parameters;
         this._funcionalidades = funcionalidades;

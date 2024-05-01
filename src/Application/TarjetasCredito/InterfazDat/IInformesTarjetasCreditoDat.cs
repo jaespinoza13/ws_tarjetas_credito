@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Application.TarjetasCredito.InterfazDat;
 
-public interface IComentarioAsesorDat
+public interface IInformesTarjetasCreditoDat
 {
-    Task<RespuestaTransaccion> AddComentario(ReqAddComentariosAsesor request);
-    Task<RespuestaTransaccion> GetComentarios(ReqGetComentariosAsesor request);
+    Task<RespuestaTransaccion> AddInforme(ReqAddInforme request);
+    Task<RespuestaTransaccion> GetInforme(ReqGetInforme request);
 
 }

@@ -50,11 +50,21 @@ namespace Application.TarjetasCredito.ComentariosGestion
                                               select new Comentarios
                                               { int_id_parametro = p.int_id_parametro, str_comentario = p.str_valor_ini }).ToList();
 
-
-                var str_codigo = '0';
-                var str_error = "";
-                res_tran.str_res_codigo = str_codigo.ToString().Trim().PadLeft( 3, '0' );
-                res_tran.diccionario.Add( "str_error", str_error );
+                if (res_tran.lst_cmnt_sol_acep.Count > 0 & res_tran.lst_cmnt_sol_rech.Count > 0)
+                {
+                    var str_codigo = '0';
+                    var str_error = "";
+                    res_tran.str_res_codigo = str_codigo.ToString().Trim().PadLeft( 3, '0' );
+                    res_tran.diccionario.Add( "str_error", str_error );
+                }
+                else
+                {
+                    var str_codigo = '1';
+                    var str_error = "No se encontraron los parametros para los comentarios de la gestión de la solicitud ...";
+                    res_tran.str_res_codigo = str_codigo.ToString().Trim().PadLeft( 3, '0' );
+                    res_tran.diccionario.Add( "str_error", str_error );
+                }
+                
             }
             catch (Exception e)
             {

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities.ComentariosAsesorCredito;
 
-public class ComentarioAsesor
+public class Informes
 {
     public int int_id_parametro {  get; set; } 
     public string str_tipo { get; set; } = string.Empty;
@@ -15,8 +15,8 @@ public class ComentarioAsesor
     public string str_detalle { get; set; } = string.Empty;
 
 
-    public class ComentarioAsesorRes
+    public class ResInformes
     {
-        public string json_comentarios { get; set; } = String.Empty;
+        public string json_res_inf { get; set; } = String.Empty;
     }
 }

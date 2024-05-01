@@ -1,5 +1,5 @@
 ﻿using Application.Common.Models;
-using Application.TarjetasCredito.AnalistasCredito.Get;
+using Application.TarjetasCredito.AnalistasCredito.AddSolicitud;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Application.TarjetasCredito.InterfazDat
 {
-    public interface IAnalistasCreditoDat
+    public interface IAnalistaSolicitudDat
     {
-        Task<RespuestaTransaccion> getAnalistasCredito(ReqGetAnalistasCredito reqGetAnalistasCredito);
+        Task<RespuestaTransaccion> addAnalistaSolicitud(ReqAddAnalistaSolicitud addAnalistaSolicitud);
     }
 }

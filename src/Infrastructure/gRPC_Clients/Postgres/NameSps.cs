@@ -9,6 +9,7 @@
         public const string getFuncPermisos = "get_func_permisos";
         public const string addComentarioProceso = "add_comentario_proceso";
         public const string getFlujoSolicitud = "get_flujo_solicitud";
+        public const string getFlujoSolicitud_2 = "get_flujo_solicitud_2";
         public const string updSolicitudTC = "upd_solicitud_tc";
         public const string addProspeccionTC = "add_prospeccion_tc";
         public const string getCatalogoAgencias = "get_catalogo_agencias_tc";
@@ -21,6 +22,9 @@
         public const string getParametrosInformeTc= "get_parametros_informe_tc";
         public const string updComentariosAsesorTc = "upd_comentarios_asesor_tc";
         public const string getComentariosAsesorTc = "get_comentariosf_tc";
-        public const string getAnalistasCredito = "get_analistas_credito";
+        public const string getAnalistasCredito = "get_analistas_tc";
+        public const string addAnalistaSolicitud = "add_analista_solicitud";
+        public const string addInformeTc = "add_informe_tc";
+        public const string getInformesTC = "get_informes_tc";
     }
 }

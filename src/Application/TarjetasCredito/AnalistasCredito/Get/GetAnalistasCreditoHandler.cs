@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Application.TarjetasCredito.ObtenerSolicitudes.ResGetSolicitudes;
 
-namespace Application.TarjetasCredito.AnalistasCredito
+namespace Application.TarjetasCredito.AnalistasCredito.Get
 {
     public class GetAnalistasCreditoHandler
     {
@@ -24,9 +24,9 @@ namespace Application.TarjetasCredito.AnalistasCredito
 
         public GetAnalistasCreditoHandler(IOptionsMonitor<ApiSettings> options, IAnalistasCreditoDat analistasCreditoDat, ILogs logs)
         {
-            this._settings = options.CurrentValue;
-            this._analistasCreditoDat = analistasCreditoDat;
-            this._logs = logs;
+            _settings = options.CurrentValue;
+            _analistasCreditoDat = analistasCreditoDat;
+            _logs = logs;
             str_clase = GetType().Name;
         }
 

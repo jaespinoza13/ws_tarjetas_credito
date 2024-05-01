@@ -30,7 +30,7 @@ public class ComentariosAsesorDat : IParametrosInformeDat
         this.str_clase = GetType().FullName!;
         _objClienteDal = objClienteDal;
     }
-    public async Task<RespuestaTransaccion> get_parametros_informe(ReqGetComentariosAsesor request)
+    public async Task<RespuestaTransaccion> get_parametros_informe(ReqGetInforme request)
     {
         RespuestaTransaccion respuesta = new RespuestaTransaccion();
         try

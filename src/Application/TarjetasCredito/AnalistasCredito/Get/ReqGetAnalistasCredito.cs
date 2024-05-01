@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.TarjetasCredito.AnalistasCredito
+namespace Application.TarjetasCredito.AnalistasCredito.Get
 {
     public class ReqGetAnalistasCredito : Header, IRequest<ResGetAnalistasCredito>
     {

@@ -31,7 +31,7 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
     private readonly ILogs _logs;
     private readonly string str_clase;
     private readonly ApiSettings _settings;
-    //private readonly IFuncionalidadesMemory _funcionalidades;
+    //private readonly IFuncionalidadesInMemory _funcionalidades;
     private readonly GetInformacionAdicional _getInformacionAdicional;
     private readonly IMemoryCache _memoryCache;
     public AddSolicitudTcHandler(IOptionsMonitor<ApiSettings> options, ITarjetasCreditoDat tarjetasCreditoDat, ILogs logs, IParametersInMemory parametersInMemory, IWsGestorDocumental wsGestorDocumental, GetInformacionAdicional getInformacionAdicional, IMemoryCache memoryCache)

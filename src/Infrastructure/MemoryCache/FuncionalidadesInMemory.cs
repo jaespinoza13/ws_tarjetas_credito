@@ -2,18 +2,12 @@
 using Application.Common.Models;
 using Application.Common.Utilidades;
 using Domain.Funcionalidades;
-using Domain.Parameters;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.MemoryCache
 {
-    internal class FuncionalidadesInMemory : IFuncionalidadesMemory
+    public class FuncionalidadesInMemory : IFuncionalidadesInMemory
     {
         public readonly ApiSettings _settings;
         public readonly IFuncionalidadesDat _funcionalidadesDat;

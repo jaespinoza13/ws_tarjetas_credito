@@ -4,9 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using wsGestorDocumentalSoap;
 
-namespace Application.TarjetasCredito.AnalistasCredito
+namespace Application.TarjetasCredito.AnalistasCredito.Get
 {
     public class ResGetAnalistasCredito : ResComun
     {
@@ -14,7 +13,7 @@ namespace Application.TarjetasCredito.AnalistasCredito
 
         public class Analistas
         {
-            public int int_id_usuario {  get; set; }
+            public int int_id_usuario { get; set; }
             public string str_login { get; set; } = string.Empty;
             public int int_oficina { get; set; }
         }
