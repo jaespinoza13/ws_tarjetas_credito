@@ -11,6 +11,7 @@ namespace Application.TarjetasCredito.AnalistasCredito.AddSolicitud
     public class ReqAddAnalistaSolicitud : Header, IRequest<ResAddAnalistaSolicitud>
     {
         public string str_id_analista {  get; set; } = string.Empty;
+        public string str_analista {  get; set; } = string.Empty;
         public int int_id_solicitud { get; set; }
     }
 }
