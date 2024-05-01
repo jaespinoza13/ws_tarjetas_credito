@@ -7,6 +7,7 @@ using Application.TarjetasCredito.InterfazDat;
 using Infraestructure.ExternalApis;
 using Infraestructure.InternalApis;
 using Infrastructure.Common.Interfaces;
+using Infrastructure.gRPC_Clients.Postgres.OrdenSolicitudesTarjetas;
 using Infrastructure.gRPC_Clients.Postgres.TarjetasCredito;
 using Infrastructure.gRPC_Clients.Sybase;
 using Infrastructure.MemoryCache;
@@ -50,6 +51,8 @@ public static class ConfigureInfrastructure
 
         //Catalogo de Agencias
         services.AddSingleton<ICatalogoAgenciasDat, AgenciasDat>();
+
+        services.AddSingleton<IOrdenDat, OrdenSolicitudesTarjetasDat>();
 
         //GestorDocumental
         services.AddSingleton<IWsGestorDocumental, wsGestorDocumental>();

@@ -19,6 +19,7 @@ using wsMegomovil.Filters;
 using Application.TarjetasCredito.AgregarProspectoTC;
 using Application.TarjetasCredito.ComentariosGestion;
 using Application.TarjetasCredito.ComentariosAsesor;
+using Application.TarjetasCredito.OrdenReporte;
 namespace WebUI.Controllers;
 
 [Route( "api/wsTarjetasCredito" )]
@@ -128,6 +129,13 @@ public class WsTarjetasCreditoController : ControllerBase
 
     [HttpPost( "GET_INFORME_TC" )]
     public async Task<ActionResult<ResGetInforme>> get_informe_tc(ReqGetInforme request)
+    {
+        var result = await _mediator.Send( request );
+        return Ok( result );
+    }
+
+    [HttpPost( "GET_REPORTE_ORDEN" )]
+    public async Task<ActionResult<ResGetReporteOrden>> get_reporte_orden(ReqGetReporteOrden request)
     {
         var result = await _mediator.Send( request );
         return Ok( result );
