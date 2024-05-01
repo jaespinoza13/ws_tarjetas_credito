@@ -68,7 +68,11 @@ public class ReqAddSolicitudTc : Header, IRequest<ResAddSolicitudTc>
     public string str_id_doc_aut_cons_buro { get; set; } = string.Empty;
     public long int_numero_cuenta { get; set; }
     public int int_estado_entregado { get; set; }
-    
+
+    //Se agrega variable de la decision  del credito 
+
+    //public string str_decision_sol { get; set; } = string.Empty;
+
     //Se agrega campos json 
     public string str_act_soc_json {  get; set; } = string.Empty;
     public string str_pas_soc_json { get; set; } = string.Empty;

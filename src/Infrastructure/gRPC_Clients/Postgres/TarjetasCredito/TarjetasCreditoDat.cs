@@ -105,6 +105,7 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
             //ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_id_doc_aut_cons_buro", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_id_doc_adicional } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_id_doc_tratamiento_datos_per", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_id_doc_tratamiento_datos_per } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_id_doc_adicional", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_id_doc_adicional } );
+            //ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_decision_sol", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_decision_sol } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@json_act_soc", TipoDato = TipoDato.Json, ObjValue = request.str_act_soc_json } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@json_pas_soc", TipoDato = TipoDato.Json, ObjValue = request.str_pas_soc_json } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@json_dpfs_soc", TipoDato = TipoDato.Json, ObjValue = request.str_dpfs_json} );
@@ -266,7 +267,7 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
 
     public async Task<RespuestaTransaccion> getFlujoSolicitud(ReqGetFlujoSolicitud reqGetFlujoSolicitud)
     {
-        var respuesta = new RespuestaTransaccion();
+        var respuesta = new RespuestaTransaccion(); 
 
         try
         {
