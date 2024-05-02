@@ -14,5 +14,8 @@ namespace Application.TarjetasCredito.AgregarComentario
         public string str_comentario { get; set; } = string.Empty;
         [Required]
         public int int_estado { get; set; }
+
+        [Required]
+        public string str_decision_sol { get; set; } = string.Empty;
     }
 }

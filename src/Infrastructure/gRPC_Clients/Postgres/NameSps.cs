@@ -21,7 +21,11 @@
         public const string getParametrosInformeTc= "get_parametros_informe_tc";
         public const string addInformeTc = "add_informe_tc";
         public const string getInformesTC = "get_informes_tc";
+        public const string getResolicionesTC = "get_resoluciones_solicitud";
+        public const string addResolicionesTC = "add_resolucion_solicitud";
+        public const string updResolicionesTC = "update_resolucion_solicitud";
         //Se agregan varibales para duplicar SP's
+        public const string addComentarioProceso_2 = "add_comentario_proceso_2";
         public const string getFlujoSolicitud_2 = "get_flujo_solicitud_2";
         public const string addSolicitudTC_2 = "add_solicitud_tc_2";
     }

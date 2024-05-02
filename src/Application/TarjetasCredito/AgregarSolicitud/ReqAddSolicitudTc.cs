@@ -71,7 +71,7 @@ public class ReqAddSolicitudTc : Header, IRequest<ResAddSolicitudTc>
 
     //Se agrega variable de la decision  del credito 
 
-    //public string str_decision_sol { get; set; } = string.Empty;
+    public string str_decision_sol { get; set; } = string.Empty;
 
     //Se agrega campos json 
     public string str_act_soc_json {  get; set; } = string.Empty;

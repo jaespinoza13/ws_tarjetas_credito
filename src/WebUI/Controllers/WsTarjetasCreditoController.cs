@@ -19,6 +19,7 @@ using wsMegomovil.Filters;
 using Application.TarjetasCredito.AgregarProspectoTC;
 using Application.TarjetasCredito.ComentariosGestion;
 using Application.TarjetasCredito.ComentariosAsesor;
+using Application.TarjetasCredito.Resoluciones;
 namespace WebUI.Controllers;
 
 [Route( "api/wsTarjetasCredito" )]
@@ -133,4 +134,23 @@ public class WsTarjetasCreditoController : ControllerBase
         return Ok( result );
     }
 
+    [HttpPost( "GET_RESOLUCION" )]
+    public async Task<ActionResult<ResGetResoluciones>> get_resolucion_tc(ReqGetResoluciones request)
+    {
+        var result = await _mediator.Send( request );
+        return Ok( result );
+    }
+
+    [HttpPost( "ADD_RESOLUCION" )]
+    public async Task<ActionResult<ResAddResoluciones>> add_resolucion_tc(ReqAddResoluciones request)
+    {
+        var result = await _mediator.Send( request );
+        return Ok( result );
+    }
+    [HttpPost( "UPD_RESOLUCION" )]
+    public async Task<ActionResult<ResUpdResolucion>> upd_resolucion_tc(ReqUpdResoluciones request)
+    {
+        var result = await _mediator.Send( request );
+        return Ok( result );
+    }
 }
