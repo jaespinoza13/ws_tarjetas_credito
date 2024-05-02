@@ -404,7 +404,7 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
             var resultado = _objClienteDal.ExecuteNonQuery( ds );//ExecuteNonQuery para sps - ExecuteReader para funciones
             var lst_valores = resultado.ListaPSalidaValores.ToList();
             var str_codigo = lst_valores.Find( x => x.StrNameParameter == "@int_o_error_cod" )!.ObjValue;
-            var str_error = lst_valores.Find( x => x.StrNameParameter == "@str_o_error" )!.ObjValue.Trim();
+            var str_error = lst_valores.Find( x => x.StrNameParameter == "@str_o_error" )!.ObjValue.Trim(); 
 
             respuesta.codigo = str_codigo.Trim().PadLeft( 3, '0' );
             respuesta.diccionario.Add( "str_o_error", str_error );
