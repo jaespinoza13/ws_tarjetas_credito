@@ -2,7 +2,7 @@
 using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.TarjetasCredito.InterfazDat;
-using Infrastructure.gRPC_Clients.Postgres.TarjetasCredito;
+//using Infrastructure.gRPC_Clients.Postgres.TarjetasCredito;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 using System;
