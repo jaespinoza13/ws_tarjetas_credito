@@ -53,9 +53,10 @@ namespace Application.TarjetasCredito.AnalistasCredito.AddAnalistaSolicitud
                         for (int j = 0; j < lst_analistas.Count; j++)
                         {
                             reqAddAnalistaSolicitud.str_id_analista = reqAddAnalistaSolicitud.str_id_analista + lst_analistas[j].int_id_usuario.ToString() + "|";
-                            reqAddAnalistaSolicitud.str_analista = reqAddAnalistaSolicitud.str_id_analista + lst_analistas[j].str_login + "|";
+                            reqAddAnalistaSolicitud.str_analista = reqAddAnalistaSolicitud.str_analista + lst_analistas[j].str_login + "|";
                         }
                         reqAddAnalistaSolicitud.str_id_analista = reqAddAnalistaSolicitud.str_id_analista.TrimEnd( '|' );
+                        reqAddAnalistaSolicitud.str_analista = reqAddAnalistaSolicitud.str_analista.TrimEnd( '|' );
                     }
 
                     res_tran = await _analistaSolicitudDat.addAnalistaSolicitud( reqAddAnalistaSolicitud );
