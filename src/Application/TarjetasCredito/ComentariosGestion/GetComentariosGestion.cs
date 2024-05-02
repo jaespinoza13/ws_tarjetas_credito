@@ -1,19 +1,11 @@
-﻿using Application.Common.Functions;
-using Application.Common.Interfaces;
+﻿using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.TarjetasCredito.InterfazDat;
 using Domain.Entities.ComentariosGestion;
 using Domain.Parameters;
-using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Reflection.Metadata.BlobBuilder;
 
 namespace Application.TarjetasCredito.ComentariosGestion
 {
@@ -64,7 +56,7 @@ namespace Application.TarjetasCredito.ComentariosGestion
                     res_tran.str_res_codigo = str_codigo.ToString().Trim().PadLeft( 3, '0' );
                     res_tran.diccionario.Add( "str_error", str_error );
                 }
-                
+
             }
             catch (Exception e)
             {

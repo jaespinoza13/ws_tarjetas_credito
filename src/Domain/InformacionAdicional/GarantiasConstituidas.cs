@@ -1,14 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain.InformacionAdicional;
+﻿namespace Domain.InformacionAdicional;
 
 public class GarantiasConstituidas
 {
-    public string str_detalle_garantia {  get; set; } = String.Empty;
+    public string str_detalle_garantia { get; set; } = String.Empty;
     public Decimal dcm_patrimonio { get; set; }
     public Decimal dcm_avaluo { get; set; }
     public Decimal dcm_ahorro_neto { get; set; }

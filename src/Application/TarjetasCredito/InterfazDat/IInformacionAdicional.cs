@@ -1,14 +1,4 @@
-﻿
-using Application.Common.Interfaces.Dat;
-using Application.Common.ISO20022.Models;
-using Application.Common.Models;
-using Application.TarjetasCredito.InformacionAdicional;
-using Domain.Parameters;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Application.TarjetasCredito.InformacionAdicional;
 
 namespace Infrastructure.MemoryCache;
 

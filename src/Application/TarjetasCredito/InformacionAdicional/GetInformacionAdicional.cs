@@ -1,21 +1,9 @@
 ﻿using Application.Common.Converting;
-using Application.Common.Interfaces.Dat;
-using Application.Common.ISO20022.Models;
 using Application.Common.Models;
-using Application.Common.Utilidades;
 using Application.TarjetasCredito.InformacionAdicional;
 using Application.TarjetasCredito.InterfazDat;
-using Domain.Entities.SituacionFinanciera;
 using Domain.InformacionAdicional;
-using Domain.Parameters;
-using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.MemoryCache;
 
@@ -36,8 +24,8 @@ public class GetInformacionAdicional : IInformacionAdicional
     }
     public async Task<ResActivosPasivos> LoadActivosPasivos(string str_num_ente)
     {
-        RespuestaTransaccion res_tran = new( );
-        ResActivosPasivos res_act_pas_soc = new( );
+        RespuestaTransaccion res_tran = new();
+        ResActivosPasivos res_act_pas_soc = new();
         try
         {
             var lista_activos_pasivos = new List<ActivosPasivos>();
@@ -85,7 +73,7 @@ public class GetInformacionAdicional : IInformacionAdicional
             res_tran = await _garantiasConstitudasDat.get_gar_cns_soc( str_num_ente );
 
             List<GarantiasConstituidas> lst_gar_cns_socio = Conversions.ConvertConjuntoDatosTableToListClass<GarantiasConstituidas>( (ConjuntoDatos)res_tran.cuerpo, 0 )!;
-            res_agr_cns_soc.lst_gar_cns_soc= lst_gar_cns_socio;
+            res_agr_cns_soc.lst_gar_cns_soc = lst_gar_cns_socio;
 
         }
         catch (Exception ex)

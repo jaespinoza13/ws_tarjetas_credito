@@ -1,16 +1,15 @@
 ﻿
-using Application.Common.Interfaces.Dat;
 using Application.Common.Interfaces;
+using Application.Common.Interfaces.Dat;
 using Application.Common.Models;
 using Application.TarjetasCredito.InterfazDat;
 using MediatR;
 using Microsoft.Extensions.Options;
-using Application.TarjetasCredito.AnularSolicitud;
 using System.Reflection;
 
 namespace Application.TarjetasCredito.AgregarProspectoTC
 {
-    public class AddProspectoTcHandler : IRequestHandler<ReqAddProspectoTc,ResAddProspectoTc>
+    public class AddProspectoTcHandler : IRequestHandler<ReqAddProspectoTc, ResAddProspectoTc>
     {
         private readonly IParametersInMemory _parametersInMemory;
         private readonly ITarjetasCreditoDat _tarjetasCreditoDat;
@@ -39,7 +38,7 @@ namespace Application.TarjetasCredito.AgregarProspectoTC
                 await _logs.SaveHeaderLogs( reqAddProspectoTc, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
                 res_tran = await _tarjetasCreditoDat.addProspectoTc( reqAddProspectoTc );
                 respuesta.str_res_codigo = res_tran.codigo;
-                respuesta.str_res_estado_transaccion = res_tran.codigo =="000" ? "OK" : "ERR";
+                respuesta.str_res_estado_transaccion = res_tran.codigo == "000" ? "OK" : "ERR";
 
             }
             catch (Exception ex)
@@ -52,4 +51,4 @@ namespace Application.TarjetasCredito.AgregarProspectoTC
             return respuesta;
         }
     }
-}   
+}

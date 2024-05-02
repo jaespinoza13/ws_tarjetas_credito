@@ -1,19 +1,18 @@
-﻿using Application.Common.Interfaces;
+﻿using AccesoDatosGrpcAse.Neg;
+using Application.Common.Interfaces;
 using Application.Common.Models;
+using Application.TarjetasCredito.AnalistasCredito.GetAnalistas;
 using Application.TarjetasCredito.InterfazDat;
 using Infrastructure.Common.Funciones;
-using AccesoDatosGrpcAse.Neg;
 using Infrastructure.gRPC_Clients.Postgres;
 using Microsoft.Extensions.Options;
-using static AccesoDatosGrpcAse.Neg.DAL;
 using System.Reflection;
-using Application.TarjetasCredito.AnalistasCredito.Get;
-using Application.TarjetasCredito.AnalistasCredito.AddSolicitud;
+using static AccesoDatosGrpcAse.Neg.DAL;
 
 namespace Infrastructure.gRPC_Clients.Sybase;
 
 public class AnalistasCreditoDat : IAnalistasCreditoDat
-{ 
+{
     private readonly ApiSettings _settings;
     private readonly DALClient _objClienteDal;
     private readonly ILogs _logsService;
@@ -55,7 +54,7 @@ public class AnalistasCreditoDat : IAnalistasCreditoDat
         {
             respuesta.codigo = "001";
             respuesta.diccionario.Add( "str_o_error", exception.ToString() );
-            _ = _logsService.SaveErroresDb(reqGetAnalistasCredito, "", MethodBase.GetCurrentMethod()!.Name, str_clase, exception );
+            _ = _logsService.SaveErroresDb( reqGetAnalistasCredito, "", MethodBase.GetCurrentMethod()!.Name, str_clase, exception );
             throw new ArgumentException( reqGetAnalistasCredito.str_id_transaccion )!;
         }
         return respuesta;

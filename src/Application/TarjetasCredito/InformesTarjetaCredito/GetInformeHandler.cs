@@ -1,23 +1,13 @@
 ﻿using Application.Common.Converting;
 using Application.Common.Interfaces;
 using Application.Common.Models;
-using Application.Common.Utilidades;
 using Application.TarjetasCredito.InterfazDat;
 using Domain.Entities.ComentariosAsesorCredito;
-using Domain.Entities.ComentariosGestion;
-using Domain.Entities.SituacionFinanciera;
 using Domain.Parameters;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Text.Json.Nodes;
-using System.Threading.Tasks;
-using static Application.TarjetasCredito.ObtenerSolicitudes.ResGetSolicitudes;
 using static Domain.Entities.ComentariosAsesorCredito.Informes;
 
 namespace Application.TarjetasCredito.ComentariosAsesor;

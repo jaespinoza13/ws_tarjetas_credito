@@ -1,11 +1,4 @@
-﻿using Application.Common.Models;
-using Application.TarjetasCredito.ComentariosGestion;
-using Application.TarjetasCredito.InformacionAdicional;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Application.TarjetasCredito.ComentariosGestion;
 
 namespace Application.TarjetasCredito.InterfazDat
 {

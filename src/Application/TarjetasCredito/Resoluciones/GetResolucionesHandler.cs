@@ -4,15 +4,8 @@ using Application.Common.Models;
 using Application.TarjetasCredito.InterfazDat;
 //using Infrastructure.gRPC_Clients.Postgres.TarjetasCredito;
 using MediatR;
-using Microsoft.Extensions.Caching.Memory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using static Application.TarjetasCredito.Resoluciones.ResGetResoluciones;
-using static Domain.Entities.ComentariosAsesorCredito.Informes;
 
 namespace Application.TarjetasCredito.Resoluciones;
 
@@ -23,7 +16,7 @@ public class GetResolucionesHandler : IRequestHandler<ReqGetResoluciones, ResGet
     private readonly string str_clase;
     private readonly string str_operacion;
     //private readonly IMemoryCache _memoryCache;
-    public GetResolucionesHandler(ITarjetasCreditoDat iTarjetasCreditoDat, ILogs logs )
+    public GetResolucionesHandler(ITarjetasCreditoDat iTarjetasCreditoDat, ILogs logs)
     {
         _iTarjetasCreditoDat = iTarjetasCreditoDat;
         _logs = logs;
@@ -39,7 +32,7 @@ public class GetResolucionesHandler : IRequestHandler<ReqGetResoluciones, ResGet
         {
             await _logs.SaveHeaderLogs( request, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase ); //Logs ws_logs
             RespuestaTransaccion res_tran = new();
-            res_tran = await _iTarjetasCreditoDat.GetResoluciones(request);
+            res_tran = await _iTarjetasCreditoDat.GetResoluciones( request );
             lst_resolucion = Conversions.ConvertConjuntoDatosTableToListClass<Resolucion>( (ConjuntoDatos)res_tran.cuerpo, 0 );
             respuesta.lst_resoluciones = lst_resolucion;
             respuesta.str_res_codigo = res_tran.codigo;

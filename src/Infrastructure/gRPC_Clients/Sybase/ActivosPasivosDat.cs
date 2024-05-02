@@ -1,18 +1,11 @@
-﻿using Application.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static AccesoDatosGrpcAse.Neg.DAL;
-using AccesoDatosGrpcAse.Neg;
+﻿using AccesoDatosGrpcAse.Neg;
 using Application.Common.Interfaces;
-using Microsoft.Extensions.Options;
-using Application.Common.ISO20022.Models;
-using Infrastructure.gRPC_Clients.Postgres;
+using Application.Common.Models;
 using Infrastructure.Common.Funciones;
-using Application.TarjetasCredito.InterfazDat;
+using Infrastructure.gRPC_Clients.Postgres;
 using Infrastructure.MemoryCache;
+using Microsoft.Extensions.Options;
+using static AccesoDatosGrpcAse.Neg.DAL;
 
 namespace Infrastructure.gRPC_Clients.Sybase;
 
@@ -23,7 +16,8 @@ public class ActivosPasivosDat : IActivosPasivosDat
     private readonly ILogs _logsService;
     private readonly string str_clase;
 
-    public ActivosPasivosDat(IOptionsMonitor<ApiSettings> options, ILogs logsService, DALClient objDalClient) {
+    public ActivosPasivosDat(IOptionsMonitor<ApiSettings> options, ILogs logsService, DALClient objDalClient)
+    {
         _settings = options.CurrentValue;
         _logsService = logsService;
         this.str_clase = GetType().FullName!;
@@ -46,7 +40,7 @@ public class ActivosPasivosDat : IActivosPasivosDat
 
             var resultado = await _objClienteDal.ExecuteDataSetAsync( ds );
 
-             var lst_valores = new List<ParametroSalidaValores>();
+            var lst_valores = new List<ParametroSalidaValores>();
 
             foreach (var item in resultado.ListaPSalidaValores) lst_valores.Add( item );
             var str_codigo = lst_valores.Find( x => x.StrNameParameter == "@int_o_error_cod" )!.ObjValue;

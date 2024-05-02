@@ -1,19 +1,11 @@
 ﻿using AccesoDatosPostgresql.Neg;
 using Application.Common.Interfaces;
 using Application.Common.Models;
-using Application.TarjetasCredito.AnalistasCredito.AddSolicitud;
-using Application.TarjetasCredito.AnalistasCredito.Get;
+using Application.TarjetasCredito.AnalistasCredito.AddAnalistaSolicitud;
 using Application.TarjetasCredito.InterfazDat;
 using Grpc.Net.Client;
-using Infrastructure.Common.Funciones;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using static AccesoDatosGrpcAse.Neg.DAL;
 using static AccesoDatosPostgresql.Neg.DALPostgreSql;
 
 namespace Infrastructure.gRPC_Clients.Postgres.TarjetasCredito

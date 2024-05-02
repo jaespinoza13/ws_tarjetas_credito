@@ -1,7 +1,5 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Models;
-using Application.TarjetasCredito.AgregarSolicitudTc;
-using Application.TarjetasCredito.InformacionAdicional;
 using Application.TarjetasCredito.InterfazDat;
 using Domain.Entities.ComentariosAsesorCredito;
 using Domain.Parameters;
@@ -9,12 +7,7 @@ using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.TarjetasCredito.ComentariosAsesor;
 
@@ -43,7 +36,8 @@ public class AddInformeHandler : IRequestHandler<ReqAddInforme, ResAddInforme>
 
         foreach (Informes obj_informes in request.lst_informe)
         {
-            Informes obj_informes_nuevo = new Informes{
+            Informes obj_informes_nuevo = new Informes
+            {
                 int_id_parametro = obj_informes.int_id_parametro,
                 str_tipo = obj_informes.str_tipo,
                 str_descripcion = obj_informes.str_descripcion,

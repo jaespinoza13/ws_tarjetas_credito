@@ -2,17 +2,12 @@
 using Application.Common.Interfaces.Dat;
 using Application.Common.Models;
 using Application.Common.Utilidades;
-using Application.TarjetasCredito.AnalistasCredito.AddSolicitud;
-using Application.TarjetasCredito.AnalistasCredito.Get;
+using Application.TarjetasCredito.AnalistasCredito.AddAnalistaSolicitud;
+using Application.TarjetasCredito.AnalistasCredito.GetAnalistas;
 using Application.TarjetasCredito.InterfazDat;
-using Application.TarjetasCredito.ObtenerSolicitudes;
-using Domain.Funcionalidades;
-using Domain.Parameters;
-using iText.Kernel.Pdf.Canvas.Wmf;
 using MediatR;
 using Microsoft.Extensions.Options;
 using System.Reflection;
-using System.Text.Json;
 
 namespace Application.TarjetasCredito.AgregarComentario
 {

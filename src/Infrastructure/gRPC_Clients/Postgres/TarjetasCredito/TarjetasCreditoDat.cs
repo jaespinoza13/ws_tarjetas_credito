@@ -8,7 +8,6 @@ using Application.TarjetasCredito.AgregarSolicitudTc;
 using Application.TarjetasCredito.InterfazDat;
 using Application.TarjetasCredito.ObtenerFlujoSolicitud;
 using Application.TarjetasCredito.ObtenerSolicitudes;
-using Application.TarjetasCredito.Resoluciones;
 using Grpc.Net.Client;
 using Infrastructure.Common.Funciones;
 using Microsoft.Extensions.Options;
@@ -106,10 +105,10 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
             //ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_id_doc_aut_cons_buro", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_id_doc_adicional } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_id_doc_tratamiento_datos_per", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_id_doc_tratamiento_datos_per } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_id_doc_adicional", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_id_doc_adicional } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_decision_sol", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_decision_sol } );
+            //ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_decision_sol", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_decision_sol } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@json_act_soc", TipoDato = TipoDato.Json, ObjValue = request.str_act_soc_json } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@json_pas_soc", TipoDato = TipoDato.Json, ObjValue = request.str_pas_soc_json } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@json_dpfs_soc", TipoDato = TipoDato.Json, ObjValue = request.str_dpfs_json} );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@json_dpfs_soc", TipoDato = TipoDato.Json, ObjValue = request.str_dpfs_json } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@json_crd_his_soc", TipoDato = TipoDato.Json, ObjValue = request.str_cred_hist_json } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@json_ing_soc", TipoDato = TipoDato.Json, ObjValue = request.str_ingr_soc_json } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@json_egr_soc", TipoDato = TipoDato.Json, ObjValue = request.str_egr_soc_json } );
@@ -120,13 +119,13 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.CharacterVarying } );
 
-            ds.NombreSP = NameSps.addSolicitudTC_2;
+            ds.NombreSP = NameSps.addSolicitudTC;
             ds.NombreBD = _settings.DB_meg_tarjetas_credito;
 
             var resultado = _objClienteDal.ExecuteNonQuery( ds );//ExecuteNonQuery para sps - ExecuteReader para funciones
             var lst_valores = resultado.ListaPSalidaValores.ToList();
             var str_codigo = lst_valores.Find( x => x.StrNameParameter == "@int_o_error_cod" )!.ObjValue;
-            var str_error = lst_valores.Find( x => x.StrNameParameter == "@str_o_error" )!.ObjValue.Trim(); 
+            var str_error = lst_valores.Find( x => x.StrNameParameter == "@str_o_error" )!.ObjValue.Trim();
 
             respuesta.codigo = str_codigo.Trim().PadLeft( 3, '0' );
             respuesta.diccionario.Add( "str_o_error", str_error );
@@ -236,14 +235,13 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_sol_id", TipoDato = TipoDato.Integer, ObjValue = reqAgregarComentario.int_id_solicitud.ToString() } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_comentario", TipoDato = TipoDato.CharacterVarying, ObjValue = reqAgregarComentario.str_comentario.ToString() } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_usuario", TipoDato = TipoDato.CharacterVarying, ObjValue = reqAgregarComentario.str_login.ToString() } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_oficina", TipoDato = TipoDato.Integer, ObjValue = reqAgregarComentario.str_id_oficina.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_oficina", TipoDato = TipoDato.Integer, ObjValue = reqAgregarComentario.str_id_oficina } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_estado", TipoDato = TipoDato.Integer, ObjValue = reqAgregarComentario.int_estado.ToString() } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_decision_sol", TipoDato = TipoDato.CharacterVarying, ObjValue = reqAgregarComentario.str_decision_sol.ToString() } );
 
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.CharacterVarying } );
 
-            ds.NombreSP = NameSps.addComentarioProceso_2;
+            ds.NombreSP = NameSps.addComentarioProceso;
             ds.NombreBD = _settings.DB_meg_tarjetas_credito;
 
 
@@ -269,7 +267,7 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
 
     public async Task<RespuestaTransaccion> getFlujoSolicitud(ReqGetFlujoSolicitud reqGetFlujoSolicitud)
     {
-        var respuesta = new RespuestaTransaccion(); 
+        var respuesta = new RespuestaTransaccion();
 
         try
         {
@@ -318,7 +316,7 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_segundo_apellido", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_segundo_apellido } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@dtt_fecha_nacimiento", TipoDato = TipoDato.Date, ObjValue = request.dtt_fecha_nacimiento.ToString() } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_sexo", TipoDato = TipoDato.Character, ObjValue = request.str_sexo } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_ente", TipoDato = TipoDato.Integer, ObjValue = request.int_ente.ToString()} );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_ente", TipoDato = TipoDato.Integer, ObjValue = request.int_ente.ToString() } );
 
             // tcr_solicitudes
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_estado", TipoDato = TipoDato.Integer, ObjValue = request.int_estado.ToString() } );
@@ -388,10 +386,10 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_celular", TipoDato = TipoDato.CharacterVarying, ObjValue = reqAddProspectoTc.str_celular } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_correo", TipoDato = TipoDato.CharacterVarying, ObjValue = reqAddProspectoTc.str_correo } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@dec_cupo_solicitado", TipoDato = TipoDato.Money, ObjValue = reqAddProspectoTc.dec_cupo_solicitado.ToString() } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_usuario_crea", TipoDato = TipoDato.CharacterVarying, ObjValue = reqAddProspectoTc.str_login} );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_oficina_crea", TipoDato = TipoDato.Integer, ObjValue = reqAddProspectoTc.str_id_oficina} );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_usuario_crea", TipoDato = TipoDato.CharacterVarying, ObjValue = reqAddProspectoTc.str_login } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_oficina_crea", TipoDato = TipoDato.Integer, ObjValue = reqAddProspectoTc.str_id_oficina } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_autorizacion_cons_buro", TipoDato = TipoDato.CharacterVarying, ObjValue = reqAddProspectoTc.str_id_autoriza_cons_buro } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_autorizacion_datos_pers", TipoDato = TipoDato.CharacterVarying, ObjValue = reqAddProspectoTc.str_id_autoriza_datos_per} );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_autorizacion_datos_pers", TipoDato = TipoDato.CharacterVarying, ObjValue = reqAddProspectoTc.str_id_autoriza_datos_per } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_comentario", TipoDato = TipoDato.CharacterVarying, ObjValue = reqAddProspectoTc.str_comentario } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_comentario_adicional", TipoDato = TipoDato.CharacterVarying, ObjValue = reqAddProspectoTc.str_comentario_adicional } );
 
@@ -404,7 +402,7 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
             var resultado = _objClienteDal.ExecuteNonQuery( ds );//ExecuteNonQuery para sps - ExecuteReader para funciones
             var lst_valores = resultado.ListaPSalidaValores.ToList();
             var str_codigo = lst_valores.Find( x => x.StrNameParameter == "@int_o_error_cod" )!.ObjValue;
-            var str_error = lst_valores.Find( x => x.StrNameParameter == "@str_o_error" )!.ObjValue.Trim(); 
+            var str_error = lst_valores.Find( x => x.StrNameParameter == "@str_o_error" )!.ObjValue.Trim();
 
             respuesta.codigo = str_codigo.Trim().PadLeft( 3, '0' );
             respuesta.diccionario.Add( "str_o_error", str_error );
@@ -417,110 +415,6 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
             await _logService.SaveExceptionLogs( reqAddProspectoTc, MethodBase.GetCurrentMethod()!.Name, "addProspectoTc", str_clase, ex );
             throw new ArgumentException( reqAddProspectoTc.str_id_transaccion );
         }
-        return respuesta;
-    }
-
-    public async Task<RespuestaTransaccion> GetResoluciones(ReqGetResoluciones request)
-    {
-        var respuesta = new RespuestaTransaccion();
-        try
-        {
-            var ds = new DatosSolicitud();
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_id_solicitud", TipoDato = TipoDato.Integer, ObjValue = request.int_id_sol.ToString() } );
-            ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } ); 
-            ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.CharacterVarying } );
-            ds.NombreSP = NameSps.getResolicionesTC;
-            ds.NombreBD = _settings.DB_meg_tarjetas_credito;
-            var resultado = _objClienteDal.ExecuteReader( ds );//ExecuteNonQuery para sps - ExecuteReader para funciones
-            var lst_valores = resultado.ListaPSalidaValores.ToList();
-            var str_codigo = lst_valores.Find( x => x.StrNameParameter == "@int_o_error_cod" )!.ObjValue;
-            var str_error = lst_valores.Find( x => x.StrNameParameter == "@str_o_error" )!.ObjValue.Trim();
-            respuesta.cuerpo = Funciones.ObtenerDataBasePg( resultado );
-            respuesta.codigo = str_codigo.Trim().PadLeft( 3, '0' );
-            respuesta.diccionario.Add( "str_o_error", str_error );
-        }
-        catch (Exception ex)
-        {
-            respuesta.codigo = "003";
-            respuesta.diccionario.Add( "str_error", ex.InnerException != null ? ex.InnerException.Message : ex.Message );
-            await _logService.SaveExceptionLogs( request, MethodBase.GetCurrentMethod()!.Name, "addSolicitudTC", str_clase, ex );
-            throw new ArgumentException( request.str_id_transaccion );
-
-        }
-
-        return respuesta;
-    }
-
-    public async Task<RespuestaTransaccion> AddResoluciones(ReqAddResoluciones request)
-    {
-        var respuesta = new RespuestaTransaccion();
-        try
-        {
-            var ds = new DatosSolicitud();
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_id_sol", TipoDato = TipoDato.Integer, ObjValue = request.int_id_sol.ToString() } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@dec_cupo_solicitado", TipoDato = TipoDato.Numeric, ObjValue = request.dec_cupo_solicitado.ToString() } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@dec_cupo_sugerido", TipoDato = TipoDato.Numeric, ObjValue = request.dec_cupo_sugerido.ToString() } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_usuario_proc", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_login.ToString() } );
-            //ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@dtt_fecha_actualizacion", TipoDato = TipoDato.TimestampWithoutTimeZone, ObjValue = request.dtt_fecha_actualizacion.ToString() } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_decision_solicitud", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_decision_solicitud.ToString() } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_comentario_proceso", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_comentario_proceso.ToString() } );
-            ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
-            ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.CharacterVarying } );
-            ds.NombreSP = NameSps.addResolicionesTC;
-            ds.NombreBD = _settings.DB_meg_tarjetas_credito;
-            var resultado = _objClienteDal.ExecuteReader( ds );//ExecuteNonQuery para sps - ExecuteReader para funciones
-            var lst_valores = resultado.ListaPSalidaValores.ToList();
-            var str_codigo = lst_valores.Find( x => x.StrNameParameter == "@int_o_error_cod" )!.ObjValue;
-            var str_error = lst_valores.Find( x => x.StrNameParameter == "@str_o_error" )!.ObjValue.Trim();
-            respuesta.codigo = str_codigo.Trim().PadLeft( 3, '0' );
-            respuesta.diccionario.Add( "str_o_error", str_error );
-        }
-        catch (Exception ex)
-        {
-            respuesta.codigo = "003";
-            respuesta.diccionario.Add( "str_error", ex.InnerException != null ? ex.InnerException.Message : ex.Message );
-            await _logService.SaveExceptionLogs( request, MethodBase.GetCurrentMethod()!.Name, "addSolicitudTC", str_clase, ex );
-            throw new ArgumentException( request.str_id_transaccion );
-
-        }
-
-        return respuesta;
-    }
-
-    public async Task<RespuestaTransaccion> UpdateResoluciones(ReqUpdResoluciones request)
-    {
-        var respuesta = new RespuestaTransaccion();
-        try
-        {
-            var ds = new DatosSolicitud();
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_rss_id", TipoDato = TipoDato.Integer, ObjValue = request.int_rss_id.ToString() } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_id_sol", TipoDato = TipoDato.Integer, ObjValue = request.int_id_sol.ToString() } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@dec_cupo_solicitado", TipoDato = TipoDato.Numeric, ObjValue = request.dec_cupo_solicitado.ToString() } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@dec_cupo_sugerido", TipoDato = TipoDato.Numeric, ObjValue = request.dec_cupo_sugerido.ToString() } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_usuario_proc", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_login.ToString() } );
-            //ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@dtt_fecha_actualizacion", TipoDato = TipoDato.TimestampWithoutTimeZone, ObjValue = request.dtt_fecha_actualizacion.ToString() } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_decision_solicitud", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_decision_solicitud.ToString() } );
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_comentario_proceso", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_comentario_proceso.ToString() } );
-            ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
-            ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.CharacterVarying } );
-            ds.NombreSP = NameSps.updResolicionesTC;
-            ds.NombreBD = _settings.DB_meg_tarjetas_credito;
-            var resultado = _objClienteDal.ExecuteReader( ds );//ExecuteNonQuery para sps - ExecuteReader para funciones
-            var lst_valores = resultado.ListaPSalidaValores.ToList();
-            var str_codigo = lst_valores.Find( x => x.StrNameParameter == "@int_o_error_cod" )!.ObjValue;
-            var str_error = lst_valores.Find( x => x.StrNameParameter == "@str_o_error" )!.ObjValue.Trim();
-            respuesta.codigo = str_codigo.Trim().PadLeft( 3, '0' );
-            respuesta.diccionario.Add( "str_o_error", str_error );
-        }
-        catch (Exception ex)
-        {
-            respuesta.codigo = "003";
-            respuesta.diccionario.Add( "str_error", ex.InnerException != null ? ex.InnerException.Message : ex.Message );
-            await _logService.SaveExceptionLogs( request, MethodBase.GetCurrentMethod()!.Name, "addSolicitudTC", str_clase, ex );
-            throw new ArgumentException( request.str_id_transaccion );
-
-        }
-
         return respuesta;
     }
 }

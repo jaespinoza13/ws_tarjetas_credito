@@ -3,9 +3,7 @@ using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.TarjetasCredito.InterfazDat;
 using Domain.Entities.DatosCliente;
-using iText.Layout.Element;
 using MediatR;
-using System.Data;
 using System.Reflection;
 
 
@@ -21,7 +19,8 @@ public class GetDatosClienteHandler : IRequestHandler<ReqGetDatosCliente, ResGet
 
     private readonly string str_operacion;
 
-    public GetDatosClienteHandler(IDatosClienteDat datosCleinteDat, ILogs logs) {
+    public GetDatosClienteHandler(IDatosClienteDat datosCleinteDat, ILogs logs)
+    {
         _datosClienteDat = datosCleinteDat;
         _logs = logs;
         str_clase = GetType().Name;
@@ -38,15 +37,15 @@ public class GetDatosClienteHandler : IRequestHandler<ReqGetDatosCliente, ResGet
             res_tran = await _datosClienteDat.get_datos_cliente( request );
             List<DireccionDomicilio> data_list_dom = new List<DireccionDomicilio>();
             List<DireccionTrabajo> data_list_trab = new List<DireccionTrabajo>();
-            respuesta.datos_cliente = Conversions.ConvertConjuntoDatosTableToListClass<DatosCliente>( (ConjuntoDatos)res_tran.cuerpo , 0)!;
-            respuesta.lst_dir_domicilio = Conversions.ConvertConjuntoDatosTableToListClass<DireccionDomicilio>( (ConjuntoDatos)res_tran.cuerpo,1 )!;
-            respuesta.lst_dir_trabajo = Conversions.ConvertConjuntoDatosTableToListClass<DireccionTrabajo>( (ConjuntoDatos)res_tran.cuerpo,2 )!;
+            respuesta.datos_cliente = Conversions.ConvertConjuntoDatosTableToListClass<DatosCliente>( (ConjuntoDatos)res_tran.cuerpo, 0 )!;
+            respuesta.lst_dir_domicilio = Conversions.ConvertConjuntoDatosTableToListClass<DireccionDomicilio>( (ConjuntoDatos)res_tran.cuerpo, 1 )!;
+            respuesta.lst_dir_trabajo = Conversions.ConvertConjuntoDatosTableToListClass<DireccionTrabajo>( (ConjuntoDatos)res_tran.cuerpo, 2 )!;
             foreach (DireccionTrabajo dir_trabajo in respuesta.lst_dir_trabajo)
             {
                 DireccionTrabajo obj_dir_trabajo = new DireccionTrabajo
                 {
                     int_dir_direccion = dir_trabajo.int_dir_direccion,
-                    str_dir_tipo = dir_trabajo .str_dir_tipo,
+                    str_dir_tipo = dir_trabajo.str_dir_tipo,
                     str_dir_ciudad = dir_trabajo.str_dir_ciudad,
                     str_dir_sector = dir_trabajo.str_dir_sector,
                     str_dir_barrio = dir_trabajo.str_dir_barrio,

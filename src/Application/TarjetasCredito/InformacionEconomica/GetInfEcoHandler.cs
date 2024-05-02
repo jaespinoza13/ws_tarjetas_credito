@@ -1,19 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using Application.Common.Converting;
+﻿using Application.Common.Converting;
 using Application.Common.Interfaces;
 using Application.Common.Models;
-using Application.TarjetasCredito.DatosClienteTc;
 using Application.TarjetasCredito.InterfazDat;
-using Domain.Entities.DatosCliente;
 using Domain.Entities.Informacion_Financiera;
-using Domain.Entities.SituacionFinanciera;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
+using System.Reflection;
 
 namespace Application.TarjetasCredito.InformacionEconomica;
 
@@ -45,11 +37,11 @@ public class GetInfEcoHandler : IRequestHandler<ReqGetInfEco, ResGetInfEco>
         {
             await _logs.SaveHeaderLogs( request, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase ); //Logs ws_logs
             RespuestaTransaccion res_tran = new();
-            res_tran = await _infoFinDat.get_informacion_economica(request);
+            res_tran = await _infoFinDat.get_informacion_economica( request );
             List<Ingresos> data_list_ing = new List<Ingresos>();
             List<Egresos> data_list_egr = new List<Egresos>();
-            respuesta.lst_ingresos_socio = Conversions.ConvertConjuntoDatosTableToListClass<Ingresos>( (ConjuntoDatos)res_tran.cuerpo,0 )!;
-            respuesta.lst_egresos_socio = Conversions.ConvertConjuntoDatosTableToListClass<Egresos>( (ConjuntoDatos)res_tran.cuerpo,1 )!;
+            respuesta.lst_ingresos_socio = Conversions.ConvertConjuntoDatosTableToListClass<Ingresos>( (ConjuntoDatos)res_tran.cuerpo, 0 )!;
+            respuesta.lst_egresos_socio = Conversions.ConvertConjuntoDatosTableToListClass<Egresos>( (ConjuntoDatos)res_tran.cuerpo, 1 )!;
             foreach (Ingresos ingresos in respuesta.lst_ingresos_socio)
             {
                 Ingresos obj_ingresos = new Ingresos
@@ -72,7 +64,7 @@ public class GetInfEcoHandler : IRequestHandler<ReqGetInfEco, ResGetInfEco>
                     dcm_valor = egresos.dcm_valor,
 
                 };
-                data_list_egr.Add( obj_egresos);
+                data_list_egr.Add( obj_egresos );
             }
             //Se almacena en memoria cache 
             if (data_list_ing.Any())
@@ -95,7 +87,7 @@ public class GetInfEcoHandler : IRequestHandler<ReqGetInfEco, ResGetInfEco>
             throw new ArgumentException( respuesta.str_id_transaccion );
         }
         return respuesta;
-    } 
+    }
 
 }
 

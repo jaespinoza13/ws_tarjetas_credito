@@ -2,25 +2,19 @@
 using Application.Common.Interfaces.Apis;
 using Application.Common.Interfaces.Dat;
 using Application.Common.Models;
+using Application.TarjetasCredito.InformacionAdicional;
 using Application.TarjetasCredito.InterfazDat;
 using Domain.Entities.Axentria;
+using Domain.Entities.Informacion_Financiera;
+using Domain.Entities.InformacionAdicional;
+using Domain.Entities.Memoria_Cache;
+using Domain.Entities.SituacionFinanciera;
+using Infrastructure.MemoryCache;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
-using System.Reflection;
-using Infrastructure.MemoryCache;
-using Application.Common.ISO20022.Models;
-using Application.TarjetasCredito.InformacionAdicional;
 using Newtonsoft.Json;
-using Domain.Entities.SituacionFinanciera;
-using Domain.Entities.Informacion_Financiera;
-using Domain.Parameters;
-using Domain.Entities.ComentariosGestion;
-using System.Linq;
-using static iText.IO.Image.Jpeg2000ImageData;
-using Application.TarjetasCredito.ComentariosGestion;
-using Domain.Entities.Memoria_Cache;
-using Domain.Entities.InformacionAdicional;
+using System.Reflection;
 
 namespace Application.TarjetasCredito.AgregarSolicitudTc;
 public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSolicitudTc>
@@ -50,8 +44,8 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
         const string str_operacion = "ADD_SOLICITUD_TC";
         var respuesta = new ResAddSolicitudTc();
         var res_tran = new RespuestaTransaccion();
-        InformacionMemoriaSol obj_inf_mem_sol = new ();
-        InformacionAdicionalSocio obj_inf_adc_soc = new ();
+        InformacionMemoriaSol obj_inf_mem_sol = new();
+        InformacionAdicionalSocio obj_inf_adc_soc = new();
 
 
         respuesta.LlenarResHeader( request );
@@ -100,7 +94,7 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
             //        break;
             //}
 
-           
+
 
             //Se recupera la informacion del socio (SYBASE)
             if (request.str_ente != null)
@@ -137,7 +131,7 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
 
                 // Elimina los datos de la memoria caché--> Analizar si se aplica el Principio SOLID
                 limpiar_cache( request.str_ente! );
-                
+
             }
 
             respuesta.str_res_codigo = res_tran.codigo;
@@ -176,7 +170,7 @@ public class AddSolicitudTcHandler : IRequestHandler<ReqAddSolicitudTc, ResAddSo
         }
     }
 
-    public  ReqAddSolicitudTc determinar_tipo_tarjeta(string tipo_tarjeta)
+    public ReqAddSolicitudTc determinar_tipo_tarjeta(string tipo_tarjeta)
     {
         ReqAddSolicitudTc req_add_sol_tip_tc = new ReqAddSolicitudTc();
         string str_inicial_producto = _parametersInMemory.FindParametroNemonico( _settings.tarjeta_gold ).str_valor_ini;

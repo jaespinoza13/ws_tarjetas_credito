@@ -1,7 +1,5 @@
 ﻿using Application.Common.ISO20022.Models;
-using Domain.InformacionAdicional;
 using MediatR;
-using System.ComponentModel.DataAnnotations;
 
 namespace Application.TarjetasCredito.AgregarSolicitudTc;
 
@@ -71,10 +69,10 @@ public class ReqAddSolicitudTc : Header, IRequest<ResAddSolicitudTc>
 
     //Se agrega variable de la decision  del credito 
 
-    public string str_decision_sol { get; set; } = string.Empty;
+    //public string str_decision_sol { get; set; } = string.Empty;
 
     //Se agrega campos json 
-    public string str_act_soc_json {  get; set; } = string.Empty;
+    public string str_act_soc_json { get; set; } = string.Empty;
     public string str_pas_soc_json { get; set; } = string.Empty;
     public string str_dpfs_json { get; set; } = string.Empty;
     public string str_cred_hist_json { get; set; } = string.Empty;

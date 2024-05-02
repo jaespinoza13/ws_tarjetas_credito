@@ -28,7 +28,7 @@ namespace Infrastructure.MemoryCache
                 var lst_funcionalidaes_accion = new List<Funcionalidad>();
                 var lst_funcionalidades = new List<Funcionalidad>();
 
-                RespuestaTransaccion resTran = _funcionalidadesDat.getFuncionalidades( Convert.ToInt32(_settings.int_id_sistema) ).Result;
+                RespuestaTransaccion resTran = _funcionalidadesDat.getFuncionalidades( Convert.ToInt32( _settings.int_id_sistema ) ).Result;
 
                 switch (resTran.codigo)
                 {
@@ -60,7 +60,7 @@ namespace Infrastructure.MemoryCache
                     default:
                         throw new ArgumentException( "Sin funcionalidades" );
                 }
-                
+
                 dt_fecha_func = DateTime.Now.Date;
             }
             catch (Exception ex)

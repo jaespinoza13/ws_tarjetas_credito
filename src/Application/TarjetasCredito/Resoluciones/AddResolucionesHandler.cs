@@ -2,12 +2,7 @@
 using Application.Common.Models;
 using Application.TarjetasCredito.InterfazDat;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.TarjetasCredito.Resoluciones;
 
@@ -19,8 +14,9 @@ public class AddResolucionesHandler : IRequestHandler<ReqAddResoluciones, ResAdd
     private readonly string str_operacion;
     //private readonly IMemoryCache _memoryCache;
 
-    public AddResolucionesHandler(ITarjetasCreditoDat iTarjetasCreditoDat, ILogs logs) {
-       
+    public AddResolucionesHandler(ITarjetasCreditoDat iTarjetasCreditoDat, ILogs logs)
+    {
+
         _iTarjetasCreditoDat = iTarjetasCreditoDat;
         _logs = logs;
         str_clase = GetType().Name;

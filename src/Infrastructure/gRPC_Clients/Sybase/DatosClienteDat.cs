@@ -28,8 +28,8 @@ public class DatosClienteDat : IDatosClienteDat
         RespuestaTransaccion respuesta = new RespuestaTransaccion();
 
         try
-        { 
-     
+        {
+
             DatosSolicitud ds = new();
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_identificacion", TipoDato = TipoDato.VarChar, ObjValue = request.str_identificacion } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_oficial", TipoDato = TipoDato.VarChar, ObjValue = request.str_login_usuario } );
@@ -39,12 +39,12 @@ public class DatosClienteDat : IDatosClienteDat
             ds.NombreBD = _settings.DB_meg_atms;
 
             var resultado = await _objClienteDal.ExecuteDataSetAsync( ds );
-            
+
             var lst_valores = new List<ParametroSalidaValores>();
-            
+
 
             foreach (var item in resultado.ListaPSalidaValores) lst_valores.Add( item );
-            
+
             var str_codigo = lst_valores.Find( x => x.StrNameParameter == "@int_o_error_cod" )!.ObjValue;
             var str_error = lst_valores.Find( x => x.StrNameParameter == "@str_o_error" )!.ObjValue.Trim();
             respuesta.codigo = str_codigo.ToString().Trim().PadLeft( 3, '0' );

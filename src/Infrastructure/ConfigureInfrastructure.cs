@@ -12,7 +12,6 @@ using Infrastructure.gRPC_Clients.Sybase;
 using Infrastructure.MemoryCache;
 using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System.Dynamic;
 
 namespace Infrastructure;
 
@@ -53,7 +52,7 @@ public static class ConfigureInfrastructure
 
         //GestorDocumental
         services.AddSingleton<IWsGestorDocumental, wsGestorDocumental>();
-        
+
         //Validaciones
         services.AddSingleton<IValidacionesBuro, ValidacionesBuro>();
 
@@ -62,7 +61,7 @@ public static class ConfigureInfrastructure
         services.AddSingleton<ICreditosVigentesDat, CreditosVigentesDat>();
 
         //Inyeccion de las garantias constitudas 
-        services.AddSingleton<IGarantiasConstituidasDat,GarantiasConstitudasDat>();
+        services.AddSingleton<IGarantiasConstituidasDat, GarantiasConstitudasDat>();
 
         services.AddSingleton<GetInformacionAdicional>();
 

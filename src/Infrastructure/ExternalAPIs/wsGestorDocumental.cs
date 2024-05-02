@@ -1,12 +1,9 @@
 ﻿using Application.Common.Interfaces.Apis;
 using Application.Common.Models;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using wsGestorDocumentalSoap;
 using Domain.Entities.Axentria;
-using System.Text.Json;
 using iTextSharp.text.pdf;
+using Microsoft.Extensions.Options;
+using wsGestorDocumentalSoap;
 
 namespace Infraestructure.ExternalApis
 {
@@ -33,9 +30,9 @@ namespace Infraestructure.ExternalApis
             {
 
                 //reqCarpetaCredito.str_cedula_socio = reqLoadDocumento.str_identificacion;
-                reqCarpetaCredito.int_id_solicitud = Convert.ToInt32(_settings.id_gabinete);
+                reqCarpetaCredito.int_id_solicitud = Convert.ToInt32( _settings.id_gabinete );
                 reqCarpetaCredito.str_name_folder = "SOLICITUD_TARJETA_CREDITO";
-                resGetCarpeta = obtener_id_carpeta(reqCarpetaCredito);
+                resGetCarpeta = obtener_id_carpeta( reqCarpetaCredito );
 
                 if (resGetCarpeta.lng_carpeta != 0)
                 {
@@ -45,27 +42,27 @@ namespace Infraestructure.ExternalApis
                         DocumentId = 1,
                         DocumentTypeId = 1
                     };
-                    reqLoadDocumento.loadfile.fields.Add(importarArchivoCampo);
+                    reqLoadDocumento.loadfile.fields.Add( importarArchivoCampo );
                     reqLoadDocumento.int_solicitud = reqCarpetaCredito.int_id_solicitud;
                     reqLoadDocumento.lng_id_carpeta = resGetCarpeta.lng_carpeta;
-                    bool bln_add_document = publicar_autorizacion(reqLoadDocumento);
+                    bool bln_add_document = publicar_autorizacion( reqLoadDocumento );
                     if (bln_add_document)
                     {
-                        string str_documento_id = get_Documento_publicado(reqLoadDocumento);
-                        if (!str_documento_id.Contains("Error") && str_documento_id != "0")
+                        string str_documento_id = get_Documento_publicado( reqLoadDocumento );
+                        if (!str_documento_id.Contains( "Error" ) && str_documento_id != "0")
                         {
                             //almacenar db
-                            respuesta = _validacionesBuro.addDocumento(str_documento_id, reqLoadDocumento, str_id_transaccion);
+                            respuesta = _validacionesBuro.addDocumento( str_documento_id, reqLoadDocumento, str_id_transaccion );
                             if (!string.IsNullOrEmpty( respuesta.diccionario["str_error"].ToString() ))
                             {
-                                if (respuesta.diccionario["str_error"].ToString().Equals("Error no se pudo crear el documento ya existe."))
+                                if (respuesta.diccionario["str_error"].ToString().Equals( "Error no se pudo crear el documento ya existe." ))
                                 {
-                                    int int_ente = Int32.Parse(reqLoadDocumento.loadfile.fields.First(e => e.FieldName.Equals("Numero de Ente".ToUpper())).DataValue);
+                                    int int_ente = Int32.Parse( reqLoadDocumento.loadfile.fields.First( e => e.FieldName.Equals( "Numero de Ente".ToUpper() ) ).DataValue );
                                     if (int_ente > 0)
                                     {
                                         //actualizar fecha
-                                        respuesta = _validacionesBuro.updateDocumento(str_documento_id, reqLoadDocumento, str_id_transaccion);
-                                        if (!string.IsNullOrEmpty(respuesta.diccionario["str_error"].ToString() ))
+                                        respuesta = _validacionesBuro.updateDocumento( str_documento_id, reqLoadDocumento, str_id_transaccion );
+                                        if (!string.IsNullOrEmpty( respuesta.diccionario["str_error"].ToString() ))
                                         {
                                             str_error_publicacion = "Error documento no actualizado id: " + str_documento_id + " bd: " + respuesta.diccionario["str_error"].ToString();
                                         }
@@ -92,12 +89,12 @@ namespace Infraestructure.ExternalApis
             }
             catch (Exception ex)
             {
-                throw new ArgumentException(ex.ToString());
+                throw new ArgumentException( ex.ToString() );
             }
             return str_error_publicacion;
         }
 
-        
+
         public Domain.Entities.Axentria.ImportarArchivoCampo generar_campo(int fieldId, string fieldName, string fieldvalue, int fieldtype, int documentId)
         {
             //Genero un objeto campo
@@ -112,7 +109,7 @@ namespace Infraestructure.ExternalApis
 
         public string send_copy_file(string path, bool bln_separador, string str_name_doc)
         {
-            string name = Path.GetFileNameWithoutExtension(path);
+            string name = Path.GetFileNameWithoutExtension( path );
             string strPath = "\\PDFs\\";
             string path_cpy = strPath + str_name_doc + "(copy).pdf";
             string path_res = strPath + str_name_doc + ".pdf";
@@ -121,33 +118,33 @@ namespace Infraestructure.ExternalApis
             {
                 if (bln_separador)
                 {
-                    File.Copy(path, path_cpy);
-                    byte[] byte_data = File.ReadAllBytes(path_cpy);
-                    PdfReader pdfReader = new PdfReader(byte_data);
+                    File.Copy( path, path_cpy );
+                    byte[] byte_data = File.ReadAllBytes( path_cpy );
+                    PdfReader pdfReader = new PdfReader( byte_data );
                     int tpages = pdfReader.NumberOfPages;
                     if (tpages > 1)
                     {
-                        pdfReader.SelectPages("2-" + pdfReader.NumberOfPages.ToString());
-                        PdfStamper pdfStamper = new PdfStamper(pdfReader, new FileStream(path: path_res, mode: FileMode.Create));
+                        pdfReader.SelectPages( "2-" + pdfReader.NumberOfPages.ToString() );
+                        PdfStamper pdfStamper = new PdfStamper( pdfReader, new FileStream( path: path_res, mode: FileMode.Create ) );
                         pdfStamper.Close();
                         pdfReader.Close();
                     }
                     else
                     {
-                        File.Copy(path, path_res);
+                        File.Copy( path, path_res );
                     }
-                    File.Delete(path_cpy);
+                    File.Delete( path_cpy );
                 }
                 else
                 {
-                    File.Copy(path, path_res);
+                    File.Copy( path, path_res );
                 }
                 //File.Delete(path);
                 return path_res;
             }
             catch (Exception ex)
             {
-                Console.Write(ex.Message);
+                Console.Write( ex.Message );
                 return String.Empty;
             }
         }
@@ -155,25 +152,25 @@ namespace Infraestructure.ExternalApis
         public ResGetCarpeta obtener_id_carpeta(ReqCarpetaCredito reqCarpetaCredito)
         {
             ResGetCarpeta resGetCarpeta = new ResGetCarpeta();
-            srvAxentriaSoapClient srvAxentriaSoap = new(srvAxentriaSoapClient.EndpointConfiguration.srvAxentriaSoap);
+            srvAxentriaSoapClient srvAxentriaSoap = new( srvAxentriaSoapClient.EndpointConfiguration.srvAxentriaSoap );
 
             string str_folder_solicitud = "Sol_" + reqCarpetaCredito.int_id_solicitud.ToString();
 
             try
             {
-                long carpeta_id = srvAxentriaSoap.obtener_carpeta(reqCarpetaCredito.str_cedula_socio, _settings.id_gabinete);
+                long carpeta_id = srvAxentriaSoap.obtener_carpeta( reqCarpetaCredito.str_cedula_socio, _settings.id_gabinete );
 
                 if (carpeta_id == 0)
                 {
                     //crear carpeta -> Socio 
                     long lng_socio;
-                    lng_socio = srvAxentriaSoap.crear_carpeta(_settings.id_gabinete, reqCarpetaCredito.str_cedula_socio);
+                    lng_socio = srvAxentriaSoap.crear_carpeta( _settings.id_gabinete, reqCarpetaCredito.str_cedula_socio );
                     if (lng_socio > 0)
                     {
-                        long lng_folder_credito = srvAxentriaSoap.crear_carpeta(lng_socio, reqCarpetaCredito.str_name_folder); //carpeta Credito
+                        long lng_folder_credito = srvAxentriaSoap.crear_carpeta( lng_socio, reqCarpetaCredito.str_name_folder ); //carpeta Credito
                         if (lng_folder_credito > 0)
                         {
-                            long lng_carpeta_solicitud = srvAxentriaSoap.crear_carpeta(lng_folder_credito, str_folder_solicitud); //carpeta solicitud
+                            long lng_carpeta_solicitud = srvAxentriaSoap.crear_carpeta( lng_folder_credito, str_folder_solicitud ); //carpeta solicitud
                             if (lng_carpeta_solicitud > 0)
                             {
                                 resGetCarpeta.lng_carpeta = lng_carpeta_solicitud;
@@ -187,13 +184,13 @@ namespace Infraestructure.ExternalApis
                     if (carpeta_id > 0)
                     {
                         //buscar carpeta credito
-                        long lng_carpeta_credito = srvAxentriaSoap.obtener_carpeta(reqCarpetaCredito.str_name_folder, carpeta_id);
+                        long lng_carpeta_credito = srvAxentriaSoap.obtener_carpeta( reqCarpetaCredito.str_name_folder, carpeta_id );
                         if (lng_carpeta_credito == 0)
                         {
-                            long lng_folder_credit = srvAxentriaSoap.crear_carpeta(carpeta_id, reqCarpetaCredito.str_name_folder);
+                            long lng_folder_credit = srvAxentriaSoap.crear_carpeta( carpeta_id, reqCarpetaCredito.str_name_folder );
                             if (lng_folder_credit > 0)
                             {
-                                long lng_carpeta_sol = srvAxentriaSoap.crear_carpeta(lng_folder_credit, str_folder_solicitud); //carpeta solicitud
+                                long lng_carpeta_sol = srvAxentriaSoap.crear_carpeta( lng_folder_credit, str_folder_solicitud ); //carpeta solicitud
                                 if (lng_carpeta_sol > 0)
                                 {
                                     resGetCarpeta.lng_carpeta = lng_carpeta_sol;
@@ -204,7 +201,7 @@ namespace Infraestructure.ExternalApis
                         else
                         {
                             //obtener carpeta solciitud
-                            long lng_carpeta_sol = srvAxentriaSoap.obtener_carpeta(str_folder_solicitud, lng_carpeta_credito);
+                            long lng_carpeta_sol = srvAxentriaSoap.obtener_carpeta( str_folder_solicitud, lng_carpeta_credito );
                             if (lng_carpeta_sol > 0)
                             {
                                 resGetCarpeta.lng_carpeta = lng_carpeta_sol;
@@ -212,7 +209,7 @@ namespace Infraestructure.ExternalApis
                             }
                             else
                             {
-                                long lng_carpeta_solicitud = srvAxentriaSoap.crear_carpeta(lng_carpeta_credito, str_folder_solicitud); //carpeta solicitud
+                                long lng_carpeta_solicitud = srvAxentriaSoap.crear_carpeta( lng_carpeta_credito, str_folder_solicitud ); //carpeta solicitud
                                 if (lng_carpeta_solicitud > 0)
                                 {
                                     resGetCarpeta.lng_carpeta = lng_carpeta_solicitud;
@@ -226,7 +223,7 @@ namespace Infraestructure.ExternalApis
             }
             catch (Exception ex)
             {
-                throw new ArgumentException(ex.ToString());
+                throw new ArgumentException( ex.ToString() );
             }
             return resGetCarpeta;
         }
@@ -234,7 +231,7 @@ namespace Infraestructure.ExternalApis
         public bool publicar_autorizacion(ReqLoadDocumento reqLoadDocumento)
         {
             bool autorizacion = false;
-            srvAxentriaSoapClient srvAxentriaSoap = new(srvAxentriaSoapClient.EndpointConfiguration.srvAxentriaSoap);
+            srvAxentriaSoapClient srvAxentriaSoap = new( srvAxentriaSoapClient.EndpointConfiguration.srvAxentriaSoap );
 
             try
             {
@@ -242,35 +239,35 @@ namespace Infraestructure.ExternalApis
                 {
                     str_nombre_carpeta = "Sol_" + reqLoadDocumento.int_solicitud.ToString(),
                     lng_id_carpeta = reqLoadDocumento.lng_id_carpeta,
-                    loadfile = get_load_file(reqLoadDocumento.loadfile)
+                    loadfile = get_load_file( reqLoadDocumento.loadfile )
                 };
 
-                bool bln_publicacion = srvAxentriaSoap.publicar_archivo(reqPublicaDocumento);
+                bool bln_publicacion = srvAxentriaSoap.publicar_archivo( reqPublicaDocumento );
             }
             catch (Exception ex)
             {
-                throw new ArgumentException(ex.ToString());
+                throw new ArgumentException( ex.ToString() );
             }
             return autorizacion;
         }
 
         public string get_Documento_publicado(ReqLoadDocumento reqLoadDocumento)
         {
-            srvAxentriaSoapClient srvAxentriaSoap = new(srvAxentriaSoapClient.EndpointConfiguration.srvAxentriaSoap);
+            srvAxentriaSoapClient srvAxentriaSoap = new( srvAxentriaSoapClient.EndpointConfiguration.srvAxentriaSoap );
 
             try
             {
-                int int_tipo_documento = Int32.Parse(reqLoadDocumento.loadfile.properties[0].DefaultValue[0].ToString()!);
+                int int_tipo_documento = Int32.Parse( reqLoadDocumento.loadfile.properties[0].DefaultValue[0].ToString()! );
                 //string str_nombre_archivo = reqloaddocumento.loadfile.properties[2].DefaultValue[0].ToString();
                 string str_solicitud = reqLoadDocumento.int_solicitud.ToString();
-                long id_doc = srvAxentriaSoap.obtener_id_documento(int_tipo_documento, str_solicitud);
+                long id_doc = srvAxentriaSoap.obtener_id_documento( int_tipo_documento, str_solicitud );
                 if (id_doc > 0)
                     return id_doc.ToString();
                 else return "Error no se pudo obtener documento publicado de: " + str_solicitud;
             }
             catch (Exception ex)
             {
-                throw new ArgumentException(ex.ToString());
+                throw new ArgumentException( ex.ToString() );
             }
         }
 
@@ -280,14 +277,14 @@ namespace Infraestructure.ExternalApis
 
             try
             {
-                imp_file.fields = get_srv_fieldaxentria(loadfile.fields);
+                imp_file.fields = get_srv_fieldaxentria( loadfile.fields );
                 imp_file.file = loadfile.file;
                 imp_file.policies = loadfile.policies;
-                imp_file.properties = get_properties(loadfile.properties);
+                imp_file.properties = get_properties( loadfile.properties );
             }
             catch (Exception ex)
             {
-                throw new ArgumentException(ex.ToString());
+                throw new ArgumentException( ex.ToString() );
             }
             return imp_file;
         }
@@ -316,7 +313,7 @@ namespace Infraestructure.ExternalApis
             }
             catch (Exception ex)
             {
-                throw new ArgumentException(ex.ToString());
+                throw new ArgumentException( ex.ToString() );
             }
             return imp_campos;
         }
@@ -352,7 +349,7 @@ namespace Infraestructure.ExternalApis
             }
             catch (Exception ex)
             {
-                throw new ArgumentException(ex.ToString());
+                throw new ArgumentException( ex.ToString() );
             }
             return propiedades;
         }
