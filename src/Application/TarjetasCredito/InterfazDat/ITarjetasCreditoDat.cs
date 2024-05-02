@@ -5,6 +5,7 @@ using Application.TarjetasCredito.AgregarProspectoTC;
 using Application.TarjetasCredito.AgregarSolicitudTc;
 using Application.TarjetasCredito.ObtenerFlujoSolicitud;
 using Application.TarjetasCredito.ObtenerSolicitudes;
+using Application.TarjetasCredito.Resoluciones;
 
 
 namespace Application.TarjetasCredito.InterfazDat;
@@ -18,4 +19,7 @@ public interface ITarjetasCreditoDat
     Task<RespuestaTransaccion> getFlujoSolicitud(ReqGetFlujoSolicitud reqGetFlujoSolicitud);
     Task<RespuestaTransaccion> updSolicitudTc(ReqActualizarSolicitudTC reqActualizarSolicitudTC);
     Task<RespuestaTransaccion> addProspectoTc(ReqAddProspectoTc reqAddProspectoTc);
+    Task<RespuestaTransaccion> AddResoluciones(ReqAddResoluciones request);
+    Task<RespuestaTransaccion> GetResoluciones(ReqGetResoluciones request);
+    Task<RespuestaTransaccion> UpdateResoluciones(ReqUpdResoluciones request);
 }

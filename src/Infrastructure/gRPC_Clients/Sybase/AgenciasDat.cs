@@ -1,16 +1,12 @@
-﻿using Application.Common.Interfaces;
+﻿using AccesoDatosGrpcAse.Neg;
+using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.TarjetasCredito.CatalogoAgencias;
 using Application.TarjetasCredito.InterfazDat;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static AccesoDatosGrpcAse.Neg.DAL;
-using AccesoDatosGrpcAse.Neg;
 using Infrastructure.Common.Funciones;
+using Infrastructure.gRPC_Clients.Postgres;
+using Microsoft.Extensions.Options;
+using static AccesoDatosGrpcAse.Neg.DAL;
 
 namespace Infrastructure.gRPC_Clients.Sybase
 {
@@ -37,12 +33,12 @@ namespace Infrastructure.gRPC_Clients.Sybase
                 ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_id_sistema", TipoDato = TipoDato.Integer, ObjValue = request.str_id_sistema.ToString() } );
                 ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.VarChar } );
                 ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
-                ds.NombreSP = "get_catalogo_agencias_tc";
-                ds.NombreBD = "meg_atms";
+                ds.NombreSP = NameSps.getCatalogoAgencias;
+                ds.NombreBD = _settings.DB_meg_atms;
                 var resultado = await _objClienteDal.ExecuteDataSetAsync( ds );
 
                 var lst_valores = new List<ParametroSalidaValores>();
-                
+
                 foreach (var item in resultado.ListaPSalidaValores) lst_valores.Add( item );
                 var str_codigo = lst_valores.Find( x => x.StrNameParameter == "@int_o_error_cod" )!.ObjValue;
                 var str_error = lst_valores.Find( x => x.StrNameParameter == "@str_o_error" )!.ObjValue.Trim();

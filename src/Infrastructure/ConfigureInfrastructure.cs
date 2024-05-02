@@ -2,6 +2,7 @@
 using Application.Common.Interfaces;
 using Application.Common.Interfaces.Apis;
 using Application.Common.Interfaces.Dat;
+using Application.TarjetasCredito.ComentariosGestion;
 using Application.TarjetasCredito.InterfazDat;
 using Infraestructure.ExternalApis;
 using Infraestructure.InternalApis;
@@ -35,7 +36,7 @@ public static class ConfigureInfrastructure
         services.AddSingleton<ITarjetasCreditoDat, TarjetasCreditoDat>();
         services.AddSingleton<IFuncionalidades, FuncionalidadesDat>();
         services.AddSingleton<IFuncionalidadesDat, FuncionalidadesDat>();
-        services.AddSingleton<IFuncionalidadesMemory, FuncionalidadesInMemory>();
+        services.AddSingleton<IFuncionalidadesInMemory, FuncionalidadesInMemory>();
 
         //Datos Cliente
         services.AddSingleton<IDatosClienteDat, DatosClienteDat>();
@@ -51,10 +52,24 @@ public static class ConfigureInfrastructure
 
         //GestorDocumental
         services.AddSingleton<IWsGestorDocumental, wsGestorDocumental>();
-        
+
         //Validaciones
         services.AddSingleton<IValidacionesBuro, ValidacionesBuro>();
 
+        services.AddSingleton<IActivosPasivosDat, ActivosPasivosDat>();
+        //Inyección de dependia de los Creditos Vigentes 
+        services.AddSingleton<ICreditosVigentesDat, CreditosVigentesDat>();
+
+        //Inyeccion de las garantias constitudas 
+        services.AddSingleton<IGarantiasConstituidasDat, GarantiasConstitudasDat>();
+
+        services.AddSingleton<GetInformacionAdicional>();
+
+        services.AddSingleton<IComentariosGestionDat, GetComentariosGestion>();
+        services.AddSingleton<IParametrosInformeDat, ComentariosAsesorDat>();
+        services.AddSingleton<IInformesTarjetasCreditoDat, InformesTcDat>();
+        services.AddSingleton<IAnalistasCreditoDat, AnalistasCreditoDat>();
+        services.AddSingleton<IAnalistaSolicitudDat, AnalistaSolicitudDat>();
         return services;
     }
 }

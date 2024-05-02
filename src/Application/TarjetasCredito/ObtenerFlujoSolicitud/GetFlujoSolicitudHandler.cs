@@ -1,12 +1,11 @@
-﻿using Application.Common.Interfaces.Dat;
-using Application.Common.Interfaces;
+﻿using Application.Common.Interfaces;
+using Application.Common.Interfaces.Dat;
 using Application.Common.Models;
+using Application.Common.Utilidades;
 using Application.TarjetasCredito.InterfazDat;
 using MediatR;
 using Microsoft.Extensions.Options;
 using System.Reflection;
-using Application.Common.Utilidades;
-using static Application.TarjetasCredito.ObtenerSolicitudes.ResGetSolicitudes;
 using static Application.TarjetasCredito.ObtenerFlujoSolicitud.ResGetFlujoSolicitud;
 
 namespace Application.TarjetasCredito.ObtenerFlujoSolicitud
@@ -38,15 +37,15 @@ namespace Application.TarjetasCredito.ObtenerFlujoSolicitud
             {
                 await _logs.SaveHeaderLogs( reqGetFlujoSolicitud, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
 
-                res_tran = await _tarjetasCreditoDat.getFlujoSolicitud(reqGetFlujoSolicitud);
+                res_tran = await _tarjetasCreditoDat.getFlujoSolicitud( reqGetFlujoSolicitud );
 
                 if (res_tran.codigo == "000")
                 {
-                    List<FlujoSolicitudes> lista_solicitudes = Mapper.ConvertConjuntoDatosToListClass<FlujoSolicitudes>( res_tran.cuerpo);
+                    List<FlujoSolicitudes> lista_solicitudes = Mapper.ConvertConjuntoDatosToListClass<FlujoSolicitudes>( res_tran.cuerpo );
 
                     foreach (FlujoSolicitudes solicitudes in lista_solicitudes)
                     {
-                        solicitudes.str_estado = _parametersInMemory.FindParametroId( solicitudes.slw_estado ).str_valor_ini;
+                        solicitudes.str_estado = _parametersInMemory.FindParametroId( solicitudes.int_estado ).str_valor_ini;
                         respuesta.flujo_solicitudes.Add( solicitudes );
                     }
                 }
@@ -61,4 +60,3 @@ namespace Application.TarjetasCredito.ObtenerFlujoSolicitud
         }
     }
 }
-    

@@ -1,17 +1,12 @@
-﻿using Application.Common.Interfaces;
+﻿using AccesoDatosGrpcAse.Neg;
+using Application.Common.Interfaces;
 using Application.Common.Models;
-using Application.TarjetasCredito.InformacionEconomica;
 using Application.TarjetasCredito.InterfazDat;
 using Application.TarjetasCredito.SituacionFinanciera;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static AccesoDatosGrpcAse.Neg.DAL;
-using AccesoDatosGrpcAse.Neg;
 using Infrastructure.Common.Funciones;
+using Infrastructure.gRPC_Clients.Postgres;
+using Microsoft.Extensions.Options;
+using static AccesoDatosGrpcAse.Neg.DAL;
 
 namespace Infrastructure.gRPC_Clients.Sybase;
 
@@ -39,8 +34,8 @@ public class SituacionFinancieraDat : ISitFinDat
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_num_ente", TipoDato = TipoDato.Integer, ObjValue = request.str_ente.ToString() } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.VarChar } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
-            ds.NombreSP = "get_sit_fin_soc";
-            ds.NombreBD = _settings.DB_meg_buro;
+            ds.NombreSP = NameSps.getSitFinSoc;
+            ds.NombreBD = _settings.DB_meg_atms;
 
 
             var resultado = await _objClienteDal.ExecuteDataSetAsync( ds );

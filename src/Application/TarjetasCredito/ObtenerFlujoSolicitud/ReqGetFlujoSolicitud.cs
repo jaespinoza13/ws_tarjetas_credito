@@ -7,6 +7,6 @@ namespace Application.TarjetasCredito.ObtenerFlujoSolicitud
     public class ReqGetFlujoSolicitud : Header, IRequest<ResGetFlujoSolicitud>
     {
         [Required]
-        public int int_id_solicitud { get; set; } 
+        public int int_id_solicitud { get; set; }
     }
 }

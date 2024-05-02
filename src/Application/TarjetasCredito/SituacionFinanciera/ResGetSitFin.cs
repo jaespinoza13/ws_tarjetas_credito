@@ -1,11 +1,5 @@
 ﻿using Application.Common.ISO20022.Models;
-using Domain.Entities.Informacion_Financiera;
 using Domain.Entities.SituacionFinanciera;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.TarjetasCredito.SituacionFinanciera
 {

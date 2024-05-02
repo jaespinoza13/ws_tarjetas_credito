@@ -30,7 +30,7 @@ public class ApiSettings
 
     public string auth_ws_tarjetas_credito { get; set; } = string.Empty;
     public string auth_ws_otp { get; set; } = string.Empty;
-    public string auth_validaciones_buro { get; set; } = string.Empty; 
+    public string auth_validaciones_buro { get; set; } = string.Empty;
     public string auth_logs { get; set; } = string.Empty;
 
 
@@ -44,12 +44,12 @@ public class ApiSettings
     public string visualizar_prospectos { get; set; } = string.Empty;
     public int int_id_sistema { get; set; }
     public int fun_tipo_accion { get; set; }
-    public string rango_tc_clasica { get; set; } = string.Empty;
+    public string rango_tc_standard { get; set; } = string.Empty;
     public string rango_tc_black { get; set; } = string.Empty;
     public string rango_tc_gold { get; set; } = string.Empty;
     public string tarjeta_gold { get; set; } = string.Empty;
     public string tarjeta_black { get; set; } = string.Empty;
-    public string tarjeta_clasica { get; set; } = string.Empty;
+    public string tarjeta_standard { get; set; } = string.Empty;
     public int id_gabinete { get; set; }
     #endregion
 
@@ -59,4 +59,13 @@ public class ApiSettings
     public List<string> permisosAccion { get; set; } = new();
     public List<string> estadosSolTC { get; set; } = new();
     #endregion
+
+    #region
+    public string parametro_busqueda_comt { get; set; } = string.Empty;
+    public string par_bus_est_comt_acp { get; set; } = string.Empty;
+    public string par_bus_est_comt_rec { get; set; } = string.Empty;
+
+
+    #endregion
+
 }

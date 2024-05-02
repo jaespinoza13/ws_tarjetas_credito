@@ -29,4 +29,10 @@
     <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="Infrastructure">
+      <HintPath>..\Infrastructure\bin\Debug\net8.0\Infrastructure.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

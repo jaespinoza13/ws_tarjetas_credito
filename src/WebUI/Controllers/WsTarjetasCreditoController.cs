@@ -1,22 +1,20 @@
 ﻿using Application.Common.ISO20022.Models;
 using Application.TarjetasCredito.ActualizarSolicitudTC;
 using Application.TarjetasCredito.AgregarComentario;
+using Application.TarjetasCredito.AgregarProspectoTC;
 using Application.TarjetasCredito.AgregarSolicitudTc;
+using Application.TarjetasCredito.CatalogoAgencias;
+using Application.TarjetasCredito.ComentariosAsesor;
+using Application.TarjetasCredito.ComentariosGestion;
 using Application.TarjetasCredito.DatosClienteTc;
+using Application.TarjetasCredito.InformacionEconomica;
 using Application.TarjetasCredito.ObtenerFlujoSolicitud;
 using Application.TarjetasCredito.ObtenerSolicitudes;
 using Application.TarjetasCredito.SituacionFinanciera;
-using Application.TarjetasCredito.InformacionEconomica;
-using Application.TarjetasCredito.CatalogoAgencias;
-using Domain.Types;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using WebUI.Filters;
 using wsMegomovil.Filters;
-using Application.TarjetasCredito.AgregarProspectoTC;
 namespace WebUI.Controllers;
 
 [Route( "api/wsTarjetasCredito" )]
@@ -45,7 +43,6 @@ public class WsTarjetasCreditoController : ControllerBase
         var result = await _mediator.Send( request );
         return Ok( result );
     }
-
 
     [HttpPost( "ADD_SOLICITUD_TC" )]
     public async Task<ActionResult<ResAddSolicitudTc>> add_solicitud_tarjeta_credito(ReqAddSolicitudTc request)
@@ -82,7 +79,6 @@ public class WsTarjetasCreditoController : ControllerBase
         return Ok( result );
     }
 
-
     [HttpPost( "GET_INFORMACION_ECONOMICA" )]
     public async Task<ActionResult<ResGetInfEco>> get_informacion_economica(ReqGetInfEco request)
     {
@@ -111,4 +107,26 @@ public class WsTarjetasCreditoController : ControllerBase
         var result = await _mediator.Send( request );
         return Ok( result );
     }
+
+    [HttpPost( "GET_COMENTARIOS_GESTION" )]
+    public async Task<ActionResult<ResGetComentGestion>> get_comentarios_gestion(ReqGetComentGestion request)
+    {
+        var result = await _mediator.Send( request );
+        return Ok( result );
+    }
+
+    [HttpPost( "ADD_INFORME_TC" )]
+    public async Task<ActionResult<ResAddInforme>> add_informe_tc(ReqAddInforme request)
+    {
+        var result = await _mediator.Send( request );
+        return Ok( result );
+    }
+
+    [HttpPost( "GET_INFORME_TC" )]
+    public async Task<ActionResult<ResGetInforme>> get_informe_tc(ReqGetInforme request)
+    {
+        var result = await _mediator.Send( request );
+        return Ok( result );
+    }
+
 }

@@ -1,6 +1,4 @@
-﻿
-using Application.Common.ISO20022.Models;
-using Application.Common.Models;
+﻿using Application.Common.Models;
 
 namespace Infrastructure.Common.Interfaces;
 

@@ -1,17 +1,11 @@
 ﻿using Application.Common.Converting;
 using Application.Common.Interfaces;
 using Application.Common.Models;
-using Application.TarjetasCredito.InformacionEconomica;
 using Application.TarjetasCredito.InterfazDat;
-using Domain.Entities.Informacion_Financiera;
 using Domain.Entities.SituacionFinanciera;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.Extensions.Caching.Memory;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.TarjetasCredito.SituacionFinanciera
 {
@@ -19,14 +13,17 @@ namespace Application.TarjetasCredito.SituacionFinanciera
     {
         private readonly ISitFinDat _infoSitDat;
         private readonly ILogs _logs;
+        public readonly IMemoryCache _memoryCache;
         private readonly string str_clase;
         private readonly string str_operacion;
-        public GetSitFinHandler(ISitFinDat infoSitFinDat, ILogs logs)
+        public DateTime dt_fecha_codigos;
+        public GetSitFinHandler(ISitFinDat infoSitFinDat, ILogs logs, IMemoryCache memoryCache)
         {
             _infoSitDat = infoSitFinDat;
             _logs = logs;
             str_clase = GetType().Name;
             str_operacion = "GET_SITUACION_FINANCIERA";
+            this._memoryCache = memoryCache;
         }
 
         public async Task<ResGetSitFin> Handle(ReqGetSitFin request, CancellationToken cancellationToken)
@@ -52,7 +49,7 @@ namespace Application.TarjetasCredito.SituacionFinanciera
                         dtt_fecha_movimiento = dpf.dtt_fecha_movimiento,
                         dcm_promedio = dpf.dcm_promedio,
                         str_tipo_cta = dpf.str_tipo_cta,
-                        str_estado = dpf.str_estado,    
+                        str_estado = dpf.str_estado,
                         int_orden = dpf.int_orden,
                     };
                     data_lst_dep.Add( obj_dpf );
@@ -77,6 +74,15 @@ namespace Application.TarjetasCredito.SituacionFinanciera
                 }
                 respuesta.lst_creditos_historicos = data_lst_cred;
                 respuesta.str_res_codigo = res_tran.codigo;
+                //Analizar si se deja esta sección
+                if (data_lst_dep.Any())
+                {
+                    _memoryCache.Set( $"Informacion_dpfs_{request.str_ente}_ente", data_lst_dep );
+                }
+                if (data_lst_cred.Any())
+                {
+                    _memoryCache.Set( $"Informacion_cred_hist_{request.str_ente}_ente", data_lst_cred );
+                }
                 respuesta.str_res_info_adicional = res_tran.diccionario["str_o_error"];
                 await _logs.SaveResponseLogs( respuesta, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
             }

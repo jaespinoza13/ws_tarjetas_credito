@@ -5,6 +5,6 @@ namespace Application.TarjetasCredito.ObtenerSolicitudes
 {
     public class ReqGetSolicitudes : Header, IRequest<ResGetSolicitudes>
     {
-        public string str_estado {  get; set; } = string.Empty;
+        public string str_estado { get; set; } = string.Empty;
     }
 }

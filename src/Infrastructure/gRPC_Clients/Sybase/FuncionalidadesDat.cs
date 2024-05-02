@@ -3,17 +3,10 @@ using Application.Common.Interfaces;
 using Application.Common.Interfaces.Dat;
 using Application.Common.ISO20022.Models;
 using Application.Common.Models;
-using Application.TarjetasCredito.DatosClienteTc;
-using Application.TarjetasCredito.InterfazDat;
 using Infrastructure.Common.Funciones;
 using Infrastructure.gRPC_Clients.Postgres;
 using Infrastructure.MemoryCache;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static AccesoDatosGrpcAse.Neg.DAL;
 
 namespace Infrastructure.gRPC_Clients.Sybase
@@ -23,7 +16,7 @@ namespace Infrastructure.gRPC_Clients.Sybase
         private readonly ApiSettings _settings;
         private readonly DALClient _objClienteDal;
         private readonly ILogs _logsService;
-        private readonly string str_clase; 
+        private readonly string str_clase;
         private readonly int int_padleft;
 
         public FuncionalidadesDat(IOptionsMonitor<ApiSettings> options, ILogs logsService, DALClient objClienteDal)
@@ -64,7 +57,7 @@ namespace Infrastructure.gRPC_Clients.Sybase
                 if (respuesta.codigo == "000")
                 {
                     respuesta.codigo = Funciones.ObtenerDatos( resultado ).lst_tablas.Count > 1 ? respuesta.codigo = "002" : respuesta.codigo = "000";
-                    respuesta.cuerpo = Funciones.ObtenerDatos( resultado ); 
+                    respuesta.cuerpo = Funciones.ObtenerDatos( resultado );
                 }
 
             }
@@ -86,7 +79,7 @@ namespace Infrastructure.gRPC_Clients.Sybase
                 ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_oficial", TipoDato = TipoDato.VarChar, ObjValue = "" } );
                 ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.VarChar } );
                 ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
-                ds.NombreSP = "get_inf_cliente_tc";
+                ds.NombreSP = NameSps.getInfCliente;
                 ds.NombreBD = _settings.DB_meg_buro;
 
                 var resultado = await _objClienteDal.ExecuteDataSetAsync( ds );

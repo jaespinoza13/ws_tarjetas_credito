@@ -10,5 +10,7 @@ public interface IParametersInMemory
     Parametro FindParametroNemonico(string str_nemonico);
     Parametro FindParametroValorFin(string str_valor_fin);
     Parametro FindParametroId(int int_id_param);
+    Parametro nuevoEstado(string str_valor_fin);
     string getMensajeProceso(string str_codigo, string str_mensaje = "");
+
 }

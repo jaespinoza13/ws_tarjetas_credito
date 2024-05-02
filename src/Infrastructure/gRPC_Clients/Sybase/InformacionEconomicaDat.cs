@@ -4,12 +4,8 @@ using Application.Common.Models;
 using Application.TarjetasCredito.InformacionEconomica;
 using Application.TarjetasCredito.InterfazDat;
 using Infrastructure.Common.Funciones;
+using Infrastructure.gRPC_Clients.Postgres;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using static AccesoDatosGrpcAse.Neg.DAL;
 
 namespace Infrastructure.gRPC_Clients.Sybase;
@@ -34,12 +30,12 @@ public class InformacionEconomicaDat : IInfoFinDat
         RespuestaTransaccion respuesta = new RespuestaTransaccion();
         try
         {
-            DatosSolicitud ds = new ();
-            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_num_ente", TipoDato = TipoDato.Integer, ObjValue = request.str_ente.ToString()} );
+            DatosSolicitud ds = new();
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_num_ente", TipoDato = TipoDato.Integer, ObjValue = request.str_ente.ToString() } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.VarChar } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
-            ds.NombreSP = "get_ing_egr_soc_tc";
-            ds.NombreBD = _settings.DB_meg_buro;
+            ds.NombreSP = NameSps.getIngEgrSoc;
+            ds.NombreBD = _settings.DB_meg_atms;
 
             var resultado = await _objClienteDal.ExecuteDataSetAsync( ds );
 
