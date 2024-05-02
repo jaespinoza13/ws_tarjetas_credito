@@ -8,6 +8,7 @@ using Application.TarjetasCredito.AgregarSolicitudTc;
 using Application.TarjetasCredito.InterfazDat;
 using Application.TarjetasCredito.ObtenerFlujoSolicitud;
 using Application.TarjetasCredito.ObtenerSolicitudes;
+using Application.TarjetasCredito.Resoluciones;
 using Grpc.Net.Client;
 using Infrastructure.Common.Funciones;
 using Microsoft.Extensions.Options;
@@ -415,6 +416,111 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
             await _logService.SaveExceptionLogs( reqAddProspectoTc, MethodBase.GetCurrentMethod()!.Name, "addProspectoTc", str_clase, ex );
             throw new ArgumentException( reqAddProspectoTc.str_id_transaccion );
         }
+        return respuesta;
+    }
+
+    public async Task<RespuestaTransaccion> GetResoluciones(ReqGetResoluciones request)
+    {
+        var respuesta = new RespuestaTransaccion();
+        try
+        {
+            var ds = new DatosSolicitud();
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_id_solicitud", TipoDato = TipoDato.Integer, ObjValue = request.int_id_sol.ToString() } );
+            ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } ); 
+            ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.CharacterVarying } );
+            ds.NombreSP = NameSps.getResolicionesTC;
+            ds.NombreBD = _settings.DB_meg_tarjetas_credito;
+
+            var resultado = _objClienteDal.ExecuteReader( ds );//ExecuteNonQuery para sps - ExecuteReader para funciones
+            var lst_valores = resultado.ListaPSalidaValores.ToList();
+            var str_codigo = lst_valores.Find( x => x.StrNameParameter == "@int_o_error_cod" )!.ObjValue;
+            var str_error = lst_valores.Find( x => x.StrNameParameter == "@str_o_error" )!.ObjValue.Trim();
+            respuesta.cuerpo = Funciones.ObtenerDataBasePg( resultado );
+            respuesta.codigo = str_codigo.Trim().PadLeft( 3, '0' );
+            respuesta.diccionario.Add( "str_o_error", str_error );
+        }
+        catch (Exception ex)
+        {
+            respuesta.codigo = "003";
+            respuesta.diccionario.Add( "str_error", ex.InnerException != null ? ex.InnerException.Message : ex.Message );
+            await _logService.SaveExceptionLogs( request, MethodBase.GetCurrentMethod()!.Name, "addSolicitudTC", str_clase, ex );
+            throw new ArgumentException( request.str_id_transaccion );
+
+        }
+
+        return respuesta;
+    }
+
+    public async Task<RespuestaTransaccion> AddResoluciones(ReqAddResoluciones request)
+    {
+        var respuesta = new RespuestaTransaccion();
+        try
+        {
+            var ds = new DatosSolicitud();
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_id_sol", TipoDato = TipoDato.Integer, ObjValue = request.int_id_sol.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@dec_cupo_solicitado", TipoDato = TipoDato.Numeric, ObjValue = request.dec_cupo_solicitado.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@dec_cupo_sugerido", TipoDato = TipoDato.Numeric, ObjValue = request.dec_cupo_sugerido.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_usuario_proc", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_login.ToString() } );
+            //ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@dtt_fecha_actualizacion", TipoDato = TipoDato.TimestampWithoutTimeZone, ObjValue = request.dtt_fecha_actualizacion.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_decision_solicitud", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_decision_solicitud.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_comentario_proceso", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_comentario_proceso.ToString() } );
+            ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
+            ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.CharacterVarying } );
+            ds.NombreSP = NameSps.addResolicionesTC;
+            ds.NombreBD = _settings.DB_meg_tarjetas_credito;
+            var resultado = _objClienteDal.ExecuteReader( ds );//ExecuteNonQuery para sps - ExecuteReader para funciones
+            var lst_valores = resultado.ListaPSalidaValores.ToList();
+            var str_codigo = lst_valores.Find( x => x.StrNameParameter == "@int_o_error_cod" )!.ObjValue;
+            var str_error = lst_valores.Find( x => x.StrNameParameter == "@str_o_error" )!.ObjValue.Trim();
+            respuesta.codigo = str_codigo.Trim().PadLeft( 3, '0' );
+            respuesta.diccionario.Add( "str_o_error", str_error );
+        }
+        catch (Exception ex)
+        {
+            respuesta.codigo = "003";
+            respuesta.diccionario.Add( "str_error", ex.InnerException != null ? ex.InnerException.Message : ex.Message );
+            await _logService.SaveExceptionLogs( request, MethodBase.GetCurrentMethod()!.Name, "addSolicitudTC", str_clase, ex );
+            throw new ArgumentException( request.str_id_transaccion );
+
+        }
+
+        return respuesta;
+    }
+
+    public async Task<RespuestaTransaccion> UpdateResoluciones(ReqUpdResoluciones request)
+    {
+        var respuesta = new RespuestaTransaccion();
+        try
+        {
+            var ds = new DatosSolicitud();
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_rss_id", TipoDato = TipoDato.Integer, ObjValue = request.int_rss_id.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_id_sol", TipoDato = TipoDato.Integer, ObjValue = request.int_id_sol.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@dec_cupo_solicitado", TipoDato = TipoDato.Numeric, ObjValue = request.dec_cupo_solicitado.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@dec_cupo_sugerido", TipoDato = TipoDato.Numeric, ObjValue = request.dec_cupo_sugerido.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_usuario_proc", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_login.ToString() } );
+            //ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@dtt_fecha_actualizacion", TipoDato = TipoDato.TimestampWithoutTimeZone, ObjValue = request.dtt_fecha_actualizacion.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_decision_solicitud", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_decision_solicitud.ToString() } );
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_comentario_proceso", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_comentario_proceso.ToString() } );
+            ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
+            ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.CharacterVarying } );
+            ds.NombreSP = NameSps.updResolicionesTC;
+            ds.NombreBD = _settings.DB_meg_tarjetas_credito;
+            var resultado = _objClienteDal.ExecuteReader( ds );//ExecuteNonQuery para sps - ExecuteReader para funciones
+            var lst_valores = resultado.ListaPSalidaValores.ToList();
+            var str_codigo = lst_valores.Find( x => x.StrNameParameter == "@int_o_error_cod" )!.ObjValue;
+            var str_error = lst_valores.Find( x => x.StrNameParameter == "@str_o_error" )!.ObjValue.Trim();
+            respuesta.codigo = str_codigo.Trim().PadLeft( 3, '0' );
+            respuesta.diccionario.Add( "str_o_error", str_error );
+        }
+        catch (Exception ex)
+        {
+            respuesta.codigo = "003";
+            respuesta.diccionario.Add( "str_error", ex.InnerException != null ? ex.InnerException.Message : ex.Message );
+            await _logService.SaveExceptionLogs( request, MethodBase.GetCurrentMethod()!.Name, "addSolicitudTC", str_clase, ex );
+            throw new ArgumentException( request.str_id_transaccion );
+
+        }
+
         return respuesta;
     }
 }
