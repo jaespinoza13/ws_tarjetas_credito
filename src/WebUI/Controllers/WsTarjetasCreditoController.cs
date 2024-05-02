@@ -3,6 +3,8 @@ using Application.TarjetasCredito.ActualizarSolicitudTC;
 using Application.TarjetasCredito.AgregarComentario;
 using Application.TarjetasCredito.AgregarProspectoTC;
 using Application.TarjetasCredito.AgregarSolicitudTc;
+using Application.TarjetasCredito.AnalistasCredito.AddAnalistaSolicitud;
+using Application.TarjetasCredito.AnalistasCredito.GetAnalistas;
 using Application.TarjetasCredito.CatalogoAgencias;
 using Application.TarjetasCredito.ComentariosAsesor;
 using Application.TarjetasCredito.ComentariosGestion;
@@ -129,4 +131,17 @@ public class WsTarjetasCreditoController : ControllerBase
         return Ok( result );
     }
 
+    [HttpPost( "GET_ANALISTAS" )]
+    public async Task<ActionResult<ResGetAnalistasCredito>> get_analistas(ReqGetAnalistasCredito request)
+    {
+        var result = await _mediator.Send( request );
+        return Ok( result );
+    }
+
+    [HttpPost( "ADD_ANALISTA_SOLICITUD" )]
+    public async Task<ActionResult<ResAddAnalistaSolicitud>> add_analistas_solicitud(ReqAddAnalistaSolicitud request)
+    {
+        var result = await _mediator.Send( request );
+        return Ok( result );
+    }
 }

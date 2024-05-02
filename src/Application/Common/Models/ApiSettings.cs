@@ -39,7 +39,7 @@ public class ApiSettings
     public int mostrar_descripcion_badrequest { get; set; }
     public string estado_creado { get; set; } = string.Empty;
     public string estado_entregado { get; set; } = string.Empty;
-    public string estado_analisis_gestor { get; set; } = string.Empty;
+    public string estado_analisis_uac { get; set; } = string.Empty;
     public string estado_anulado { get; set; } = string.Empty;
     public string visualizar_prospectos { get; set; } = string.Empty;
     public int int_id_sistema { get; set; }

@@ -29,7 +29,7 @@ namespace Application.TarjetasCredito.AnalistasCredito.GetAnalistas
         {
             ResGetAnalistasCredito respuesta = new();
             RespuestaTransaccion res_tran = new();
-            const string str_operacion = "GET_SOLICITUDES_TC";
+            const string str_operacion = "GET_ANALISTAS";
             respuesta.LlenarResHeader( reqGetAnalistasCredito );
             var funcionalidad = new Domain.Funcionalidades.Funcionalidad();
 

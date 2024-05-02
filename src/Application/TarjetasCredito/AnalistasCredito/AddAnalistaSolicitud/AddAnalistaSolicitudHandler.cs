@@ -42,9 +42,8 @@ namespace Application.TarjetasCredito.AnalistasCredito.AddAnalistaSolicitud
             {
                 await _logs.SaveHeaderLogs( reqAddAnalistaSolicitud, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
 
-                if (_parametersInMemory.FindParametroId( reqAddAnalistaSolicitud.int_estado ).str_nemonico == _settings.estado_analisis_gestor)
+                if (_parametersInMemory.FindParametroId( reqAddAnalistaSolicitud.int_estado ).str_nemonico == _settings.estado_analisis_uac)
                 {
-
                     if (String.IsNullOrEmpty( reqAddAnalistaSolicitud.str_id_analista ))
                     {
                         ReqGetAnalistasCredito getAnalistasCredito = new ReqGetAnalistasCredito();
@@ -54,9 +53,11 @@ namespace Application.TarjetasCredito.AnalistasCredito.AddAnalistaSolicitud
                         for (int j = 0; j < lst_analistas.Count; j++)
                         {
                             reqAddAnalistaSolicitud.str_id_analista = reqAddAnalistaSolicitud.str_id_analista + lst_analistas[j].int_id_usuario.ToString() + "|";
+                            reqAddAnalistaSolicitud.str_analista = reqAddAnalistaSolicitud.str_id_analista + lst_analistas[j].str_login + "|";
                         }
                         reqAddAnalistaSolicitud.str_id_analista = reqAddAnalistaSolicitud.str_id_analista.TrimEnd( '|' );
                     }
+
                     res_tran = await _analistaSolicitudDat.addAnalistaSolicitud( reqAddAnalistaSolicitud );
 
                     respuesta.str_res_codigo = "001";
