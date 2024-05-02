@@ -431,6 +431,7 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.CharacterVarying } );
             ds.NombreSP = NameSps.getResolicionesTC;
             ds.NombreBD = _settings.DB_meg_tarjetas_credito;
+
             var resultado = _objClienteDal.ExecuteReader( ds );//ExecuteNonQuery para sps - ExecuteReader para funciones
             var lst_valores = resultado.ListaPSalidaValores.ToList();
             var str_codigo = lst_valores.Find( x => x.StrNameParameter == "@int_o_error_cod" )!.ObjValue;
