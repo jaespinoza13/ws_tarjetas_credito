@@ -49,7 +49,7 @@ public class GetResolucionesHandler : IRequestHandler<ReqGetResoluciones, ResGet
         {
 
             await _logs.SaveExceptionLogs( respuesta, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase, e );
-            throw new ArgumentException( respuesta.str_id_transaccion );
+            throw new ArgumentException( respuesta.str_id_transaccion ); 
         }
         return respuesta;
     }
