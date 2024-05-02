@@ -427,7 +427,7 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
         {
             var ds = new DatosSolicitud();
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_id_solicitud", TipoDato = TipoDato.Integer, ObjValue = request.int_id_sol.ToString() } );
-            ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
+            ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } ); 
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.CharacterVarying } );
             ds.NombreSP = NameSps.getResolicionesTC;
             ds.NombreBD = _settings.DB_meg_tarjetas_credito;
