@@ -37,7 +37,7 @@ public static class ConfigureInfrastructure
         services.AddSingleton<ITarjetasCreditoDat, TarjetasCreditoDat>();
         services.AddSingleton<IFuncionalidades, FuncionalidadesDat>();
         services.AddSingleton<IFuncionalidadesDat, FuncionalidadesDat>();
-        services.AddSingleton<IFuncionalidadesMemory, FuncionalidadesInMemory>();
+        services.AddSingleton<IFuncionalidadesInMemory, FuncionalidadesInMemory>();
 
         //Datos Cliente
         services.AddSingleton<IDatosClienteDat, DatosClienteDat>();
@@ -69,6 +69,8 @@ public static class ConfigureInfrastructure
         services.AddSingleton<IComentariosGestionDat, GetComentariosGestion>();
         services.AddSingleton<IParametrosInformeDat, ComentariosAsesorDat>();
         services.AddSingleton<IInformesTarjetasCreditoDat, InformesTcDat>();
+        services.AddSingleton<IAnalistasCreditoDat, AnalistasCreditoDat>();
+        services.AddSingleton<IAnalistaSolicitudDat, AnalistaSolicitudDat>();
         return services;
     }
 }

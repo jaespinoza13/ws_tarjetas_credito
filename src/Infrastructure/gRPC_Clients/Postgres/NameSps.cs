@@ -19,6 +19,10 @@
         public const string getCredVigSoc = "get_cred_vig_cob_tc";
         public const string getGarConsSoc = "get_garantias_constituidas_tc";
         public const string getParametrosInformeTc= "get_parametros_informe_tc";
+        public const string updComentariosAsesorTc = "upd_comentarios_asesor_tc";
+        public const string getComentariosAsesorTc = "get_comentariosf_tc";
+        public const string getAnalistasCredito = "get_analistas_tc";
+        public const string addAnalistaSolicitud = "add_analista_solicitud";
         public const string addInformeTc = "add_informe_tc";
         public const string getInformesTC = "get_informes_tc";
         public const string getResolicionesTC = "get_resoluciones_solicitud";

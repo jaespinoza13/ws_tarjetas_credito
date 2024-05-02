@@ -15,12 +15,12 @@ namespace Application.TarjetasCredito.ObtenerSolicitudes
     {
         private readonly ApiSettings _settings;
         private readonly IParametersInMemory _parametersInMemory;
-        private readonly IFuncionalidadesMemory _funcionalidadesMemory;
+        private readonly IFuncionalidadesInMemory _funcionalidadesMemory;
         private readonly ITarjetasCreditoDat _tarjetasCreditoDat;
         private readonly ILogs _logs;
         private readonly string str_clase;
 
-        public GetSolicitudesHandler(IOptionsMonitor<ApiSettings> options, ITarjetasCreditoDat tarjetasCreditoDat, ILogs logs, IParametersInMemory parametersInMemory, IFuncionalidadesMemory funcionalidadesMemory)
+        public GetSolicitudesHandler(IOptionsMonitor<ApiSettings> options, ITarjetasCreditoDat tarjetasCreditoDat, ILogs logs, IParametersInMemory parametersInMemory, IFuncionalidadesInMemory funcionalidadesMemory)
         {
             this._settings = options.CurrentValue;
             this._tarjetasCreditoDat = tarjetasCreditoDat;
