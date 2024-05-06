@@ -58,11 +58,11 @@ namespace Application.TarjetasCredito.OrdenReporte
             try
             {
                 //LLAMAR A INTERFAZ QUE OBTIENE EL REPORTE
-                RespuestaTransaccion res_tran = new();
+                //RespuestaTransaccion res_tran = new();
 
                 //Console.WriteLine( "RESULT REQGEST" );
                 //Console.WriteLine( request.str_numero_orden );
-                res_tran = await _iordenDat.get_reporte_orden( request );
+                //res_tran = await _iordenDat.get_reporte_orden( request );
 
 
                 //TODO: REVIsAR 
@@ -107,7 +107,7 @@ namespace Application.TarjetasCredito.OrdenReporte
                 }
 
                 respuesta.byt_reporte = doc_pdf;
-                respuesta.str_res_codigo = res_tran.codigo;
+                //respuesta.str_res_codigo = res_tran.codigo;
 
             }
             catch (Exception ex)
