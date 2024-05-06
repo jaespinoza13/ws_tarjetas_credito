@@ -1,17 +1,11 @@
-﻿using Application.Common.Interfaces.Dat;
-using Application.Common.Interfaces;
+﻿using Application.Common.Interfaces;
+using Application.Common.Interfaces.Dat;
 using Application.Common.Models;
+using Application.TarjetasCredito.AgregarComentario;
 using Application.TarjetasCredito.InterfazDat;
 using MediatR;
 using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.TarjetasCredito.AgregarSolicitudTc;
 using System.Reflection;
-using Application.TarjetasCredito.AgregarComentario;
 
 namespace Application.TarjetasCredito.AnularSolicitud
 {
@@ -53,14 +47,14 @@ namespace Application.TarjetasCredito.AnularSolicitud
                     reqAddProceso.int_estado = estado;
                     reqAddProceso.int_id_solicitud = reqAddAnularSolicitud.int_id_solicitud;
                     reqAddProceso.str_comentario = reqAddAnularSolicitud.str_comentario;
-                    res_tran = await _tarjetasCreditoDat.addProcesoSolicitud(reqAddProceso);
-    
+                    res_tran = await _tarjetasCreditoDat.addProcesoSolicitud( reqAddProceso );
+
                     respuesta.str_res_codigo = res_tran.codigo;
                     respuesta.str_res_info_adicional = res_tran.diccionario["str_o_error"];
                 }
 
             }
-            catch ( Exception ex ) { }
+            catch (Exception ex) { }
 
             return respuesta;
         }
@@ -68,7 +62,7 @@ namespace Application.TarjetasCredito.AnularSolicitud
         public int estado_proceso(string id_servicio)
         {
             int estado = 0;
-            id_servicio = id_servicio.Substring( "REQ_".Length ); 
+            id_servicio = id_servicio.Substring( "REQ_".Length );
 
             switch (id_servicio)
             {
@@ -82,5 +76,5 @@ namespace Application.TarjetasCredito.AnularSolicitud
 
             return estado;
         }
-     }
+    }
 }

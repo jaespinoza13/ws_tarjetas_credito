@@ -1,6 +1,5 @@
 ﻿using Application.Common.Behaviours;
 using Application.Common.ISO20022.Models;
-using Application.TarjetasCredito.ComentariosGestion;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;

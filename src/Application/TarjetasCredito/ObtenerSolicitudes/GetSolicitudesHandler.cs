@@ -3,7 +3,6 @@ using Application.Common.Interfaces.Dat;
 using Application.Common.Models;
 using Application.Common.Utilidades;
 using Application.TarjetasCredito.InterfazDat;
-using iText.Kernel.Pdf.Canvas.Wmf;
 using MediatR;
 using Microsoft.Extensions.Options;
 using System.Reflection;
@@ -15,12 +14,12 @@ namespace Application.TarjetasCredito.ObtenerSolicitudes
     {
         private readonly ApiSettings _settings;
         private readonly IParametersInMemory _parametersInMemory;
-        private readonly IFuncionalidadesMemory _funcionalidadesMemory;
+        private readonly IFuncionalidadesInMemory _funcionalidadesMemory;
         private readonly ITarjetasCreditoDat _tarjetasCreditoDat;
         private readonly ILogs _logs;
         private readonly string str_clase;
 
-        public GetSolicitudesHandler(IOptionsMonitor<ApiSettings> options, ITarjetasCreditoDat tarjetasCreditoDat, ILogs logs, IParametersInMemory parametersInMemory, IFuncionalidadesMemory funcionalidadesMemory)
+        public GetSolicitudesHandler(IOptionsMonitor<ApiSettings> options, ITarjetasCreditoDat tarjetasCreditoDat, ILogs logs, IParametersInMemory parametersInMemory, IFuncionalidadesInMemory funcionalidadesMemory)
         {
             this._settings = options.CurrentValue;
             this._tarjetasCreditoDat = tarjetasCreditoDat;
@@ -36,7 +35,7 @@ namespace Application.TarjetasCredito.ObtenerSolicitudes
             RespuestaTransaccion res_tran = new();
             const string str_operacion = "GET_SOLICITUDES_TC";
             respuesta.LlenarResHeader( reqGetSolicitudes );
-            var funcionalidad = new Domain.Funcionalidades.Funcionalidad(); 
+            var funcionalidad = new Domain.Funcionalidades.Funcionalidad();
 
             try
             {
@@ -102,12 +101,12 @@ namespace Application.TarjetasCredito.ObtenerSolicitudes
         {
             string estados = "";
 
-            for (int i = 0; i<_settings.permisosVisualizacion.Count; i++)
+            for (int i = 0; i < _settings.permisosVisualizacion.Count; i++)
             {
                 if (_funcionalidadesMemory.FindPermisoPerfil( Convert.ToInt32( perfil ),
                 _funcionalidadesMemory.FindFuncionalidadNombre( _settings.permisosVisualizacion[i] ).fun_id ))
-                    estados = estados  + _parametersInMemory.FindParametroNemonico( _settings.estadosSolTC[i] ).int_id_parametro.ToString() + "|";
-                    estados = estados.TrimEnd( '|' );
+                    estados = estados + _parametersInMemory.FindParametroNemonico( _settings.estadosSolTC[i] ).int_id_parametro.ToString() + "|";
+                estados = estados.TrimEnd( '|' );
             }
 
             //if (_funcionalidadesMemory.FindPermisoPerfil( Convert.ToInt32( perfil ),

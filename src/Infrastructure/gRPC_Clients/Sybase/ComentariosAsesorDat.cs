@@ -1,18 +1,12 @@
-﻿using Application.Common.Interfaces;
+﻿using AccesoDatosGrpcAse.Neg;
+using Application.Common.Interfaces;
 using Application.Common.Models;
-using Application.TarjetasCredito.InterfazDat;
 using Application.TarjetasCredito.ComentariosAsesor;
-using Microsoft.Extensions.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static AccesoDatosGrpcAse.Neg.DAL;
-using  AccesoDatosGrpcAse.Neg;
+using Application.TarjetasCredito.InterfazDat;
 using Infrastructure.Common.Funciones;
 using Infrastructure.gRPC_Clients.Postgres;
-using Infrastructure.MemoryCache;
+using Microsoft.Extensions.Options;
+using static AccesoDatosGrpcAse.Neg.DAL;
 
 namespace Infrastructure.gRPC_Clients.Sybase;
 

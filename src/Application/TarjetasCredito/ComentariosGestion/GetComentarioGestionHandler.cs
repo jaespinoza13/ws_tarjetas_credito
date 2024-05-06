@@ -1,16 +1,8 @@
 ﻿using Application.Common.Interfaces;
-using Application.Common.Models;
 using Application.TarjetasCredito.InterfazDat;
-using Domain.Entities.ComentariosGestion;
-using Domain.Parameters;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.TarjetasCredito.ComentariosGestion;
 

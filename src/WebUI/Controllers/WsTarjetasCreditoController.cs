@@ -1,25 +1,25 @@
 ﻿using Application.Common.ISO20022.Models;
 using Application.TarjetasCredito.ActualizarSolicitudTC;
 using Application.TarjetasCredito.AgregarComentario;
+using Application.TarjetasCredito.AgregarProspectoTC;
 using Application.TarjetasCredito.AgregarSolicitudTc;
+using Application.TarjetasCredito.CatalogoAgencias;
+using Application.TarjetasCredito.ComentariosAsesor;
+using Application.TarjetasCredito.ComentariosGestion;
 using Application.TarjetasCredito.DatosClienteTc;
+using Application.TarjetasCredito.InformacionEconomica;
 using Application.TarjetasCredito.ObtenerFlujoSolicitud;
 using Application.TarjetasCredito.ObtenerSolicitudes;
+using Application.TarjetasCredito.Resoluciones;
 using Application.TarjetasCredito.SituacionFinanciera;
-using Application.TarjetasCredito.InformacionEconomica;
-using Application.TarjetasCredito.CatalogoAgencias;
-using Domain.Types;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
-using WebUI.Filters;
 using wsMegomovil.Filters;
+using Application.TarjetasCredito.OrdenReporte;
 using Application.TarjetasCredito.AgregarProspectoTC;
 using Application.TarjetasCredito.ComentariosGestion;
 using Application.TarjetasCredito.ComentariosAsesor;
-using Application.TarjetasCredito.OrdenReporte;
 namespace WebUI.Controllers;
 
 [Route( "api/wsTarjetasCredito" )]
@@ -51,7 +51,7 @@ public class WsTarjetasCreditoController : ControllerBase
 
     [HttpPost( "ADD_SOLICITUD_TC" )]
     public async Task<ActionResult<ResAddSolicitudTc>> add_solicitud_tarjeta_credito(ReqAddSolicitudTc request)
-     {
+    {
         var result = await _mediator.Send( request );
         return Ok( result );
     }
@@ -69,7 +69,7 @@ public class WsTarjetasCreditoController : ControllerBase
         var result = await _mediator.Send( reqAgregarComentario );
         return Ok( result );
     }
-     
+
     [HttpPost( "GET_FLUJO_SOLICITUD" )]
     public async Task<ActionResult<ResGetFlujoSolicitud>> getFlujoSolicitud(ReqGetFlujoSolicitud reqGetFlujoSolicitud)
     {
@@ -133,6 +133,27 @@ public class WsTarjetasCreditoController : ControllerBase
         var result = await _mediator.Send( request );
         return Ok( result );
     }
+
+    [HttpPost( "GET_RESOLUCION" )]
+    public async Task<ActionResult<ResGetResoluciones>> get_resolucion_tc(ReqGetResoluciones request)
+    {
+        var result = await _mediator.Send( request );
+        return Ok( result );
+    }
+
+    [HttpPost( "ADD_RESOLUCION" )]
+    public async Task<ActionResult<ResAddResoluciones>> add_resolucion_tc(ReqAddResoluciones request)
+    {
+        var result = await _mediator.Send( request );
+        return Ok( result );
+    }
+    [HttpPost( "UPD_RESOLUCION" )]
+    public async Task<ActionResult<ResUpdResolucion>> upd_resolucion_tc(ReqUpdResoluciones request)
+    {
+        var result = await _mediator.Send( request );
+        return Ok( result );
+    }
+
 
     [HttpPost( "GET_REPORTE_ORDEN" )]
     public async Task<ActionResult<ResGetReporteOrden>> get_reporte_orden(ReqGetReporteOrden request)

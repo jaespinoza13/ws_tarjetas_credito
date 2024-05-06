@@ -4,7 +4,6 @@ using Application.TarjetasCredito.AgregarSolicitudTc;
 using Domain.Entities.Axentria;
 using Infrastructure.Common.Interfaces;
 using Microsoft.Extensions.Options;
-using Newtonsoft.Json.Linq;
 using System.Text.Json;
 
 namespace Infraestructure.InternalApis
@@ -114,28 +113,28 @@ namespace Infraestructure.InternalApis
             SolicitarServicio _sol_servicio = new();
             try
             {
-                
-                _dic_headers.Add("Authorization-Mego", _config.auth_validaciones_buro);
+
+                _dic_headers.Add( "Authorization-Mego", _config.auth_validaciones_buro );
 
                 _sol_servicio.urlServicio = _config.url_validaciones_buro + "ADD_DOCUMENTO";
                 _sol_servicio.idTransaccion = str_id_transaccion!;
 
-                var data = JsonSerializer.Deserialize<Dictionary<string, object>>(JsonSerializer.Serialize<object>(reqLoadDocumento));
-                data!.Add("str_cod_alfresco", str_id_documento!);
+                var data = JsonSerializer.Deserialize<Dictionary<string, object>>( JsonSerializer.Serialize<object>( reqLoadDocumento ) );
+                data!.Add( "str_cod_alfresco", str_id_documento! );
 
                 _sol_servicio.dcyHeadersAdicionales = _dic_headers;
                 _sol_servicio.objSolicitud = reqLoadDocumento;
 
-                string str_result_srv = _httpService.solicitar_servicio(_sol_servicio).Result;
+                string str_result_srv = _httpService.solicitar_servicio( _sol_servicio ).Result;
 
-                var result = JsonSerializer.Deserialize<ResAddSolicitudTc>(str_result_srv)!;
+                var result = JsonSerializer.Deserialize<ResAddSolicitudTc>( str_result_srv )!;
 
                 respuesta.codigo = result.str_res_codigo == "1" ? "000" : "001";
                 respuesta.diccionario.Add( "str_error", result.str_res_info_adicional );
             }
             catch (Exception ex)
             {
-                throw new ArgumentException(ex.Message);
+                throw new ArgumentException( ex.Message );
             }
             return respuesta;
         }
@@ -148,27 +147,27 @@ namespace Infraestructure.InternalApis
             try
             {
 
-                _dic_headers.Add("Authorization-Mego", _config.auth_validaciones_buro);
+                _dic_headers.Add( "Authorization-Mego", _config.auth_validaciones_buro );
 
                 _sol_servicio.urlServicio = _config.url_validaciones_buro + "UPD_DOCUMENTO";
                 _sol_servicio.idTransaccion = str_id_transaccion!;
 
-                var data = JsonSerializer.Deserialize<Dictionary<string, object>>(JsonSerializer.Serialize<object>(reqLoadDocumento));
-                data!.Add("str_cod_alfresco", str_cod_documento!);
+                var data = JsonSerializer.Deserialize<Dictionary<string, object>>( JsonSerializer.Serialize<object>( reqLoadDocumento ) );
+                data!.Add( "str_cod_alfresco", str_cod_documento! );
 
                 _sol_servicio.dcyHeadersAdicionales = _dic_headers;
                 _sol_servicio.objSolicitud = reqLoadDocumento;
 
-                string str_result_srv = _httpService.solicitar_servicio(_sol_servicio).Result;
+                string str_result_srv = _httpService.solicitar_servicio( _sol_servicio ).Result;
 
-                var result = JsonSerializer.Deserialize<ResAddSolicitudTc>(str_result_srv)!;
+                var result = JsonSerializer.Deserialize<ResAddSolicitudTc>( str_result_srv )!;
 
                 respuesta.codigo = result.str_res_codigo == "1" ? "000" : "001";
-                respuesta.diccionario.Add( "str_error", result.str_res_info_adicional);
+                respuesta.diccionario.Add( "str_error", result.str_res_info_adicional );
             }
             catch (Exception ex)
             {
-                throw new ArgumentException(ex.Message);
+                throw new ArgumentException( ex.Message );
             }
             return respuesta;
         }

@@ -30,7 +30,7 @@ public class ApiSettings
 
     public string auth_ws_tarjetas_credito { get; set; } = string.Empty;
     public string auth_ws_otp { get; set; } = string.Empty;
-    public string auth_validaciones_buro { get; set; } = string.Empty; 
+    public string auth_validaciones_buro { get; set; } = string.Empty;
     public string auth_logs { get; set; } = string.Empty;
 
 
@@ -61,8 +61,8 @@ public class ApiSettings
     #endregion
 
     #region
-    public string parametro_busqueda_comt {  get; set; } = string.Empty;
-    public string par_bus_est_comt_acp {  get; set; } = string.Empty;
+    public string parametro_busqueda_comt { get; set; } = string.Empty;
+    public string par_bus_est_comt_acp { get; set; } = string.Empty;
     public string par_bus_est_comt_rec { get; set; } = string.Empty;
 
 

@@ -2,9 +2,9 @@
 using Application.Common.Interfaces.Dat;
 using Application.Common.Models;
 using Application.Common.Utilidades;
+using Application.TarjetasCredito.AnalistasCredito.AddAnalistaSolicitud;
+using Application.TarjetasCredito.AnalistasCredito.GetAnalistas;
 using Application.TarjetasCredito.InterfazDat;
-using Domain.Funcionalidades;
-using iText.Kernel.Pdf.Canvas.Wmf;
 using MediatR;
 using Microsoft.Extensions.Options;
 using System.Reflection;
@@ -15,12 +15,14 @@ namespace Application.TarjetasCredito.AgregarComentario
     {
         public readonly ApiSettings _settings;
         private readonly IParametersInMemory _parametersInMemory;
-        private readonly IFuncionalidadesMemory _funcionalidadesMemory;
+        private readonly IFuncionalidadesInMemory _funcionalidadesMemory;
         private readonly ITarjetasCreditoDat _tarjetasCreditoDat;
+        private readonly IAnalistasCreditoDat _analistasCreditoDat;
+        private readonly IAnalistaSolicitudDat _analistaSolicitudDat;
         private readonly ILogs _logs;
         private readonly string str_clase;
 
-        public AddProcesoSolicitudHandler(IOptionsMonitor<ApiSettings> options, ITarjetasCreditoDat tarjetasCreditoDat, ILogs logs, IParametersInMemory parametersInMemory, IFuncionalidadesMemory funcionalidadesMemory)
+        public AddProcesoSolicitudHandler(IOptionsMonitor<ApiSettings> options, ITarjetasCreditoDat tarjetasCreditoDat, ILogs logs, IParametersInMemory parametersInMemory, IFuncionalidadesInMemory funcionalidadesMemory, IAnalistasCreditoDat analistasCreditoDat, IAnalistaSolicitudDat analistaSolicitudDat)
         {
             _tarjetasCreditoDat = tarjetasCreditoDat;
             _logs = logs;
@@ -28,6 +30,8 @@ namespace Application.TarjetasCredito.AgregarComentario
             _parametersInMemory = parametersInMemory;
             _settings = options.CurrentValue;
             _funcionalidadesMemory = funcionalidadesMemory;
+            _analistasCreditoDat = analistasCreditoDat;
+            _analistaSolicitudDat = analistaSolicitudDat;
         }
 
         public async Task<ResAddProcesoSolicitud> Handle(ReqAddProcesoSolicitud reqAgregarComentario, CancellationToken cancellationToken)
@@ -43,7 +47,7 @@ namespace Application.TarjetasCredito.AgregarComentario
             {
                 await _logs.SaveHeaderLogs( reqAgregarComentario, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
 
-                (reqAgregarComentario.int_estado, estado)= Validaciones.obtener_nuevo_estado_proceso( reqAgregarComentario.int_estado, _parametersInMemory, reqAgregarComentario.bl_regresa_estado);
+                (reqAgregarComentario.int_estado, estado) = Validaciones.obtener_nuevo_estado_proceso( reqAgregarComentario.int_estado, _parametersInMemory, reqAgregarComentario.bl_regresa_estado );
 
                 if (reqAgregarComentario.int_estado > 0)
                 {
@@ -59,8 +63,22 @@ namespace Application.TarjetasCredito.AgregarComentario
                             {
                                 res_tran = await _tarjetasCreditoDat.addProcesoSolicitud( reqAgregarComentario );
 
-                                if(_parametersInMemory.FindParametroId(reqAgregarComentario.int_estado).str_nemonico == _settings.estado_analisis_gestor)
+                                if (res_tran.codigo == "000" && _parametersInMemory.FindParametroId( reqAgregarComentario.int_estado ).str_nemonico == _settings.estado_analisis_gestor)
                                 {
+                                    ReqGetAnalistasCredito getAnalistasCredito = new ReqGetAnalistasCredito();
+                                    getAnalistasCredito.str_id_oficina = reqAgregarComentario.str_id_oficina;
+                                    res_tran = await _analistasCreditoDat.getAnalistasCredito( getAnalistasCredito );
+                                    var lst_analistas = Mapper.ConvertConjuntoDatosToListClass<ResGetAnalistasCredito.Analistas>( res_tran.cuerpo );
+                                    string a = null!;
+                                    for (int j = 0; j < lst_analistas.Count; j++)
+                                    {
+                                        a = a + lst_analistas[j].int_id_usuario.ToString() + "|";
+                                    }
+                                    a = a.TrimEnd( '|' );
+                                    ReqAddAnalistaSolicitud addAnalistaSolicitud = new ReqAddAnalistaSolicitud();
+                                    addAnalistaSolicitud.int_id_solicitud = reqAgregarComentario.int_id_solicitud;
+                                    addAnalistaSolicitud.str_id_analista = a;
+                                    res_tran = await _analistaSolicitudDat.addAnalistaSolicitud( addAnalistaSolicitud );
 
                                 }
 
@@ -83,7 +101,7 @@ namespace Application.TarjetasCredito.AgregarComentario
 
                 respuesta.str_res_codigo = res_tran.codigo;
                 respuesta.str_res_estado_transaccion = respuesta.str_res_codigo == "000" ? "OK" : "ERR";
-                respuesta.str_res_info_adicional = respuesta.str_res_codigo == "000" ? "" : res_tran.diccionario["str_error"].ToString() ;
+                respuesta.str_res_info_adicional = respuesta.str_res_codigo == "000" ? "" : res_tran.diccionario["str_error"].ToString();
 
             }
             catch (Exception ex)

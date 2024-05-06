@@ -1,5 +1,4 @@
 ﻿using Application.Common.ISO20022.Models;
-using System.Text.Json.Serialization;
 
 namespace Application.TarjetasCredito.ObtenerFlujoSolicitud
 {
@@ -12,12 +11,12 @@ namespace Application.TarjetasCredito.ObtenerFlujoSolicitud
             public int int_estado { get; set; }
             //public int slw_id { get; set; }
             public string str_estado { get; set; } = string.Empty;
-            public Decimal dec_cupo_solicitado { get; set; } 
-            public Decimal dec_cupo_sugerido { get; set; } 
+            public Decimal dec_cupo_solicitado { get; set; }
+            public Decimal dec_cupo_sugerido { get; set; }
             //public string slw_cupo_aprobado { get; set; } = string.Empty;
             //public string slw_fecha_solicitud { get; set; } = string.Empty;
             public string str_usuario_proc { get; set; } = string.Empty;
-            public DateTime dtt_fecha_actualizacion { get; set; } 
+            public DateTime dtt_fecha_actualizacion { get; set; }
             //public string slw_fecha_aprobacion { get; set; } = string.Empty;
             //public string slw_fecha_rechazo { get; set; } = string.Empty;
 

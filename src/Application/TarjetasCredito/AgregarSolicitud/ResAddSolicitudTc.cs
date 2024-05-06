@@ -3,5 +3,5 @@
 namespace Application.TarjetasCredito.AgregarSolicitudTc;
 public class ResAddSolicitudTc : ResComun
 {
-    
+
 }

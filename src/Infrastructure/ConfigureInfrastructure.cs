@@ -13,7 +13,6 @@ using Infrastructure.gRPC_Clients.Sybase;
 using Infrastructure.MemoryCache;
 using Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
-using System.Dynamic;
 
 namespace Infrastructure;
 
@@ -38,7 +37,7 @@ public static class ConfigureInfrastructure
         services.AddSingleton<ITarjetasCreditoDat, TarjetasCreditoDat>();
         services.AddSingleton<IFuncionalidades, FuncionalidadesDat>();
         services.AddSingleton<IFuncionalidadesDat, FuncionalidadesDat>();
-        services.AddSingleton<IFuncionalidadesMemory, FuncionalidadesInMemory>();
+        services.AddSingleton<IFuncionalidadesInMemory, FuncionalidadesInMemory>();
 
         //Datos Cliente
         services.AddSingleton<IDatosClienteDat, DatosClienteDat>();
@@ -56,7 +55,7 @@ public static class ConfigureInfrastructure
 
         //GestorDocumental
         services.AddSingleton<IWsGestorDocumental, wsGestorDocumental>();
-        
+
         //Validaciones
         services.AddSingleton<IValidacionesBuro, ValidacionesBuro>();
 
@@ -65,13 +64,15 @@ public static class ConfigureInfrastructure
         services.AddSingleton<ICreditosVigentesDat, CreditosVigentesDat>();
 
         //Inyeccion de las garantias constitudas 
-        services.AddSingleton<IGarantiasConstituidasDat,GarantiasConstitudasDat>();
+        services.AddSingleton<IGarantiasConstituidasDat, GarantiasConstitudasDat>();
 
         services.AddSingleton<GetInformacionAdicional>();
 
         services.AddSingleton<IComentariosGestionDat, GetComentariosGestion>();
         services.AddSingleton<IParametrosInformeDat, ComentariosAsesorDat>();
         services.AddSingleton<IInformesTarjetasCreditoDat, InformesTcDat>();
+        services.AddSingleton<IAnalistasCreditoDat, AnalistasCreditoDat>();
+        services.AddSingleton<IAnalistaSolicitudDat, AnalistaSolicitudDat>();
         return services;
     }
 }

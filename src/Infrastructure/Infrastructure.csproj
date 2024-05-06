@@ -31,10 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Application\Application.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Protobuf Include="gRPC_Clients\Protos\datosdal.proto" GrpcServices="Client" />
     <Protobuf Include="gRPC_Clients\Protos\datosdalMongo.proto" GrpcServices="Client" />
     <Protobuf Include="gRPC_Clients\Protos\datosdalPostgreSql.proto" GrpcServices="Client" />
@@ -42,6 +38,11 @@
 
   <ItemGroup>
     <Folder Include="ExternalAPIs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Application\Application.csproj" />
+    <ProjectReference Include="..\Domain\Domain.csproj" />
   </ItemGroup>
 
 </Project>

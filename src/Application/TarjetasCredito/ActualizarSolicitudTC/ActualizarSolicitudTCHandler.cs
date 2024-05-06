@@ -1,15 +1,9 @@
-﻿using Application.Common.Interfaces.Dat;
-using Application.Common.Interfaces;
+﻿using Application.Common.Interfaces;
+using Application.Common.Interfaces.Dat;
 using Application.Common.Models;
 using Application.TarjetasCredito.InterfazDat;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
-using Application.TarjetasCredito.ObtenerFlujoSolicitud;
 using System.Reflection;
 
 namespace Application.TarjetasCredito.ActualizarSolicitudTC
@@ -42,7 +36,7 @@ namespace Application.TarjetasCredito.ActualizarSolicitudTC
             {
                 await _logs.SaveHeaderLogs( reqActualizarSolicitudTC, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
 
-                if(reqActualizarSolicitudTC.int_estado == _parametersInMemory.FindParametroNemonico( _settings.estado_creado ).int_id_parametro)
+                if (reqActualizarSolicitudTC.int_estado == _parametersInMemory.FindParametroNemonico( _settings.estado_creado ).int_id_parametro)
                 {
                     res_tran = await _tarjetasCreditoDat.updSolicitudTc( reqActualizarSolicitudTC );
 
@@ -57,7 +51,7 @@ namespace Application.TarjetasCredito.ActualizarSolicitudTC
                 {
                     res_tran.codigo = "001";
                     respuesta.str_res_info_adicional = "Esta solicitud no se encuentra en estado creado, por lo tanto no se puede actualizar";
-                } 
+                }
                 respuesta.str_res_estado_transaccion = res_tran.codigo == "000" ? "OK" : "ERR";
                 respuesta.str_res_codigo = res_tran.codigo;
 

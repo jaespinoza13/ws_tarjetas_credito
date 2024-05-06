@@ -3,14 +3,8 @@ using Application.Common.Interfaces;
 using Application.Common.Models;
 using Application.TarjetasCredito.InterfazDat;
 using Domain.Entities.Agencias;
-using Domain.Entities.DatosCliente;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.TarjetasCredito.CatalogoAgencias
 {
@@ -30,7 +24,7 @@ namespace Application.TarjetasCredito.CatalogoAgencias
         }
         public async Task<ResGetCatalogoAgencias> Handle(ReqGetCatalogoAgencias request, CancellationToken cancellationToken)
         {
-            ResGetCatalogoAgencias respuesta = new ();
+            ResGetCatalogoAgencias respuesta = new();
             respuesta.LlenarResHeader( request );
             try
             {
@@ -44,10 +38,10 @@ namespace Application.TarjetasCredito.CatalogoAgencias
                 {
                     Agencias obj_agencias = new Agencias
                     {
-                       str_cod_marca = agencias.str_cod_marca,
-                       str_cod_numero = agencias.str_cod_numero,
-                       str_cod_denominacion = agencias.str_cod_denominacion,
-                       str_cod_domicilio = agencias.str_cod_domicilio
+                        str_cod_marca = agencias.str_cod_marca,
+                        str_cod_numero = agencias.str_cod_numero,
+                        str_cod_denominacion = agencias.str_cod_denominacion,
+                        str_cod_domicilio = agencias.str_cod_domicilio
 
                     };
                     data_list_agencias.Add( obj_agencias );
