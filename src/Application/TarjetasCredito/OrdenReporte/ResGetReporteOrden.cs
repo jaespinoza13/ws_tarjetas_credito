@@ -11,7 +11,6 @@ namespace Application.TarjetasCredito.OrdenReporte
     public class ResGetReporteOrden : ResComun
     {
         public byte[] byt_reporte { get; set; }
-        //public Orden reporte { get; set; }
 
     }
 }

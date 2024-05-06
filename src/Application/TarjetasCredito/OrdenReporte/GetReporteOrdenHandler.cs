@@ -8,6 +8,7 @@ using Domain.Entities.Agencias;
 using Domain.Entities.Orden;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
+using System.Reflection;
 
 namespace Application.TarjetasCredito.OrdenReporte
 {
@@ -30,21 +31,6 @@ namespace Application.TarjetasCredito.OrdenReporte
             _iordenDat = iordenDat;
 
         }
-
-
-        public class Tarjeta_Solicitada()
-        {
-            public string str_cuenta {  get; set; }
-            public string str_tipo_identificacion { get; set; }
-            public string str_identificacion { get; set; }
-            public string str_ente { get; set; }
-            public string str_nombre { get; set; }
-            public string str_nombre_impreso { get; set; }
-            public string str_tipo { get; set; }
-            public string str_cupo { get; set; }
-            public string str_key { get; set; }
-        }
-
 
         public async Task<ResGetReporteOrden> Handle(ReqGetReporteOrden request, CancellationToken cancellationToken)
         {
@@ -74,8 +60,8 @@ namespace Application.TarjetasCredito.OrdenReporte
                 //LLAMAR A INTERFAZ QUE OBTIENE EL REPORTE
                 RespuestaTransaccion res_tran = new();
 
-                Console.WriteLine( "RESULT REQGEST" );
-                Console.WriteLine( request.str_numero_orden );
+                //Console.WriteLine( "RESULT REQGEST" );
+                //Console.WriteLine( request.str_numero_orden );
                 res_tran = await _iordenDat.get_reporte_orden( request );
 
 
@@ -98,24 +84,38 @@ namespace Application.TarjetasCredito.OrdenReporte
                 Tarjeta_Solicitada tar_sol_n1 = new() { str_cuenta = "410010064540", str_tipo_identificacion= "C", str_identificacion = "1150214375", str_ente = "189610", str_nombre= "DANNY VASQUEZ", str_nombre_impreso = "DANNY VASQUEZ", str_tipo = "BLACK", str_cupo= "8000" };
                 Tarjeta_Solicitada tar_sol_n2 = new () { str_cuenta = "410010061199", str_tipo_identificacion = "R", str_identificacion = "1105970712001", str_ente = "515146", str_nombre = "JUAN TORRES", str_nombre_impreso = "JUAN TORRES", str_tipo = "GOLDEN", str_cupo = "15000" };
                 Tarjeta_Solicitada tar_sol_n3 = new() { str_cuenta = "410010061514", str_tipo_identificacion = "R", str_identificacion = "1105970714001", str_ente = "515148", str_nombre = "ROBERTH TORRES", str_nombre_impreso = "ROBERTH TORRES", str_tipo = "ESTÁNDAR", str_cupo = "2000" };
+                Tarjeta_Solicitada tar_sol_n4 = new() { str_cuenta = "410010061514", str_tipo_identificacion = "R", str_identificacion = "1105970714001", str_ente = "515148", str_nombre = "ROBERTH TORRES", str_nombre_impreso = "ROBERTH TORRES", str_tipo = "ESTÁNDAR", str_cupo = "3000" };
+                Tarjeta_Solicitada tar_sol_n5 = new() { str_cuenta = "410010061514", str_tipo_identificacion = "R", str_identificacion = "1105970714001", str_ente = "515148", str_nombre = "ROBERTH TORRES", str_nombre_impreso = "ROBERTH TORRES", str_tipo = "ESTÁNDAR", str_cupo = "4000" };
+                Tarjeta_Solicitada tar_sol_n6 = new() { str_cuenta = "410010061514", str_tipo_identificacion = "R", str_identificacion = "1105970714001", str_ente = "515148", str_nombre = "ROBERTH TORRES", str_nombre_impreso = "ROBERTH TORRES", str_tipo = "ESTÁNDAR", str_cupo = "5000" };
+                Tarjeta_Solicitada tar_sol_n7 = new() { str_cuenta = "410010061514", str_tipo_identificacion = "R", str_identificacion = "1105970714001", str_ente = "515148", str_nombre = "ROBERTH TORRES", str_nombre_impreso = "ROBERTH TORRES", str_tipo = "ESTÁNDAR", str_cupo = "6000" };
+                Tarjeta_Solicitada tar_sol_n8 = new() { str_cuenta = "410010061514", str_tipo_identificacion = "R", str_identificacion = "1105970714001", str_ente = "515148", str_nombre = "ROBERTH TORRES", str_nombre_impreso = "ROBERTH TORRES", str_tipo = "ESTÁNDAR", str_cupo = "7000" };
+                Tarjeta_Solicitada tar_sol_n9 = new() { str_cuenta = "410010061514", str_tipo_identificacion = "R", str_identificacion = "1105970714001", str_ente = "515148", str_nombre = "ROBERTH TORRES", str_nombre_impreso = "ROBERTH TORRES", str_tipo = "ESTÁNDAR", str_cupo = "8000" };
+                Tarjeta_Solicitada tar_sol_n10 = new() { str_cuenta = "410010061514", str_tipo_identificacion = "R", str_identificacion = "1105970714001", str_ente = "515148", str_nombre = "ROBERTH TORRES", str_nombre_impreso = "ROBERTH TORRES", str_tipo = "ESTÁNDAR", str_cupo = "9000" };
                 
-                List<object> tarjetas = new List<object>() { tar_sol_n1, tar_sol_n2 , tar_sol_n3};
+                List<object> tarjetas = new List<object>() { tar_sol_n1, tar_sol_n2 , tar_sol_n3, tar_sol_n4, tar_sol_n5, tar_sol_n6, tar_sol_n7, tar_sol_n8, tar_sol_n9, tar_sol_n10 };
                 orden_buscada.lst_tarjetas_solicitadas = tarjetas;
                 orden_buscada.str_cantidad = tarjetas.Count()+"";
 
 
-
-                //REALIZAR EL PDF
-
+                //PDF GENERAR
                 byte[] doc_pdf =  GenerarReporte.ReportePDF(orden_buscada );
+
+                if(doc_pdf.Length == 0)
+                {
+                    _ = _logs.SaveExceptionLogs( respuesta, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase, new Exception( "ERROR EN CLASE ReportePDF AL GENERAR PDF ORDEN" ) );
+                    throw new ArgumentException( respuesta.str_id_transaccion );
+                }
+
                 respuesta.byt_reporte = doc_pdf;
+                respuesta.str_res_codigo = res_tran.codigo;
 
             }
             catch (Exception ex)
             {
-
+                _ = _logs.SaveExceptionLogs( respuesta, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase, ex );
+                throw new ArgumentException( respuesta.str_id_transaccion );
             }
-
+            _ = _logs.SaveResponseLogs( "PDF GENERADO EXITOSAMENTE", str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
             return respuesta;
 
         }

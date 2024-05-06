@@ -43,7 +43,9 @@ namespace Infrastructure.gRPC_Clients.Postgres.OrdenSolicitudesTarjetas
 
         //MODIFICAR
         public async Task<RespuestaTransaccion> get_reporte_orden(ReqGetReporteOrden request)
-        {
+        {   
+
+            //TODO: REVISAR PARA TRAER MEDIANTE FUNCIONES LAS CONSULTAS
             var respuesta = new RespuestaTransaccion();
             respuesta.codigo = "000";
             try
