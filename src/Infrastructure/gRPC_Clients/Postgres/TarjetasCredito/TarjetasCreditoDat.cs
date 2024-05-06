@@ -12,6 +12,7 @@ using Application.TarjetasCredito.Resoluciones;
 using Grpc.Net.Client;
 using Infrastructure.Common.Funciones;
 using Microsoft.Extensions.Options;
+using Org.BouncyCastle.Asn1.Ocsp;
 using System.Reflection;
 using static AccesoDatosPostgresql.Neg.DALPostgreSql;
 
@@ -407,7 +408,6 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
 
             respuesta.codigo = str_codigo.Trim().PadLeft( 3, '0' );
             respuesta.diccionario.Add( "str_o_error", str_error );
-
         }
         catch (Exception ex)
         {
