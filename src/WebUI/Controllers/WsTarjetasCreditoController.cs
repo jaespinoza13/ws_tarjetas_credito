@@ -14,6 +14,7 @@ using Application.TarjetasCredito.ObtenerFlujoSolicitud;
 using Application.TarjetasCredito.ObtenerSolicitudes;
 using Application.TarjetasCredito.Resoluciones;
 using Application.TarjetasCredito.SituacionFinanciera;
+using Application.TarjetasCredito.OrdenReporte;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -159,10 +160,11 @@ public class WsTarjetasCreditoController : ControllerBase
         return Ok( result );
     }
 
-    [HttpPost( "ADD_ANALISTA_SOLICITUD" )]
-    public async Task<ActionResult<ResAddAnalistaSolicitud>> add_analistas_solicitud(ReqAddAnalistaSolicitud request)
+    [HttpPost( "GET_REPORTE_ORDEN" )]
+    public async Task<ActionResult<ResGetReporteOrden>> get_reporte_orden(ReqGetReporteOrden request)
     {
         var result = await _mediator.Send( request );
         return Ok( result );
     }
+
 }
