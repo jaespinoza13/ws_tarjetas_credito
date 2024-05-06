@@ -160,7 +160,7 @@ public class WsTarjetasCreditoController : ControllerBase
         return Ok( result );
     }
 
-    [HttpPost( "GET_REPORTE_ORDEN" )]
+    [HttpPost( "GET_REPORTE_ORDEN" )] 
     public async Task<ActionResult<ResGetReporteOrden>> get_reporte_orden(ReqGetReporteOrden request)
     {
         var result = await _mediator.Send( request );
