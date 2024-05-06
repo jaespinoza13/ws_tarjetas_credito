@@ -12,14 +12,11 @@ using Application.TarjetasCredito.ObtenerFlujoSolicitud;
 using Application.TarjetasCredito.ObtenerSolicitudes;
 using Application.TarjetasCredito.Resoluciones;
 using Application.TarjetasCredito.SituacionFinanciera;
+using Application.TarjetasCredito.OrdenReporte;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using wsMegomovil.Filters;
-using Application.TarjetasCredito.OrdenReporte;
-using Application.TarjetasCredito.AgregarProspectoTC;
-using Application.TarjetasCredito.ComentariosGestion;
-using Application.TarjetasCredito.ComentariosAsesor;
 namespace WebUI.Controllers;
 
 [Route( "api/wsTarjetasCredito" )]
