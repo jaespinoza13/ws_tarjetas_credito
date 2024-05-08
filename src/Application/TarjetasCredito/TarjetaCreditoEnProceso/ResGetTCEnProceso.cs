@@ -9,5 +9,5 @@ namespace Application.TarjetasCredito.TarjetaCreditoEnProceso;
 
 public class ResGetTCEnProceso : ResComun
 {
-   public string str_res_codigo_solicitud {  get; set; } = string.Empty;
+  // public string str_res_codigo_solicitud {  get; set; } = string.Empty;
 }

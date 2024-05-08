@@ -15,7 +15,7 @@ using static Domain.Entities.ComentariosAsesorCredito.Informes;
 
 namespace Application.TarjetasCredito.TarjetaCreditoEnProceso;
 
-public class GetTCEnProcesoHandler : IRequestHandler<ReqGetTCEnProceso,ResGetTCEnProceso>
+public class GetTCEnProcesoHandler : IRequestHandler<ReqGetTCEnProceso, ResGetTCEnProceso>
 {
     private readonly ITarjetasCreditoDat _iTarjetasCreditoDat;
     private readonly ILogs _logs;
@@ -34,25 +34,22 @@ public class GetTCEnProcesoHandler : IRequestHandler<ReqGetTCEnProceso,ResGetTCE
         //List<ResProceso> lst_get_sol_tc_procerso = new List<ResProceso>();
         respuesta.LlenarResHeader( request );
         try
-            {
+        {
             await _logs.SaveHeaderLogs( request, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase ); //Logs ws_logs
             RespuestaTransaccion res_tran = new();
             res_tran = await _iTarjetasCreditoDat.GetSolicituTCEnProceso( request );
-            respuesta.str_res_codigo = res_tran.codigo;
-            respuesta.str_res_info_adicional = res_tran.diccionario["str_o_error"];
-            if (res_tran.codigo == "000")
+            if (res_tran.codigo == "001")
             {
-                respuesta.str_res_codigo_solicitud = "005";
-                respuesta.str_res_codigo = res_tran.codigo;
-                respuesta.str_res_info_adicional = "Ya existe una solicitud en proceso.";
+                respuesta.str_res_codigo = "100";
+                respuesta.str_res_info_adicional = res_tran.diccionario["str_o_error"];
             }
             else
             {
-                respuesta.str_res_codigo_solicitud = "004";
                 respuesta.str_res_codigo = res_tran.codigo;
-                respuesta.str_res_info_adicional = "No existen solicitudes en proceso...";
+                respuesta.str_res_info_adicional = res_tran.diccionario["str_o_error"];
             }
             
+
         }
         catch (Exception e)
         {
