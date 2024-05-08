@@ -63,8 +63,8 @@ namespace Application.TarjetasCredito.AgregarComentario
                             {
                                 res_tran = await _tarjetasCreditoDat.addProcesoSolicitud( reqAgregarComentario );
 
-                                if (res_tran.codigo == "000" && _parametersInMemory.FindParametroId( reqAgregarComentario.int_estado ).str_nemonico == _settings.estado_analisis_gestor)
-                                {
+                                if (res_tran.codigo == "000" && _parametersInMemory.FindParametroId( reqAgregarComentario.int_estado ).str_nemonico == _settings.estado_analisis_uac)
+                                 {
                                     ReqGetAnalistasCredito getAnalistasCredito = new ReqGetAnalistasCredito();
                                     getAnalistasCredito.str_id_oficina = reqAgregarComentario.str_id_oficina;
                                     res_tran = await _analistasCreditoDat.getAnalistasCredito( getAnalistasCredito );
