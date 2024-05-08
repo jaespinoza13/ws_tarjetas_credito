@@ -11,8 +11,7 @@ namespace Application.Common.Utilidades
 {
     public class GenerarReporte
     {
-        public static PdfFont font_negrita = PdfFontFactory.CreateFont( StandardFonts.HELVETICA_BOLD );
-        public static PdfFont font_normal = PdfFontFactory.CreateFont( StandardFonts.HELVETICA );
+        
         
 
         public static byte[] ReportePDF(Orden orden)
@@ -20,7 +19,7 @@ namespace Application.Common.Utilidades
             byte[] pdfBytes = [];
 
             try
-            {
+            {   
                 MemoryStream datos = new MemoryStream();
                 PdfWriter writer = new PdfWriter( datos );
                 PdfDocument pdfDocument = new PdfDocument( writer );
@@ -33,7 +32,10 @@ namespace Application.Common.Utilidades
                 float topMargin = 20 + handler.GetTableHeight();
                 documento.SetMargins( topMargin, 36, 36, 36 );
 
-               
+
+
+                PdfFont font_negrita = PdfFontFactory.CreateFont( StandardFonts.HELVETICA_BOLD );
+                PdfFont font_normal = PdfFontFactory.CreateFont( StandardFonts.HELVETICA );
 
                 // CAMPOS
                 Paragraph fecha_reporte = UtilidadesGenerarReporte.AgregarParrafo( "Fecha: " + DateTime.Now.ToString( "MM/dd/yyyy HH:mm:ss" ), TextAlignment.LEFT, 9, [20, 0, 0, 0], [0, 0, 0, 0], font_normal, new iText.Kernel.Colors.DeviceRgb( 255, 255, 255 ), iText.Kernel.Colors.ColorConstants.BLACK );
