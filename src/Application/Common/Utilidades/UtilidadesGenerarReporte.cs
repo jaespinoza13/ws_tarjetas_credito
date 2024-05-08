@@ -20,8 +20,7 @@ namespace Application.Common.Utilidades
 {
     public class UtilidadesGenerarReporte
     {
-        public static PdfFont font_negrita = PdfFontFactory.CreateFont( StandardFonts.HELVETICA_BOLD );
-        public static PdfFont font_normal = PdfFontFactory.CreateFont( StandardFonts.HELVETICA );
+        
 
         public class TableHeaderEventHandler : IEventHandler
         {
@@ -70,13 +69,15 @@ namespace Application.Common.Utilidades
             //METODO PARA GENERAR EL ENCABEZADO DE PAGINA (EJ https://github.com/itext/itext-publications-samples-dotnet/blob/develop/itext/itext.samples/itext/samples/sandbox/events/TableHeader.cs)
             private void InitTable()
             {
+                PdfFont font_negrita_encabezado = PdfFontFactory.CreateFont( StandardFonts.HELVETICA_BOLD );
+
                 table = new Table( 1 ).UseAllAvailableWidth();
                 table.AddCell( "Cooperativa de Ahorro y Crédito Vicentina \n “Manuel Esteban Godoy Ortega” Ltda. \n CoopMego" ).SetTextAlignment( TextAlignment.CENTER )
                     .SetBorderBottom( new SolidBorder( new iText.Kernel.Colors.DeviceRgb( 255, 255, 255 ), 1 ) )
                     .SetBorderTop( new SolidBorder( new iText.Kernel.Colors.DeviceRgb( 255, 255, 255 ), 1 ) )
                     .SetBorderLeft( new SolidBorder( new iText.Kernel.Colors.DeviceRgb( 255, 255, 255 ), 1 ) )
                     .SetBorderRight( new SolidBorder( new iText.Kernel.Colors.DeviceRgb( 255, 255, 255 ), 1 ) )
-                    .SetFontSize( 11 ).SetFont( font_negrita );
+                    .SetFontSize( 11 ).SetFont( font_negrita_encabezado );
                 table.SetPaddingBottom( 10 );
                 table.SetMarginBottom( 10 );
             }
