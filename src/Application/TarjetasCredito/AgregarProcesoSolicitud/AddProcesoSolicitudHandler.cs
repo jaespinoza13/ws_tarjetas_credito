@@ -90,6 +90,7 @@ namespace Application.TarjetasCredito.AgregarComentario
                                 res_tran.diccionario.Add( "str_error", "No tiene permiso para realizar la acción que está intentando" );
                                 res_tran.codigo = "001";
                             }
+                            break;
                         }
                     }
                 }
