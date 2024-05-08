@@ -12,6 +12,7 @@ using Application.TarjetasCredito.ObtenerFlujoSolicitud;
 using Application.TarjetasCredito.ObtenerSolicitudes;
 using Application.TarjetasCredito.Resoluciones;
 using Application.TarjetasCredito.SituacionFinanciera;
+using Application.TarjetasCredito.TarjetaCreditoEnProceso;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
@@ -145,6 +146,12 @@ public class WsTarjetasCreditoController : ControllerBase
     }
     [HttpPost( "UPD_RESOLUCION" )]
     public async Task<ActionResult<ResUpdResolucion>> upd_resolucion_tc(ReqUpdResoluciones request)
+    {
+        var result = await _mediator.Send( request );
+        return Ok( result );
+    }
+    [HttpPost( "GET_SOL_TC_EN_PROCESO" )]
+    public async Task<ActionResult<ResGetTCEnProceso>> get_solicitud_en_proceso(ReqGetTCEnProceso request)
     {
         var result = await _mediator.Send( request );
         return Ok( result );

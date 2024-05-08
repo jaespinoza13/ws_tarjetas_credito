@@ -28,6 +28,9 @@
         public const string getResolicionesTC = "get_resoluciones_solicitud";
         public const string addResolicionesTC = "add_resolucion_solicitud";
         public const string updResolicionesTC = "update_resolucion_solicitud";
+        //Variable para obtener los resultado de TC en proceso 
+        public const string getSolicitudEnProceso = "get_solicitud_en_proceso_2";
+
         //Se agregan varibales para duplicar SP's
         public const string addComentarioProceso_2 = "add_comentario_proceso_2";
         public const string getFlujoSolicitud_2 = "get_flujo_solicitud_2";

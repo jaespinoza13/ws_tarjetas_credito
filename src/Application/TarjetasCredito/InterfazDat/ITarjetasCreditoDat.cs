@@ -6,6 +6,7 @@ using Application.TarjetasCredito.AgregarSolicitudTc;
 using Application.TarjetasCredito.ObtenerFlujoSolicitud;
 using Application.TarjetasCredito.ObtenerSolicitudes;
 using Application.TarjetasCredito.Resoluciones;
+using Application.TarjetasCredito.TarjetaCreditoEnProceso;
 
 
 namespace Application.TarjetasCredito.InterfazDat;
@@ -22,4 +23,6 @@ public interface ITarjetasCreditoDat
     Task<RespuestaTransaccion> AddResoluciones(ReqAddResoluciones request);
     Task<RespuestaTransaccion> GetResoluciones(ReqGetResoluciones request);
     Task<RespuestaTransaccion> UpdateResoluciones(ReqUpdResoluciones request);
+    Task<RespuestaTransaccion> GetSolicituTCEnProceso(ReqGetTCEnProceso request);
+
 }

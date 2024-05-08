@@ -9,6 +9,7 @@ using Application.TarjetasCredito.InterfazDat;
 using Application.TarjetasCredito.ObtenerFlujoSolicitud;
 using Application.TarjetasCredito.ObtenerSolicitudes;
 using Application.TarjetasCredito.Resoluciones;
+using Application.TarjetasCredito.TarjetaCreditoEnProceso;
 using Grpc.Net.Client;
 using Infrastructure.Common.Funciones;
 using Microsoft.Extensions.Options;
@@ -522,5 +523,41 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
         }
 
         return respuesta;
+    }
+    public async Task<RespuestaTransaccion> GetSolicituTCEnProceso(ReqGetTCEnProceso request)
+    {
+        var respuesta = new RespuestaTransaccion();
+
+        try
+        {
+            var ds = new DatosSolicitud();
+
+
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_num_documento", TipoDato = TipoDato.CharacterVarying, ObjValue = request.str_identificacion } );
+
+            //ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@bool_solicitud_existe", TipoDato = TipoDato.Boolean } );
+            ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
+            ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.CharacterVarying } );
+
+            ds.NombreSP = NameSps.getSolicitudEnProceso;
+            ds.NombreBD = _settings.DB_meg_tarjetas_credito;
+
+            var resultado = _objClienteDal.ExecuteNonQuery( ds );//ExecuteNonQuery para sps - ExecuteReader para funciones
+            var lst_valores = resultado.ListaPSalidaValores.ToList();
+            var str_codigo = lst_valores.Find( x => x.StrNameParameter == "@int_o_error_cod" )!.ObjValue;
+            var str_error = lst_valores.Find( x => x.StrNameParameter == "@str_o_error" )!.ObjValue.Trim();
+            respuesta.codigo = str_codigo.Trim().PadLeft( 3, '0' );
+            respuesta.diccionario.Add( "str_o_error", str_error );
+
+        }
+        catch (Exception ex)
+        {
+            respuesta.codigo = "003";
+            respuesta.diccionario.Add( "str_error", ex.InnerException != null ? ex.InnerException.Message : ex.Message );
+            await _logService.SaveExceptionLogs( request, MethodBase.GetCurrentMethod()!.Name, "addProspectoTc", str_clase, ex );
+            throw new ArgumentException( request.str_id_transaccion );
+        }
+        return respuesta;
+
     }
 }
