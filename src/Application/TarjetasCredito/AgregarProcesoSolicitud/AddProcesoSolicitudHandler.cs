@@ -64,22 +64,24 @@ namespace Application.TarjetasCredito.AgregarComentario
                                 res_tran = await _tarjetasCreditoDat.addProcesoSolicitud( reqAgregarComentario );
 
                                 if (res_tran.codigo == "000" && _parametersInMemory.FindParametroId( reqAgregarComentario.int_estado ).str_nemonico == _settings.estado_analisis_uac)
-                                 {
+                                {
                                     ReqGetAnalistasCredito getAnalistasCredito = new ReqGetAnalistasCredito();
                                     getAnalistasCredito.str_id_oficina = reqAgregarComentario.str_id_oficina;
                                     res_tran = await _analistasCreditoDat.getAnalistasCredito( getAnalistasCredito );
                                     var lst_analistas = Mapper.ConvertConjuntoDatosToListClass<ResGetAnalistasCredito.Analistas>( res_tran.cuerpo );
-                                    string a = null!;
+                                    string id_analista = null!, login_analista= null!;
                                     for (int j = 0; j < lst_analistas.Count; j++)
                                     {
-                                        a = a + lst_analistas[j].int_id_usuario.ToString() + "|";
+                                        id_analista = id_analista + lst_analistas[j].int_id_usuario.ToString() + "|";
+                                        login_analista = login_analista + lst_analistas[j].str_login.ToString() + "|";
                                     }
-                                    a = a.TrimEnd( '|' );
+                                    id_analista = id_analista.TrimEnd( '|' );
+                                    login_analista = login_analista.TrimEnd( '|' );
                                     ReqAddAnalistaSolicitud addAnalistaSolicitud = new ReqAddAnalistaSolicitud();
                                     addAnalistaSolicitud.int_id_solicitud = reqAgregarComentario.int_id_solicitud;
-                                    addAnalistaSolicitud.str_id_analista = a;
+                                    addAnalistaSolicitud.str_id_analista = id_analista;
+                                    addAnalistaSolicitud.str_analista = login_analista;
                                     res_tran = await _analistaSolicitudDat.addAnalistaSolicitud( addAnalistaSolicitud );
-
                                 }
 
                                 res_tran.codigo = "000";
