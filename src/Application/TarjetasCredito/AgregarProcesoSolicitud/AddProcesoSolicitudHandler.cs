@@ -70,7 +70,7 @@ namespace Application.TarjetasCredito.AgregarComentario
                                     res_tran = await _analistasCreditoDat.getAnalistasCredito( getAnalistasCredito );
                                     var lst_analistas = Mapper.ConvertConjuntoDatosToListClass<ResGetAnalistasCredito.Analistas>( res_tran.cuerpo );
                                     string id_analista = null!, login_analista= null!;
-                                    for (int j = 0; j < lst_analistas.Count; j++)
+                                    for (int j = 0; j < lst_analistas.Count; j++) 
                                     {
                                         id_analista = id_analista + lst_analistas[j].int_id_usuario.ToString() + "|";
                                         login_analista = login_analista + lst_analistas[j].str_login.ToString() + "|";
