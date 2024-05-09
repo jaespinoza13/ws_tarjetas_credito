@@ -23,6 +23,7 @@ namespace Application.TarjetasCredito.ObtenerSolicitudes
             public string str_usuario_crea { get; set; } = string.Empty;
             public int int_oficina_crea { get; set; }
             public string str_estado { get; set; } = string.Empty;
+            public string str_analista { get; set; } = string.Empty;
             public int int_estado { get; set; }
         }
 

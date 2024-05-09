@@ -51,49 +51,40 @@ namespace Application.TarjetasCredito.AgregarComentario
 
                 if (reqAgregarComentario.int_estado > 0)
                 {
-                    for (int i = 0; i < _settings.permisosAccion.Count; i++)
+                    bool permiso = Validaciones.ValidarEstado( estado, _settings, _funcionalidadesMemory, reqAgregarComentario.str_id_perfil );
+
+                    if (permiso)
                     {
-                        if (estado == _settings.estadosSolTC[i]) func_nombre = _settings.permisosAccion[i];
+                        res_tran = await _tarjetasCreditoDat.addProcesoSolicitud( reqAgregarComentario );
 
-                        if (func_nombre != "")
+                        if (res_tran.codigo == "000" && _parametersInMemory.FindParametroId( reqAgregarComentario.int_estado ).str_nemonico == _settings.estado_analisis_uac)
                         {
-                            int_funcionalidad = _funcionalidadesMemory.FindFuncionalidadNombre( func_nombre ).fun_id;
-
-                            if (_funcionalidadesMemory.FindPermisoPerfil( Convert.ToInt32( reqAgregarComentario.str_id_perfil ), int_funcionalidad ))
+                            ReqGetAnalistasCredito getAnalistasCredito = new ReqGetAnalistasCredito();
+                            getAnalistasCredito.str_id_oficina = reqAgregarComentario.str_id_oficina;
+                            res_tran = await _analistasCreditoDat.getAnalistasCredito( getAnalistasCredito );
+                            var lst_analistas = Mapper.ConvertConjuntoDatosToListClass<ResGetAnalistasCredito.Analistas>( res_tran.cuerpo );
+                            string id_analista = null!, login_analista= null!;
+                            for (int j = 0; j < lst_analistas.Count; j++)
                             {
-                                res_tran = await _tarjetasCreditoDat.addProcesoSolicitud( reqAgregarComentario );
-
-                                if (res_tran.codigo == "000" && _parametersInMemory.FindParametroId( reqAgregarComentario.int_estado ).str_nemonico == _settings.estado_analisis_uac)
-                                {
-                                    ReqGetAnalistasCredito getAnalistasCredito = new ReqGetAnalistasCredito();
-                                    getAnalistasCredito.str_id_oficina = reqAgregarComentario.str_id_oficina;
-                                    res_tran = await _analistasCreditoDat.getAnalistasCredito( getAnalistasCredito );
-                                    var lst_analistas = Mapper.ConvertConjuntoDatosToListClass<ResGetAnalistasCredito.Analistas>( res_tran.cuerpo );
-                                    string id_analista = null!, login_analista= null!;
-                                    for (int j = 0; j < lst_analistas.Count; j++) 
-                                    {
-                                        id_analista = id_analista + lst_analistas[j].int_id_usuario.ToString() + "|";
-                                        login_analista = login_analista + lst_analistas[j].str_login.ToString() + "|";
-                                    }
-                                    id_analista = id_analista.TrimEnd( '|' );
-                                    login_analista = login_analista.TrimEnd( '|' );
-                                    ReqAddAnalistaSolicitud addAnalistaSolicitud = new ReqAddAnalistaSolicitud();
-                                    addAnalistaSolicitud.int_id_solicitud = reqAgregarComentario.int_id_solicitud;
-                                    addAnalistaSolicitud.str_id_analista = id_analista;
-                                    addAnalistaSolicitud.str_analista = login_analista;
-                                    res_tran = await _analistaSolicitudDat.addAnalistaSolicitud( addAnalistaSolicitud );
-                                }
-
-                                res_tran.codigo = "000";
-                                func_nombre = "";
+                                id_analista = id_analista + lst_analistas[j].int_id_usuario.ToString() + "|";
+                                login_analista = login_analista + lst_analistas[j].str_login.ToString() + "|";
                             }
-                            else
-                            {
-                                res_tran.diccionario.Add( "str_error", "No tiene permiso para realizar la acción que está intentando" );
-                                res_tran.codigo = "001";
-                            }
-                            break;
+                            id_analista = id_analista.TrimEnd( '|' );
+                            login_analista = login_analista.TrimEnd( '|' );
+                            ReqAddAnalistaSolicitud addAnalistaSolicitud = new ReqAddAnalistaSolicitud();
+                            addAnalistaSolicitud.int_id_solicitud = reqAgregarComentario.int_id_solicitud;
+                            addAnalistaSolicitud.str_id_analista = id_analista;
+                            addAnalistaSolicitud.str_analista = login_analista;
+                            res_tran = await _analistaSolicitudDat.addAnalistaSolicitud( addAnalistaSolicitud );
                         }
+
+                        res_tran.codigo = "000";
+                        func_nombre = "";
+                    }
+                    else
+                    {
+                        res_tran.diccionario.Add( "str_error", "No tiene permiso para realizar la acción que está intentando" );
+                        res_tran.codigo = "001";
                     }
                 }
                 else

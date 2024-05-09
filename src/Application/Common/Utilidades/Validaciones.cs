@@ -1,4 +1,6 @@
 ﻿using Application.Common.Interfaces.Dat;
+using Application.Common.Models;
+using System.Runtime;
 
 namespace Application.Common.Utilidades
 {
@@ -20,6 +22,30 @@ namespace Application.Common.Utilidades
             }
             //Proceso para saber si el perfil tiene acceso a ese permiso
             return (estado_nuevo, estado);
+        }
+
+        public static bool ValidarEstado(string estado, ApiSettings _settings, IFuncionalidadesInMemory _funcionalidadesMemory, string perfil)
+        {
+            bool permiso = false;
+            string func_nombre = "";
+            int int_funcionalidad;
+
+            for (int i = 0; i < _settings.permisosAccion.Count; i++)
+            {
+                if (estado == _settings.estadosSolTC[i]) func_nombre = _settings.permisosAccion[i];
+
+                if (func_nombre != "")
+                {
+                    int_funcionalidad = _funcionalidadesMemory.FindFuncionalidadNombre( func_nombre ).fun_id;
+
+                    if (_funcionalidadesMemory.FindPermisoPerfil( Convert.ToInt32( perfil ), int_funcionalidad ))
+                    {
+                        permiso = true;
+                        break;
+                    }
+                }
+            }
+            return permiso;
         }
     }
 }
