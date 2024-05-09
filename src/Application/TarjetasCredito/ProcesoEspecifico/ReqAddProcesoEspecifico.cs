@@ -7,6 +7,6 @@ namespace Application.TarjetasCredito.AnularSolicitud
     {
         public int int_id_solicitud { get; set; }
         public string str_comentario { get; set; } = string.Empty;
-        public int int_estado { get; set; }
+        public string str_estado { get; set; } = string.Empty;
     }
 }

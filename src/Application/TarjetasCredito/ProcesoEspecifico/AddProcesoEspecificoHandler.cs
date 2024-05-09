@@ -1,8 +1,10 @@
 ﻿using Application.Common.Interfaces;
 using Application.Common.Interfaces.Dat;
 using Application.Common.Models;
+using Application.Common.Utilidades;
 using Application.TarjetasCredito.AgregarComentario;
 using Application.TarjetasCredito.InterfazDat;
+using iText.Kernel.Pdf.Canvas.Wmf;
 using MediatR;
 using Microsoft.Extensions.Options;
 using System.Reflection;
@@ -13,68 +15,69 @@ namespace Application.TarjetasCredito.AnularSolicitud
     {
         private readonly IParametersInMemory _parametersInMemory;
         private readonly ITarjetasCreditoDat _tarjetasCreditoDat;
+        private readonly IFuncionalidadesInMemory _funcionalidadesInMemory;
         private readonly ILogs _logs;
         private readonly string str_clase;
         private readonly ApiSettings _settings;
 
-        public AddProcesoEspecificoHandler(IOptionsMonitor<ApiSettings> options, ITarjetasCreditoDat tarjetasCreditoDat, ILogs logs, IParametersInMemory parametersInMemory)
+        public AddProcesoEspecificoHandler(IOptionsMonitor<ApiSettings> options, ITarjetasCreditoDat tarjetasCreditoDat, ILogs logs, IParametersInMemory parametersInMemory, IFuncionalidadesInMemory funcionalidadesInMemory)
         {
             _tarjetasCreditoDat = tarjetasCreditoDat;
             _logs = logs;
             str_clase = GetType().Name;
             _parametersInMemory = parametersInMemory;
             _settings = options.CurrentValue;
+            _funcionalidadesInMemory = funcionalidadesInMemory;
         }
 
-        public async Task<ResAddProcesoEspecifico> Handle(ReqAddProcesoEspecifico reqAddAnularSolicitud, CancellationToken cancellationToken)
+        public async Task<ResAddProcesoEspecifico> Handle(ReqAddProcesoEspecifico reqAddProcesoEspecifico, CancellationToken cancellationToken)
         {
             const string str_operacion = "PROCESO_ESPECIFICO_HANDLER";
             var respuesta = new ResAddProcesoEspecifico();
             var res_tran = new RespuestaTransaccion();
-            respuesta.LlenarResHeader( reqAddAnularSolicitud );
+            respuesta.LlenarResHeader( reqAddProcesoEspecifico );
 
             try
             {
-                await _logs.SaveHeaderLogs( reqAddAnularSolicitud, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
+                await _logs.SaveHeaderLogs( reqAddProcesoEspecifico, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
 
-                //int estado = _parametersInMemory.FindParametroNemonico( _settings.estado_anulado ).int_id_parametro;
-                int estado = estado_proceso( reqAddAnularSolicitud.str_id_servicio );
+                bool permiso = Validaciones.ValidarEstado( reqAddProcesoEspecifico.str_estado, _settings, _funcionalidadesInMemory, reqAddProcesoEspecifico.str_id_perfil );
 
-                if (estado != 0)
+                if (permiso)
                 {
-                    ReqAddProcesoSolicitud reqAddProceso = new();
+                    int estado = _parametersInMemory.FindParametroNemonico( reqAddProcesoEspecifico.str_estado ).int_id_parametro;
+                    if (estado != 0)
+                    {
+                        ReqAddProcesoSolicitud reqAddProceso = new();
 
-                    reqAddProceso.int_estado = estado;
-                    reqAddProceso.int_id_solicitud = reqAddAnularSolicitud.int_id_solicitud;
-                    reqAddProceso.str_comentario = reqAddAnularSolicitud.str_comentario;
-                    res_tran = await _tarjetasCreditoDat.addProcesoSolicitud( reqAddProceso );
+                        reqAddProceso.int_estado = estado;
+                        reqAddProceso.int_id_solicitud = reqAddProcesoEspecifico.int_id_solicitud;
+                        reqAddProceso.str_comentario = reqAddProcesoEspecifico.str_comentario;
+                        reqAddProceso.str_login = reqAddProcesoEspecifico.str_login;
+                        reqAddProceso.str_id_oficina = reqAddProcesoEspecifico.str_id_oficina;
+                        res_tran = await _tarjetasCreditoDat.addProcesoSolicitud( reqAddProceso );
 
-                    respuesta.str_res_codigo = res_tran.codigo;
-                    respuesta.str_res_info_adicional = res_tran.diccionario["str_o_error"];
+                        respuesta.str_res_codigo = res_tran.codigo;
+                        respuesta.str_res_info_adicional = res_tran.diccionario["str_o_error"];
+                    }
                 }
-
+                else
+                {
+                    res_tran.diccionario.Add( "str_error", "No tiene permiso para realizar la acción que está intentando" );
+                    res_tran.codigo = "001";
+                }
+                respuesta.str_res_codigo = res_tran.codigo;
+                respuesta.str_res_estado_transaccion = respuesta.str_res_codigo == "000" ? "OK" : "ERR";
+                respuesta.str_res_info_adicional = respuesta.str_res_codigo == "000" ? "" : res_tran.diccionario["str_error"].ToString();
             }
-            catch (Exception ex) { }
-
+            catch (Exception ex) 
+            {
+                await _logs.SaveExceptionLogs( respuesta, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase, ex );
+                throw new ArgumentException( respuesta.str_id_transaccion );
+            }
+            await _logs.SaveResponseLogs( respuesta, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
             return respuesta;
         }
 
-        public int estado_proceso(string id_servicio)
-        {
-            int estado = 0;
-            id_servicio = id_servicio.Substring( "REQ_".Length );
-
-            switch (id_servicio)
-            {
-                case "NEGAR_SOLICITUD":
-                    estado = _parametersInMemory.FindParametroNemonico( _settings.estado_anulado ).int_id_parametro;
-                    break;
-                case "APROBAR_SOLICITUD":
-                    estado = _parametersInMemory.FindParametroNemonico( _settings.estado_anulado ).int_id_parametro;
-                    break;
-            }
-
-            return estado;
-        }
     }
 }
