@@ -20,6 +20,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using wsMegomovil.Filters;
+using Application.TarjetasCredito.AnularSolicitud;
 namespace WebUI.Controllers;
 
 [Route( "api/wsTarjetasCredito" )]
@@ -169,6 +170,13 @@ public class WsTarjetasCreditoController : ControllerBase
 
     [HttpPost( "GET_REPORTE_ORDEN" )] 
     public async Task<ActionResult<ResGetReporteOrden>> get_reporte_orden(ReqGetReporteOrden request)
+    {
+        var result = await _mediator.Send( request );
+        return Ok( result );
+    }
+
+    [HttpPost( "ADD_PROCESO_ESPECIFICO" )]
+    public async Task<ActionResult<ResAddProcesoEspecifico>> add_proceso_especifico(ReqAddProcesoEspecifico request)
     {
         var result = await _mediator.Send( request );
         return Ok( result );
