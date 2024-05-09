@@ -12,6 +12,7 @@ using Application.TarjetasCredito.Resoluciones;
 using Application.TarjetasCredito.TarjetaCreditoEnProceso;
 using Grpc.Net.Client;
 using Infrastructure.Common.Funciones;
+using MediatR;
 using Microsoft.Extensions.Options;
 using Org.BouncyCastle.Asn1.Ocsp;
 using System.Reflection;
@@ -240,11 +241,11 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_usuario", TipoDato = TipoDato.CharacterVarying, ObjValue = reqAgregarComentario.str_login.ToString() } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_oficina", TipoDato = TipoDato.Integer, ObjValue = reqAgregarComentario.str_id_oficina } );
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_estado", TipoDato = TipoDato.Integer, ObjValue = reqAgregarComentario.int_estado.ToString() } );
-
+            ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@str_decision_sol", TipoDato = TipoDato.CharacterVarying, ObjValue = reqAgregarComentario.str_decision_sol } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.CharacterVarying } );
 
-            ds.NombreSP = NameSps.addComentarioProceso;
+            ds.NombreSP = NameSps.addComentarioProceso_2;
             ds.NombreBD = _settings.DB_meg_tarjetas_credito;
 
 
