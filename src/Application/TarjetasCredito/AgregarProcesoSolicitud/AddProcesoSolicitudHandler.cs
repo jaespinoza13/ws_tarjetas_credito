@@ -40,18 +40,17 @@ namespace Application.TarjetasCredito.AgregarComentario
             RespuestaTransaccion res_tran = new();
             const string str_operacion = "ADD_PROCESO_SOLICITUD";
             respuesta.LlenarResHeader( reqAgregarComentario );
-            string estado, func_nombre = "";
-            int int_funcionalidad;
+            string nem_nuevo_estado = "";
 
             try
             {
                 await _logs.SaveHeaderLogs( reqAgregarComentario, str_operacion, MethodBase.GetCurrentMethod()!.Name, str_clase );
 
-                (reqAgregarComentario.int_estado, estado) = Validaciones.obtener_nuevo_estado_proceso( reqAgregarComentario.int_estado, _parametersInMemory, reqAgregarComentario.bl_regresa_estado );
+                (reqAgregarComentario.int_estado, nem_nuevo_estado) = Validaciones.obtener_nuevo_estado_proceso( reqAgregarComentario.int_estado, _parametersInMemory, reqAgregarComentario.bl_regresa_estado );
 
                 if (reqAgregarComentario.int_estado > 0)
                 {
-                    bool permiso = Validaciones.ValidarEstado( estado, _settings, _funcionalidadesMemory, reqAgregarComentario.str_id_perfil );
+                    bool permiso = Validaciones.ValidarEstado( nem_nuevo_estado, _settings, _funcionalidadesMemory, reqAgregarComentario.str_id_perfil );
 
                     if (permiso)
                     {
@@ -64,13 +63,16 @@ namespace Application.TarjetasCredito.AgregarComentario
                             res_tran = await _analistasCreditoDat.getAnalistasCredito( getAnalistasCredito );
                             var lst_analistas = Mapper.ConvertConjuntoDatosToListClass<ResGetAnalistasCredito.Analistas>( res_tran.cuerpo );
                             string id_analista = null!, login_analista= null!;
+                            
                             for (int j = 0; j < lst_analistas.Count; j++)
                             {
                                 id_analista = id_analista + lst_analistas[j].int_id_usuario.ToString() + "|";
                                 login_analista = login_analista + lst_analistas[j].str_login.ToString() + "|";
-                            }
+                            }   
+
                             id_analista = id_analista.TrimEnd( '|' );
                             login_analista = login_analista.TrimEnd( '|' );
+
                             ReqAddAnalistaSolicitud addAnalistaSolicitud = new ReqAddAnalistaSolicitud();
                             addAnalistaSolicitud.int_id_solicitud = reqAgregarComentario.int_id_solicitud;
                             addAnalistaSolicitud.str_id_analista = id_analista;
@@ -78,8 +80,6 @@ namespace Application.TarjetasCredito.AgregarComentario
                             res_tran = await _analistaSolicitudDat.addAnalistaSolicitud( addAnalistaSolicitud );
                         }
 
-                        res_tran.codigo = "000";
-                        func_nombre = "";
                     }
                     else
                     {
