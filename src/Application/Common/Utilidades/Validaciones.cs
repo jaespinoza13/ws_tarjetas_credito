@@ -11,7 +11,6 @@ namespace Application.Common.Utilidades
             int estado_nuevo = 0;
             string estado = "";
 
-            string nem_estado_actual = parametersInMemory.FindParametroId( int_estado ).str_nemonico;
             int estado_actual = Convert.ToInt32( parametersInMemory.FindParametroId( int_estado ).str_valor_fin );
             estado_actual = bl_regresa == true ? estado_actual - 1 : estado_actual + 1;
             if (estado_actual > 0)
@@ -20,7 +19,6 @@ namespace Application.Common.Utilidades
 
                 estado_nuevo = parametersInMemory.FindParametroNemonico( estado ).int_id_parametro;
             }
-            //Proceso para saber si el perfil tiene acceso a ese permiso
             return (estado_nuevo, estado);
         }
 
