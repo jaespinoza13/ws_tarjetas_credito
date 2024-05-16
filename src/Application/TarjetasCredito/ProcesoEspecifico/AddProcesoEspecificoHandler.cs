@@ -50,6 +50,12 @@ namespace Application.TarjetasCredito.AnularSolicitud
                     {
                         ReqAddProcesoSolicitud reqAddProceso = new();
 
+                        if( reqAddProcesoEspecifico.str_estado == _settings.estado_aprobado)
+                        {
+                            estado = _parametersInMemory.FindParametroNemonico( _settings.estado_aprobado ).int_id_parametro;
+                            reqAddProceso.dcc_cupo_aprobado = reqAddProcesoEspecifico.dcc_cupo_aprobado;
+                        }
+
                         reqAddProceso.int_estado = estado;
                         reqAddProceso.int_id_solicitud = reqAddProcesoEspecifico.int_id_solicitud;
                         reqAddProceso.str_comentario = reqAddProcesoEspecifico.str_comentario;
