@@ -45,7 +45,7 @@ namespace Application.TarjetasCredito.ObtenerFlujoSolicitud
 
                     foreach (FlujoSolicitudes solicitudes in lista_solicitudes)
                     {
-                        solicitudes.str_estado = _parametersInMemory.FindParametroId( solicitudes.int_estado ).str_valor_ini;
+                        solicitudes.str_estado = _parametersInMemory.FindParametroId( solicitudes.slw_estado ).str_valor_ini;
                         respuesta.flujo_solicitudes.Add( solicitudes );
                     }
                 }
