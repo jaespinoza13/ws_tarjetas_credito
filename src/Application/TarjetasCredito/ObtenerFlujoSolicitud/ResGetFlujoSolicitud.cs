@@ -9,7 +9,7 @@ namespace Application.TarjetasCredito.ObtenerFlujoSolicitud
         public class FlujoSolicitudes
         {
             public int int_estado { get; set; }
-            //public int slw_id { get; set; }
+            public int slw_id { get; set; }
             public string str_estado { get; set; } = string.Empty;
             public Decimal dec_cupo_solicitado { get; set; }
             public Decimal dec_cupo_sugerido { get; set; }

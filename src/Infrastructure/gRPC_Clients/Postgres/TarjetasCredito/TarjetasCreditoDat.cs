@@ -246,7 +246,7 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@int_o_error_cod", TipoDato = TipoDato.Integer } );
             ds.ListaPSalida.Add( new ParametroSalida { StrNameParameter = "@str_o_error", TipoDato = TipoDato.CharacterVarying } );
 
-            ds.NombreSP = NameSps.addComentarioProceso_2;
+            ds.NombreSP = NameSps.addComentarioProceso;
             ds.NombreBD = _settings.DB_meg_tarjetas_credito;
 
             var resultado = _objClienteDal.ExecuteNonQuery( ds ); // ExecuteNonQuery para sps - ExecuteReader para funciones
@@ -278,7 +278,7 @@ public class TarjetasCreditoDat : ITarjetasCreditoDat
 
             ds.ListaPEntrada.Add( new ParametroEntrada { StrNameParameter = "@int_id_solicitud", TipoDato = TipoDato.Integer, ObjValue = reqGetFlujoSolicitud.int_id_solicitud.ToString() } );
 
-            ds.NombreSP = NameSps.getFlujoSolicitud_2;
+            ds.NombreSP = NameSps.getFlujoSolicitud;
             ds.NombreBD = _settings.DB_meg_tarjetas_credito;
 
             var resultado = _objClienteDal.ExecuteReader( ds );//ExecuteNonQuery para sps - ExecuteReader para funciones
