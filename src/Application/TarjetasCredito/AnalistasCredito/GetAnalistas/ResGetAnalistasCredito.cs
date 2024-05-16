@@ -11,6 +11,7 @@ namespace Application.TarjetasCredito.AnalistasCredito.GetAnalistas
             public int int_id_usuario { get; set; }
             public string str_login { get; set; } = string.Empty;
             public int int_oficina { get; set; }
+            public int int_perfil { get; set; }
         }
     }
 }

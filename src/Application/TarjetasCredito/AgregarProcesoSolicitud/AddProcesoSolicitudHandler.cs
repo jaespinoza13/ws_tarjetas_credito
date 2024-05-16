@@ -63,7 +63,11 @@ namespace Application.TarjetasCredito.AgregarComentario
                             res_tran = await _analistasCreditoDat.getAnalistasCredito( getAnalistasCredito );
                             var lst_analistas = Mapper.ConvertConjuntoDatosToListClass<ResGetAnalistasCredito.Analistas>( res_tran.cuerpo );
                             string id_analista = null!, login_analista= null!;
-                            
+
+                            lst_analistas = reqAgregarComentario.bl_ingreso_fijo ? 
+                                                lst_analistas.Where( a => a.int_perfil == _settings.id_analista_senior ).ToList() :
+                                                lst_analistas.Where( a => a.int_perfil == _settings.id_analista_junior ).ToList();
+
                             for (int j = 0; j < lst_analistas.Count; j++)
                             {
                                 id_analista = id_analista + lst_analistas[j].int_id_usuario.ToString() + "|";
