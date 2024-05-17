@@ -21,6 +21,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using wsMegomovil.Filters;
 using Application.TarjetasCredito.AnularSolicitud;
+using Application.Parametros;
 namespace WebUI.Controllers;
 
 [Route( "api/wsTarjetasCredito" )]
@@ -181,5 +182,10 @@ public class WsTarjetasCreditoController : ControllerBase
         var result = await _mediator.Send( request );
         return Ok( result );
     }
-
+    [HttpPost( "GET_PARAMETROS" )]
+    public async Task<ActionResult<ResGetParametros>> get_parametros_tc(ReqGetParametros request)
+    {
+        var result = await _mediator.Send( request );
+        return Ok( result );
+    }
 }

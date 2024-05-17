@@ -20,7 +20,7 @@ namespace Application.TarjetasCredito.ActualizarSolicitudTC
         public Decimal dec_cupo_solicitado { get; set; }
         public string str_celular { get; set; } = string.Empty;
         public string str_correo { get; set; } = string.Empty;
-        public DateTime dtt_fecha_actualizacion { get; set; }
+        public DateTime? dtt_fecha_actualizacion { get; set; }
         public string str_usuario_proc { get; set; } = string.Empty;
         public int int_oficina_entrega { get; set; }
         public string str_habilitada_compra { get; set; } = string.Empty;

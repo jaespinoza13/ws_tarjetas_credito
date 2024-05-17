@@ -58,7 +58,6 @@ namespace Application.TarjetasCredito.AnalistasCredito.AddAnalistaSolicitud
                         reqAddAnalistaSolicitud.str_id_analista = reqAddAnalistaSolicitud.str_id_analista.TrimEnd( '|' );
                         reqAddAnalistaSolicitud.str_analista = reqAddAnalistaSolicitud.str_analista.TrimEnd( '|' );
                     }
-
                     res_tran = await _analistaSolicitudDat.addAnalistaSolicitud( reqAddAnalistaSolicitud );
 
                     respuesta.str_res_codigo = "001";

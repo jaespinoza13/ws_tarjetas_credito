@@ -36,7 +36,6 @@ public class ComentariosAsesorDat : IParametrosInformeDat
             ds.NombreSP = NameSps.getParametrosInformeTc;
             ds.NombreBD = _settings.DB_meg_atms;
             var resultado = await _objClienteDal.ExecuteDataSetAsync( ds );
-
             var lst_valores = new List<ParametroSalidaValores>();
 
             foreach (var item in resultado.ListaPSalidaValores) lst_valores.Add( item );

@@ -41,6 +41,7 @@ public class ApiSettings
     public string estado_entregado { get; set; } = string.Empty;
     public string estado_analisis_uac { get; set; } = string.Empty;
     public string estado_anulado { get; set; } = string.Empty;
+    public string estado_aprobado { get; set; } = string.Empty;
     public string visualizar_prospectos { get; set; } = string.Empty;
     public int int_id_sistema { get; set; }
     public int fun_tipo_accion { get; set; }
@@ -51,6 +52,8 @@ public class ApiSettings
     public string tarjeta_black { get; set; } = string.Empty;
     public string tarjeta_standard { get; set; } = string.Empty;
     public int id_gabinete { get; set; }
+    public int id_analista_junior { get; set; }
+    public int id_analista_senior { get; set; }
     #endregion
 
     #region PermisosEstados
