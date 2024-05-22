@@ -14,7 +14,6 @@ using Application.TarjetasCredito.ObtenerFlujoSolicitud;
 using Application.TarjetasCredito.ObtenerSolicitudes;
 using Application.TarjetasCredito.Resoluciones;
 using Application.TarjetasCredito.SituacionFinanciera;
-using Application.TarjetasCredito.OrdenReporte;
 using Application.TarjetasCredito.TarjetaCreditoEnProceso;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +21,7 @@ using System.Net;
 using wsMegomovil.Filters;
 using Application.TarjetasCredito.AnularSolicitud;
 using Application.Parametros;
+using Application.EntregaRecepcionTarjCred.GetOrdenesTarjCred;
 namespace WebUI.Controllers;
 
 [Route( "api/wsTarjetasCredito" )]
@@ -169,13 +169,6 @@ public class WsTarjetasCreditoController : ControllerBase
         return Ok( result );
     }
 
-    [HttpPost( "GET_REPORTE_ORDEN" )] 
-    public async Task<ActionResult<ResGetReporteOrden>> get_reporte_orden(ReqGetReporteOrden request)
-    {
-        var result = await _mediator.Send( request );
-        return Ok( result );
-    }
-
     [HttpPost( "ADD_PROCESO_ESPECIFICO" )]
     public async Task<ActionResult<ResAddProcesoEspecifico>> add_proceso_especifico(ReqAddProcesoEspecifico request)
     {
@@ -184,6 +177,13 @@ public class WsTarjetasCreditoController : ControllerBase
     }
     [HttpPost( "GET_PARAMETROS" )]
     public async Task<ActionResult<ResGetParametros>> get_parametros_tc(ReqGetParametros request)
+    {
+        var result = await _mediator.Send( request );
+        return Ok( result );
+    }
+
+    [HttpPost( "GET_ORDENES_TC" )]
+    public async Task<ActionResult<ResGetOrdenesTC>> get_ordenes_tc(ReqGetOrdenesTC request)
     {
         var result = await _mediator.Send( request );
         return Ok( result );

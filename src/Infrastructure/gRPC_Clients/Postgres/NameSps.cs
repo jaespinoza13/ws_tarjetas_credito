@@ -36,5 +36,7 @@
         public const string getFlujoSolicitud_2 = "get_flujo_solicitud_2";
         public const string addSolicitudTC_2 = "add_solicitud_tc_2";
 
+        //Ordenes Tarjetas Credito
+        public const string getOrdenesTC = "get_ordenes_tc";
     }
 }

@@ -51,7 +51,8 @@ public static class ConfigureInfrastructure
         //Catalogo de Agencias
         services.AddSingleton<ICatalogoAgenciasDat, AgenciasDat>();
 
-        services.AddSingleton<IOrdenDat, OrdenSolicitudesTarjetasDat>();
+        //services.AddSingleton<IOrdenDat, OrdenSolicitudesTarjetasDat>();
+        services.AddSingleton<IOrdenesTarjCredDat, OrdenSolicitudesTarjetasDat>();
 
         //GestorDocumental
         services.AddSingleton<IWsGestorDocumental, wsGestorDocumental>();
