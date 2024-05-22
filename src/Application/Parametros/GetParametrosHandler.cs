@@ -4,7 +4,7 @@ using Application.TarjetasCredito.ComentariosGestion;
 using Application.TarjetasCredito.InterfazDat;
 using Domain.Entities.ComentariosGestion;
 using Domain.Parameters;
-using Infrastructure.Services;
+//using Infrastructure.Services;
 using MediatR;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Options;
