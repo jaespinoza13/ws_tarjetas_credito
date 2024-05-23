@@ -38,5 +38,6 @@
 
         //Ordenes Tarjetas Credito
         public const string getOrdenesTC = "get_ordenes_tc";
+        public const string getTarjetasCredito = "get_tarjetas_credito";
     }
 }

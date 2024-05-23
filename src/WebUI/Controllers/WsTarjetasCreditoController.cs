@@ -22,6 +22,7 @@ using wsMegomovil.Filters;
 using Application.TarjetasCredito.AnularSolicitud;
 using Application.Parametros;
 using Application.EntregaRecepcionTarjCred.GetOrdenesTarjCred;
+using Application.EntregaRecepcionTarjCred.GetTarjetasCredito;
 namespace WebUI.Controllers;
 
 [Route( "api/wsTarjetasCredito" )]
@@ -184,6 +185,13 @@ public class WsTarjetasCreditoController : ControllerBase
 
     [HttpPost( "GET_ORDENES_TC" )]
     public async Task<ActionResult<ResGetOrdenesTC>> get_ordenes_tc(ReqGetOrdenesTC request)
+    {
+        var result = await _mediator.Send( request );
+        return Ok( result );
+    }
+
+    [HttpPost( "GET_TARJETAS_CREDITO" )]
+    public async Task<ActionResult<ResGetTarjetaCredito>> get_tarjetas_credito(ReqGetTarjetaCredito request)
     {
         var result = await _mediator.Send( request );
         return Ok( result );
